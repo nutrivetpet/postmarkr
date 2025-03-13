@@ -91,9 +91,9 @@ build_req <- function(count, offset, ...) {
 }
 
 build_header <- function(req, token) {
-  req |>
-    httr2::req_headers(
-      "Accept" = "application/json",
-      "X-Postmark-Server-Token" = token
-    )
+  httr2::req_headers(
+    req,
+    "Accept" = "application/json",
+    "X-Postmark-Server-Token" = token
+  )
 }
