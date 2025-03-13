@@ -9,6 +9,7 @@ get_token <- function() {
       class = "missing_token"
     )
   }
+  token
 }
 
 supported_args <- function() {
