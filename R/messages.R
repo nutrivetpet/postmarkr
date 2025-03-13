@@ -38,7 +38,14 @@
 #'   status = "sent"
 #' )
 #'}
-get_outbound_messages <- function(count, offset = 0L, token = get_token(),  ...) {
+get_outbound_messages <- function(count, offset = 0L, token = NULL,  ...) {
+
+  if (is.null(token)) {
+    token <- get_token()
+  }
+
+  stopifnot(rlang::is_character(token, 1L))
+
   req <- build_req(count, offset, ...)
   header <- build_header(req, token)
   resp <- httr2::req_perform(header)
@@ -84,16 +91,6 @@ build_req <- function(count, offset, ...) {
 }
 
 build_header <- function(req, token) {
-
-  stopifnot(rlang::is_character(token, 1L))
-
-  if (!nzchar(token)) {
-    rlang::abort(
-      "Cannot find token for API authentication.",
-      class = "missing_token"
-    )
-  }
-
   req |>
     httr2::req_headers(
       "Accept" = "application/json",
