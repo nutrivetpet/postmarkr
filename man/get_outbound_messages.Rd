@@ -4,7 +4,7 @@
 \alias{get_outbound_messages}
 \title{Retrieve Outbound Messages from Postmark}
 \usage{
-get_outbound_messages(count, offset = 0L, token = get_token(), ...)
+get_outbound_messages(count, offset = 0L, token = NULL, ...)
 }
 \arguments{
 \item{count}{An integer specifying the number of messages to retrieve.
