@@ -4,8 +4,7 @@
 #' This function fetches aggregated metrics about messages sent through your
 #' Postmark account.
 #'
-#' @param token Character string. Your Postmark API token. If NULL (default),
-#'   the function will attempt to retrieve the token using `get_token()`.
+#' @inheritParams get_outbound_messages
 #' @param ... Additional arguments passed to the underlying request functions.
 #'
 #' @return A list containing outbound message statistics as returned by the

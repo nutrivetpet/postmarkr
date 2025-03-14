@@ -7,18 +7,20 @@
 get_outbound_messages(count, offset = 0L, token = NULL, ...)
 }
 \arguments{
-\item{count}{An integer specifying the number of messages to retrieve.
-Must be positive and not exceed 500.}
+\item{count}{An integer specifying the number of messages to retrieve. Must be
+positive and not exceed 500.}
 
-\item{offset}{An integer specifying the number of messages to skip.
-Defaults to 0. The sum of count and offset must not exceed 10,000.}
+\item{offset}{An integer specifying the number of messages to skip. Defaults
+to 0. The sum of count and offset must not exceed 10,000.}
 
-\item{token}{Astring token. Check Postmark's API documentation. Can be set
-as \code{POSTMARK_SERVER_TOKEN} as an environment variable.}
+\item{token}{Character string. Your Postmark API token. If NULL (default), the
+function will attempt to retrieve the token using \code{get_token()}
+\code{POSTMARK_SERVER_TOKEN} as an environment variable. Check the Postmark's API
+documentation on how to get a server token.}
 
-\item{...}{Additional query parameters to filter results.
-See \url{https://postmarkapp.com/developer/api/messages-api#outbound-messages}
-for supported parameters (e.g., \code{recipient}, \code{tag}, \code{status}).}
+\item{...}{Additional query parameters to filter results. See
+\url{https://postmarkapp.com/developer/api/messages-api#outbound-messages} for
+supported parameters (e.g., \code{recipient}, \code{tag}, \code{status}).}
 }
 \value{
 A list of messages.

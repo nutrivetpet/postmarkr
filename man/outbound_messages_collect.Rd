@@ -7,6 +7,11 @@
 outbound_messages_collect(token = NULL, quiet = TRUE, ...)
 }
 \arguments{
+\item{token}{Character string. Your Postmark API token. If NULL (default), the
+function will attempt to retrieve the token using \code{get_token()}
+\code{POSTMARK_SERVER_TOKEN} as an environment variable. Check the Postmark's API
+documentation on how to get a server token.}
+
 \item{quiet}{Logical. If FALSE, displays an informational message about the
 total number of emails. Default is TRUE (no messages).}
 

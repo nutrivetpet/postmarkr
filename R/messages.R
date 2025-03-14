@@ -4,15 +4,19 @@
 #' allows you to retrieve messages with pagination support and additional
 #' filtering options.
 #'
-#' @param count An integer specifying the number of messages to retrieve.
-#'   Must be positive and not exceed 500.
-#' @param offset An integer specifying the number of messages to skip.
-#'   Defaults to 0. The sum of count and offset must not exceed 10,000.
-#' @param token Astring token. Check Postmark's API documentation. Can be set
-#'  as `POSTMARK_SERVER_TOKEN` as an environment variable.
-#' @param ... Additional query parameters to filter results.
-#'   See <https://postmarkapp.com/developer/api/messages-api#outbound-messages>
-#'   for supported parameters (e.g., `recipient`, `tag`, `status`).
+#' @param count An integer specifying the number of messages to retrieve. Must be
+#'  positive and not exceed 500.
+#' @param offset An integer specifying the number of messages to skip. Defaults
+#'  to 0. The sum of count and offset must not exceed 10,000.
+#' @param token Astring token. Check  Can be set as `POSTMARK_SERVER_TOKEN` as an
+#'  environment variable.
+#' @param token Character string. Your Postmark API token. If NULL (default), the
+#'  function will attempt to retrieve the token using `get_token()`
+#'  `POSTMARK_SERVER_TOKEN` as an environment variable. Check the Postmark's API
+#'  documentation on how to get a server token.
+#' @param ... Additional query parameters to filter results. See
+#'  <https://postmarkapp.com/developer/api/messages-api#outbound-messages> for
+#'  supported parameters (e.g., `recipient`, `tag`, `status`).
 #'
 #' @returns A list of messages.
 #' @export
@@ -54,14 +58,13 @@ get_outbound_messages <- function(count, offset = 0L, token = NULL,  ...) {
 
 }
 
-
 #' Collect all outbound email messages
 #'
 #' This function retrieves all outbound messages by making multiple API calls as
 #' needed. It handles pagination automatically by generating appropriate batches
 #' of count and offset values.
 #'
-#' @inheritParams outbound_messages_collect
+#' @inheritParams get_outbound_messages
 #' @param quiet Logical. If FALSE, displays an informational message about the
 #'   total number of emails. Default is TRUE (no messages).
 #' @param ... Additional arguments passed to [get_outbound_messages()].
