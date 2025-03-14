@@ -22,5 +22,5 @@ This is a basic example which shows you how to solve a common problem:
 
 ``` r
 library(postmarkr)
-get_outbound_messages(count = 20L)
+outbound_messages_fetch(count = 20L)
 ```

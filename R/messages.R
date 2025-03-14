@@ -24,25 +24,25 @@
 #' @examples
 #' \dontrun{
 #' # Get the 10 most recent outbound messages
-#' recent_messages <- get_outbound_messages(10L)
+#' recent_messages <- outbound_messages_fetch(10L)
 #'
 #' # Skip the first 50 messages and get the next 20
-#' next_page <- get_outbound_messages(20L, offset = 50L)
+#' next_page <- outbound_messages_fetch(20L, offset = 50L)
 #'
 #' # Filter messages by recipient
-#' to_john <- get_outbound_messages(
+#' to_john <- outbound_messages_fetch(
 #'   count = 25L,
 #'   recipient = "john@example.com"
 #' )
 #'
 #' # Filter by tag and status
-#' newsletter_sent <- get_outbound_messages(
+#' newsletter_sent <- outbound_messages_fetch(
 #'   count = 100L,
 #'   tag = "newsletter",
 #'   status = "sent"
 #' )
 #'}
-get_outbound_messages <- function(count, offset = 0L, token = NULL,  ...) {
+outbound_messages_fetch <- function(count, offset = 0L, token = NULL,  ...) {
 
   stopifnot(
     rlang::is_integer(count, n = 1L),
@@ -64,10 +64,10 @@ get_outbound_messages <- function(count, offset = 0L, token = NULL,  ...) {
 #' needed. It handles pagination automatically by generating appropriate batches
 #' of count and offset values.
 #'
-#' @inheritParams get_outbound_messages
+#' @inheritParams outbound_messages_fetch
 #' @param quiet Logical. If FALSE, displays an informational message about the
 #'   total number of emails. Default is TRUE (no messages).
-#' @param ... Additional arguments passed to [get_outbound_messages()].
+#' @param ... Additional arguments passed to [outbound_messages_fetch()].
 #'
 #' @return A data frame or tibble (if tibble is installed) containing all
 #'   retrieved outbound messages.
@@ -107,7 +107,7 @@ outbound_messages_collect <- function(token = NULL, quiet = TRUE, ...) {
 
   out <- Map(
     function(count_val, offset_val) {
-      get_outbound_messages(
+      outbound_messages_fetch(
         count = count_val,
         offset = offset_val,
         token = token,

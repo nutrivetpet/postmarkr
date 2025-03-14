@@ -15,7 +15,7 @@ documentation on how to get a server token.}
 \item{quiet}{Logical. If FALSE, displays an informational message about the
 total number of emails. Default is TRUE (no messages).}
 
-\item{...}{Additional arguments passed to \code{\link[=get_outbound_messages]{get_outbound_messages()}}.}
+\item{...}{Additional arguments passed to \code{\link[=outbound_messages_fetch]{outbound_messages_fetch()}}.}
 }
 \value{
 A data frame or tibble (if tibble is installed) containing all

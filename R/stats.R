@@ -4,7 +4,7 @@
 #' This function fetches aggregated metrics about messages sent through your
 #' Postmark account.
 #'
-#' @inheritParams get_outbound_messages
+#' @inheritParams outbound_messages_fetch
 #' @param ... Additional arguments passed to the underlying request functions.
 #'
 #' @return A list containing outbound message statistics as returned by the
