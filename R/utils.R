@@ -12,6 +12,14 @@ get_token <- function() {
   token
 }
 
+build_header <- function(req, token) {
+  httr2::req_headers(
+    req,
+    "Accept" = "application/json",
+    "X-Postmark-Server-Token" = token
+  )
+}
+
 supported_args <- function() {
   c(
     "count",

@@ -40,60 +40,18 @@
 #'}
 get_outbound_messages <- function(count, offset = 0L, token = NULL,  ...) {
 
-  if (is.null(token)) {
-    token <- get_token()
-  }
-
-  stopifnot(rlang::is_character(token, 1L))
-
-  req <- build_req(count, offset, ...)
-  header <- build_header(req, token)
-  resp <- httr2::req_perform(header)
-  out <- httr2::resp_body_json(resp, simplifyVector = TRUE)
-  out
-}
-
-build_req <- function(count, offset, ...) {
-
   stopifnot(
     rlang::is_integer(count, n = 1L),
     rlang::is_integer(offset, n = 1L),
+    rlang::is_character(token, 1L),
     count > 0,
     count <= 500,
     count + offset <= 1e4
   )
 
-  dots <- rlang::list2(...)
+  req <- build_req("messages/outbound", count = count, offset = offset)
+  header <- build_header(req, token)
+  resp <- httr2::req_perform(header)
+  httr2::resp_body_json(resp, simplifyVector = TRUE)
 
-  # TODO: validate dots looking at the postmark API docs
-  args <- rlang::names2(dots)
-
-  if (!all(args %in% supported_args())) {
-    rlang::abort(
-      "Some arguments are not supported.",
-      class = "not_supported_args"
-    )
-  }
-
-  req <-
-    httr2::request("https://api.postmarkapp.com") |>
-    httr2::req_url_path_append("messages") |>
-    httr2::req_url_path_append("outbound") |>
-    httr2::req_url_query(count = count) |>
-    httr2::req_url_query(offset = offset)
-
-  if (!length(dots)) {
-    return(req)
-  }
-
-  httr2::req_url_query(req, !!!dots)
-
-}
-
-build_header <- function(req, token) {
-  httr2::req_headers(
-    req,
-    "Accept" = "application/json",
-    "X-Postmark-Server-Token" = token
-  )
 }
