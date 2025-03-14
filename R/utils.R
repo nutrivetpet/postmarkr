@@ -20,6 +20,13 @@ build_header <- function(req, token) {
   )
 }
 
+generate_offset_batches <- function(n) {
+  stopifnot(rlang::is_integer(n, 1L))
+  offset <- seq(0L, n, by = 500L)
+  count <- rep(500L, length(offset))
+  data.frame(count = count, offset = offset)
+}
+
 supported_args <- function() {
   c(
     "count",

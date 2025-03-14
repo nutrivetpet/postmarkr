@@ -53,3 +53,85 @@ get_outbound_messages <- function(count, offset = 0L, token = NULL,  ...) {
   httr2::resp_body_json(resp, simplifyVector = TRUE)
 
 }
+
+
+#' Collect all outbound email messages
+#'
+#' This function retrieves all outbound messages by making multiple API calls as
+#' needed. It handles pagination automatically by generating appropriate batches
+#' of count and offset values.
+#'
+#' @inheritParams outbound_messages_collect
+#' @param quiet Logical. If FALSE, displays an informational message about the
+#'   total number of emails. Default is TRUE (no messages).
+#' @param ... Additional arguments passed to [get_outbound_messages()].
+#'
+#' @return A data frame or tibble (if tibble is installed) containing all
+#'   retrieved outbound messages.
+#'
+#'   The function works by first getting an overview of outbound emails to
+#'   determine the total count. It then divides this into appropriate batches
+#'   for pagination and makes multiple API calls to retrieve all messages.
+#'   Results are combined into a single data frame or tibble.
+#'
+#' @examples
+#' \dontrun{
+#' # Get all outbound messages with default settings
+#' messages <- outbound_messages_collect()
+#'
+#' # Get messages with a specific token and display count information
+#' messages <- outbound_messages_collect(token = "your_api_token", quiet = FALSE)
+#' }
+#'
+#' @export
+outbound_messages_collect <- function(token = NULL, quiet = TRUE, ...) {
+
+  stats <- get_outbound_overwiew(token)
+  sent <- stats[["Sent"]]
+
+  if (is.null(sent)) {
+    rlang::abort(
+      "Cannot get number of emails sent.",
+      class = "wrong_email_number"
+    )
+  }
+
+  if (!quiet) {
+    rlang::inform(sprintf("Total number of messages is %s.", sent))
+  }
+
+  batches <- generate_offset_batches(as.integer(sent))
+
+  out <- Map(
+    function(count_val, offset_val) {
+      get_outbound_messages(
+        count = count_val,
+        offset = offset_val,
+        token = token,
+        ...
+      )
+    },
+    batches[["count"]],
+    batches[["offset"]]
+  )
+
+  if (!length(out)) {
+    rlang::abort(
+      "Cannot retrieve messages.",
+      class = "wrong_api_call"
+    )
+  }
+
+  msg <-
+    lapply(out, function(x) Filter(is.data.frame, x)) |>
+    lapply(`[[`, "Messages")
+
+  dat <- Reduce(rbind, msg)
+
+  if (rlang::is_installed("tibble")) {
+    return(tibble::as_tibble(dat))
+  }
+
+  dat
+
+}

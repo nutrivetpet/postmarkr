@@ -2,3 +2,4 @@
 
 export(get_outbound_messages)
 export(get_outbound_overwiew)
+export(outbound_messages_collect)
