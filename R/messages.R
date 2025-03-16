@@ -52,7 +52,7 @@ outbound_messages_fetch <- function(count, offset = 0L, token = NULL,  ...) {
     count + offset <= 1e4
   )
 
-  req <- build_req("messages/outbound", token = token, count = count, offset = offset)
+  req <- build_req("messages/outbound", "GET", token = token, count = count, offset = offset)
   resp <- httr2::req_perform(req)
   httr2::resp_body_json(resp, simplifyVector = TRUE)
 

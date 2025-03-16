@@ -26,7 +26,7 @@ get_outbound_overwiew <- function(token = NULL,  ...) {
     token <- get_token()
   }
 
-  req <- build_req("/stats/outbound", token)
+  req <- build_req("/stats/outbound", "GET", token)
   resp <- httr2::req_perform(req)
   httr2::resp_body_json(resp, simplifyVector = FALSE)
 

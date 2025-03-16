@@ -1,4 +1,4 @@
-build_req <- function(endpoint, token = NULL, ...) {
+build_req <- function(endpoint, method, token = NULL, ...) {
 
   dots <- rlang::list2(...)
 
@@ -9,6 +9,7 @@ build_req <- function(endpoint, token = NULL, ...) {
   req <-
     httr2::request("https://api.postmarkapp.com") |>
     httr2::req_url_path_append(endpoint) |>
+    httr2::req_method(method) |>
     build_header(token)
 
   if (length(dots)) {
