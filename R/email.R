@@ -26,9 +26,15 @@
 #' )
 #' }
 #' @export
-email_send_single <- function(from, to, msg_stream, subject = NULL, html_body = NULL,
-                              text_body = NULL, token = NULL) {
-
+email_send_single <- function(
+  from,
+  to,
+  msg_stream,
+  subject = NULL,
+  html_body = NULL,
+  text_body = NULL,
+  token = NULL
+) {
   stopifnot(
     rlang::is_scalar_character(from),
     rlang::is_character(to),
@@ -94,5 +100,4 @@ email_send_single <- function(from, to, msg_stream, subject = NULL, html_body = 
   }
 
   httr2::resp_body_json(resp)
-
 }

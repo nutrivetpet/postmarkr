@@ -1,5 +1,4 @@
 build_req <- function(endpoint, method, token = NULL, ...) {
-
   dots <- rlang::list2(...)
 
   if (is.null(token)) {
@@ -13,7 +12,6 @@ build_req <- function(endpoint, method, token = NULL, ...) {
     build_header(token)
 
   if (length(dots)) {
-
     args <- rlang::names2(dots)
 
     if (!all(args %in% supported_args())) {
@@ -29,5 +27,4 @@ build_req <- function(endpoint, method, token = NULL, ...) {
   }
 
   req
-
 }

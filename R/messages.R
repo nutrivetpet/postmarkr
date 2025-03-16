@@ -42,8 +42,7 @@
 #'   status = "sent"
 #' )
 #'}
-outbound_messages_fetch <- function(count, offset = 0L, token = NULL,  ...) {
-
+outbound_messages_fetch <- function(count, offset = 0L, token = NULL, ...) {
   stopifnot(
     rlang::is_integer(count, n = 1L),
     rlang::is_integer(offset, n = 1L),
@@ -52,10 +51,15 @@ outbound_messages_fetch <- function(count, offset = 0L, token = NULL,  ...) {
     count + offset <= 1e4
   )
 
-  req <- build_req("messages/outbound", "GET", token = token, count = count, offset = offset)
+  req <- build_req(
+    "messages/outbound",
+    "GET",
+    token = token,
+    count = count,
+    offset = offset
+  )
   resp <- httr2::req_perform(req)
   httr2::resp_body_json(resp, simplifyVector = TRUE)
-
 }
 
 #' Collect all outbound email messages
@@ -88,7 +92,6 @@ outbound_messages_fetch <- function(count, offset = 0L, token = NULL,  ...) {
 #'
 #' @export
 outbound_messages_collect <- function(token = NULL, quiet = TRUE, ...) {
-
   stats <- get_outbound_overwiew(token)
   sent <- stats[["Sent"]]
 
@@ -136,5 +139,4 @@ outbound_messages_collect <- function(token = NULL, quiet = TRUE, ...) {
   }
 
   dat
-
 }
