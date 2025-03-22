@@ -19,6 +19,9 @@
 #'  supported parameters (e.g., `recipient`, `tag`, `status`).
 #'
 #' @returns A list of messages.
+#'
+#' @rdname messages
+#'
 #' @export
 #'
 #' @examples

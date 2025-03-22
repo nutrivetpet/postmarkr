@@ -15,6 +15,8 @@
 #'
 #' @return A list containing the response details.
 #'
+#' @rdname email
+#'
 #' @examples
 #' \dontrun{
 #'  email_send_single(

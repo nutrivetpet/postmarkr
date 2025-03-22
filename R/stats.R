@@ -10,6 +10,8 @@
 #' @return A list containing outbound message statistics as returned by the
 #'   Postmark API.
 #'
+#' @rdname stats
+#'
 #' @examples
 #' \dontrun{
 #' # Using default token from environment

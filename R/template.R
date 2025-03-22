@@ -12,6 +12,8 @@
 #'   templates information. The returned data includes template details from the
 #'   Postmark API.
 #'
+#' @rdname templates
+#'
 #' @examples
 #' \dontrun{
 #' # Get the first 10 templates
