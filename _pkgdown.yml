@@ -2,3 +2,28 @@ url: https://andreranza.github.io/postmarkr/
 template:
   bootstrap: 5
 
+reference:
+- title: Email
+  desc: >
+    Send emails
+  contents:
+  - email_send_single
+
+- title: Templates
+  desc: >
+    Manage templates
+  contents:
+  - template_list
+
+- title: Stats
+  desc: >
+    Statistics for outbound emails
+  contents:
+  - get_outbound_overwiew
+
+- title: Messages
+  desc: >
+    Outbound messages
+  contents:
+  - outbound_messages_fetch
+  - outbound_messages_collect
