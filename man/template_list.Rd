@@ -4,12 +4,10 @@
 \alias{template_list}
 \title{List Postmark Templates}
 \usage{
-template_list(count, offset = 0L, type = "all", token = NULL)
+template_list(count, type = "all", token = NULL)
 }
 \arguments{
 \item{count}{An integer specifying the number of templates to retrieve.}
-
-\item{offset}{An integer specifying the offset for pagination. Defaults to 0.}
 
 \item{type}{A string specifying the template type to filter by: "all",
 "standard", or "layout". Defaults to "all".}
@@ -32,9 +30,6 @@ can be filtered by type and paginated using count and offset parameters.
 \dontrun{
 # Get the first 10 templates
 templates <- template_list(count = 10)
-
-# Get 20 templates, starting from the 11th template
-more_templates <- template_list(count = 20, offset = 10)
 
 # Get only layout templates
 layouts <- template_list(count = 50, type = "layout")
