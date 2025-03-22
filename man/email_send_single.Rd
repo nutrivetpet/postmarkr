@@ -2,7 +2,7 @@
 % Please edit documentation in R/email.R
 \name{email_send_single}
 \alias{email_send_single}
-\title{Send a single email through Postmark}
+\title{Send a single email}
 \usage{
 email_send_single(
   from,

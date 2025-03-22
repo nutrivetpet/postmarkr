@@ -2,7 +2,7 @@
 % Please edit documentation in R/messages.R
 \name{outbound_messages_fetch}
 \alias{outbound_messages_fetch}
-\title{Retrieve Outbound Messages from Postmark}
+\title{Retrieve Outbound Messages}
 \usage{
 outbound_messages_fetch(count, offset = 0L, token = NULL, ...)
 }

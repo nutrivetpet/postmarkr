@@ -1,4 +1,4 @@
-#' Retrieve Outbound Messages from Postmark
+#' Retrieve Outbound Messages
 #'
 #' Fetches a list of outbound messages from the Postmark API. This function
 #' allows you to retrieve messages with pagination support and additional

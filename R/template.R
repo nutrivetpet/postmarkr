@@ -1,4 +1,4 @@
-#' List Postmark Templates
+#' List Templates
 #'
 #' Retrieves a list of templates from the Postmark API. Templates
 #' can be filtered by type and paginated using count and offset parameters.

@@ -1,4 +1,4 @@
-#' Send a single email through Postmark
+#' Send a single email
 #'
 #' This function sends a single email via the Postmark API service. It supports
 #' both HTML and plain text email formats (but not both simultaneously) and can

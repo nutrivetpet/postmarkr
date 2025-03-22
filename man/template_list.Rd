@@ -2,7 +2,7 @@
 % Please edit documentation in R/template.R
 \name{template_list}
 \alias{template_list}
-\title{List Postmark Templates}
+\title{List Templates}
 \usage{
 template_list(count, type = "all", token = NULL)
 }
