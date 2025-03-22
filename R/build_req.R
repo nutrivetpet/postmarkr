@@ -23,7 +23,6 @@ build_req <- function(endpoint, method, token = NULL, ...) {
 
     req <- httr2::req_url_query(req, !!!dots)
 
-    return(req)
   }
 
   req

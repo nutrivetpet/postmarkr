@@ -135,7 +135,7 @@ outbound_messages_collect <- function(token = NULL, quiet = TRUE, ...) {
   dat <- Reduce(rbind, msg)
 
   if (rlang::is_installed("tibble")) {
-    return(tibble::as_tibble(dat))
+    dat <- tibble::as_tibble(dat)
   }
 
   dat
