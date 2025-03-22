@@ -10,7 +10,12 @@ has not yet been a stable, usable release suitable for the
 public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
 <!-- badges: end -->
 
-The goal of postmarkr is to interact with the Postmark API, from R.
+The goal of postmarkr is to interact with the [Postmark
+API](https://postmarkapp.com/developer), from R.
+
+It is an independent, community-developed R package for the
+[Postmark](https://postmarkapp.com) email service (not created by or
+affiliated with Postmark).
 
 ## Installation
 
@@ -28,3 +33,9 @@ This is a basic example which shows you how to solve a common problem:
 library(postmarkr)
 outbound_messages_fetch(count = 20L)
 ```
+
+## Features
+
+- Get email delivery logs
+- List email templates
+- Track email delivery statistics
