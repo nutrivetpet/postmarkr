@@ -39,6 +39,24 @@ supported_args <- function() {
     "fromdate",
     "subject",
     "messagestream",
-    "metadata_"
+    "metadata_",
+    "type"
   )
+}
+
+capitilize_first <- function(x) {
+  # TODO: vectorized
+  stopifnot(rlang::is_character(x, n = 1L))
+
+  vec <- unlist(strsplit(x, split = ""))
+  frst <- toupper(vec[[1L]])
+
+  out <- paste0(
+    frst,
+    paste0(vec[-1], collapse = ""),
+    collapse = ""
+  )
+
+  out
+
 }
