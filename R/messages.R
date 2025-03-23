@@ -95,7 +95,7 @@ outbound_messages_fetch <- function(count, offset = 0L, token = NULL, ...) {
 #'
 #' @export
 outbound_messages_collect <- function(token = NULL, quiet = TRUE, ...) {
-  stats <- get_outbound_overwiew(token)
+  stats <- stats_outbound_overview(token)
   sent <- stats[["Sent"]]
 
   if (is.null(sent)) {

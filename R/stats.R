@@ -22,7 +22,7 @@
 #' }
 #'
 #' @export
-get_outbound_overwiew <- function(token = NULL, ...) {
+stats_outbound_overview <- function(token = NULL, ...) {
   if (is.null(token)) {
     token <- get_token()
   }

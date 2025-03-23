@@ -20,7 +20,7 @@ reference:
   desc: >
     Statistics for outbound emails
   contents:
-  - get_outbound_overwiew
+  - stats_outbound_overview
 
 - title: Messages
   desc: >
