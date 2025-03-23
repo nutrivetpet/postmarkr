@@ -14,6 +14,7 @@ reference:
     Manage templates
   contents:
   - template_list
+  - template_send_email
 
 - title: Stats
   desc: >

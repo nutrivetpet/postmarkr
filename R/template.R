@@ -1,3 +1,93 @@
+#' Send an Email Using a Template
+#'
+#' Sends an email using a predefined template.
+#'
+#' @inheritParams email_send_single
+#' @param id A single integer. The template ID in Postmark.
+#' @param template_model A named list. Variables to be populated in the
+#'   template.
+#' @param tag A single character string. Optional tag for categorizing the
+#'   email. Maximum 1000 characters. Default is NULL.
+#' @param track_opens A logical value. Whether to track when recipients open the
+#'   email. Default is FALSE.
+#'
+#' @return A data frame containing the JSON response from the Postmark API.
+#'
+#' @examples
+#' \dontrun{
+#' template_send_email(
+#'   from = "sender@example.com",
+#'   to = c("recipient1@example.com", "recipient2@example.com"),
+#'   id = 12345,
+#'   template_model = list(
+#'     name = "John",
+#'     message = "Hello from Postmark!"
+#'   ),
+#'   msg_stream = "outbound",
+#'   tag = "welcome-email",
+#'   track_opens = TRUE
+#' )
+#' }
+#'
+#' @export
+template_send_email <- function(
+    from,
+    to,
+    id,
+    template_model,
+    msg_stream,
+    tag = NULL,
+    track_opens = FALSE,
+    token = NULL
+) {
+
+  stopifnot(
+    rlang::is_scalar_character(from),
+    rlang::is_character(to),
+    length(to) <= 50L,
+    rlang::is_scalar_integer(id),
+    rlang::is_list(template_model),
+    rlang::is_named(template_model),
+    rlang::is_scalar_character(tag),
+    nchar(tag) <= 1e3L,
+    rlang::is_scalar_logical(track_opens)
+  )
+
+  msg_stream <- rlang::arg_match(msg_stream, c("outbound", "broadcast"))
+
+  to <- paste0(to, collapse = ", ")
+
+  bdy <- list(
+    From = from,
+    To = to,
+    Tag = tag,
+    TemplateId = id,
+    TemplateModel = as.list(template_model),
+    MessageStream = msg_stream,
+    TrackOpens = track_opens
+  )
+
+  req <-
+    build_req("/email/withTemplate/", "POST", token) |>
+    httr2::req_headers("Content-Type" = "application/json") |>
+    httr2::req_body_json(bdy)
+
+  resp <- httr2::req_perform(req)
+
+  if (httr2::resp_is_error(resp)) {
+    httr2::resp_check_status(resp)
+  }
+
+  dat <- httr2::resp_body_json(resp, simplifyVector = TRUE)
+
+  if (rlang::is_installed("tibble")) {
+    dat <- tibble::as_tibble(dat)
+  }
+
+  dat
+
+}
+
 #' List Templates
 #'
 #' Retrieves a list of templates from the Postmark API. Templates
@@ -11,8 +101,6 @@
 #' @return A data frame (or tibble if tibble is installed) containing the
 #'   templates information. The returned data includes template details from the
 #'   Postmark API.
-#'
-#' @rdname templates
 #'
 #' @examples
 #' \dontrun{
