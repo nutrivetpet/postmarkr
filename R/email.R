@@ -13,7 +13,8 @@
 #' @param text_body Character scalar. Plain text content of the email.
 #' @inheritParams outbound_messages_fetch
 #'
-#' @return A list containing the response details.
+#' @return A data frame or tibble (if tibble is installed) containing the
+#'   response details.
 #'
 #' @rdname email
 #'
@@ -100,5 +101,11 @@ email_send_single <- function(
     httr2::resp_check_status(resp)
   }
 
-  httr2::resp_body_json(resp)
+  dat <- httr2::resp_body_json(resp, simplifyVector = TRUE)
+
+  if (rlang::is_installed("tibble")) {
+    dat <- tibble::as_tibble(dat)
+  }
+
+  dat
 }

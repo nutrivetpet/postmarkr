@@ -33,7 +33,8 @@ function will attempt to retrieve the token using \code{get_token()}
 documentation on how to get a server token.}
 }
 \value{
-A list containing the response details.
+A data frame or tibble (if tibble is installed) containing the
+response details.
 }
 \description{
 This function sends a single email via the Postmark API service. It supports
