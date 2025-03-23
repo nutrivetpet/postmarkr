@@ -91,6 +91,7 @@ email_send_single <- function(
 
   req <-
     build_req("email", "POST", token) |>
+    httr2::req_headers("Content-Type" = "application/json") |>
     httr2::req_body_json(bdy)
 
   resp <- httr2::req_perform(req)
