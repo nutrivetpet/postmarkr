@@ -93,9 +93,7 @@ email_send_single <- function(
     build_req("email", "POST", token) |>
     httr2::req_body_json(bdy)
 
-  resp <-
-    httr2::req_perform(req) |>
-    httr2::resp_body_json()
+  resp <- httr2::req_perform(req)
 
   if (httr2::resp_is_error(resp)) {
     httr2::resp_check_status(resp)
