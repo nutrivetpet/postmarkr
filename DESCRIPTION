@@ -3,7 +3,7 @@ Title: Email Delivery Made Simple: Postmark API Integration for R
 Version: 0.0.0.9000
 Authors@R: c(
     person("Andrea", "Ranzato", , "andrea.ranzato01@gmail.com", role = c("aut", "cre")),
-    person("nutrivetpet", role = "fnd")
+    person("nutrivetpet Srls", role = "fnd")
   )
 Description: This package provides functions to interact with the Postmark API from R.
 License: MIT + file LICENSE
