@@ -12,8 +12,7 @@ template_send_email_bulk(
   msg_stream,
   tag = NULL,
   track_opens = FALSE,
-  token = NULL,
-  wait = 0.5
+  token = NULL
 )
 }
 \arguments{

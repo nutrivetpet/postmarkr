@@ -49,10 +49,13 @@ template_send_email <- function(
     rlang::is_scalar_integer(id),
     rlang::is_list(template_model),
     rlang::is_named(template_model),
-    rlang::is_scalar_character(tag),
     nchar(tag) <= 1e3L,
     rlang::is_scalar_logical(track_opens)
   )
+
+  if (!is.null(tag)) {
+    stopifnot(rlang::is_scalar_character(tag), nchar(tag) <= 1e3L)
+  }
 
   msg_stream <- rlang::arg_match(msg_stream, c("outbound", "broadcast"))
 
