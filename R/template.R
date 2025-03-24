@@ -109,7 +109,7 @@ template_send_email_bulk <- function(
     wait = 0.5
 ) {
 
-  stopifnot(rlang::is_scalar_double(wait, n = 1L))
+  stopifnot(rlang::is_scalar_double(wait))
 
   to <- split_vec(to, 50L)
 
