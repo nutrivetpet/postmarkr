@@ -105,19 +105,16 @@ template_send_email_bulk <- function(
     msg_stream,
     tag = NULL,
     track_opens = FALSE,
-    token = NULL,
-    wait = 0.5
+    token = NULL
 ) {
 
   stopifnot(
     rlang::is_scalar_character(from),
     rlang::is_character(to),
-    length(to) <= 500L, # up to 500 messages per API call
     rlang::is_scalar_integer(id),
     rlang::is_list(template_model),
     rlang::is_named(template_model),
-    rlang::is_scalar_logical(track_opens),
-    rlang::is_scalar_double(wait)
+    rlang::is_scalar_logical(track_opens)
   )
 
   if (!is.null(tag)) {
@@ -157,27 +154,33 @@ template_send_email_bulk <- function(
     )
   }
 
-  bdy <- list("Messages" = bdy)
+  bdy_lst <- unname(split(bdy, (seq_along(bdy) - 1) %/% 500))
 
-  req <-
-    build_req("/email/batchWithTemplates/", "POST", token) |>
-    httr2::req_headers("Content-Type" = "application/json") |>
-    httr2::req_body_json(bdy)
+  bdy <- lapply(bdy_lst, \(x) list("Messages" = x))
 
-  resp <- httr2::req_perform(req)
+  req_lst <- lapply(
+    bdy,
+    function(x) {
+      build_req("/email/batchWithTemplates/", "POST", token) |>
+        httr2::req_headers("Content-Type" = "application/json") |>
+        httr2::req_body_json(x)
+    }
+  )
 
-  if (httr2::resp_is_error(resp)) {
-    httr2::resp_check_status(resp)
-  }
+  resp <- httr2::req_perform_sequential(
+    req_lst,
+    on_error = "continue",
+    progress = TRUE
+  )
 
-  dat <- httr2::resp_body_json(resp, simplifyVector = TRUE)
+  dat_lst <- lapply(resp, \(x) httr2::resp_body_json(x, simplifyVector = TRUE))
+  dat <- Reduce(rbind, dat_lst)
 
   if (rlang::is_installed("tibble")) {
     dat <- tibble::as_tibble(dat)
   }
 
-  dat
-
+  invisible(dat)
 
 }
 

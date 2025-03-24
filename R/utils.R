@@ -62,10 +62,10 @@ capitilize_first <- function(x) {
 
 }
 
-split_vec <- function(x, n = 10L) {
+split_vec <- function(x, n) {
 
   stopifnot(
-    rlang::is_character(x),
+    # rlang::is_character(x),
     rlang::is_scalar_integer(n),
     n > 0L,
     length(x) > 0L
@@ -73,7 +73,7 @@ split_vec <- function(x, n = 10L) {
 
   groups <- ceiling(seq_along(x) / n)
 
-  split(x, groups)
+  unname(split(x, groups))
 
 }
 
