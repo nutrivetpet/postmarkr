@@ -94,7 +94,9 @@ template_send_email <- function(
 
 #' Send Bulk Email Using a Template
 #'
-#' Send email to more than 50 emails, sending multiple POST requests.
+#' Send email to more than 500 recipients, sending multiple POST requests via
+#' [httr2::req_perform_sequential()].
+#'
 #' @inheritParams template_send_email
 #'
 #' @return A data frame containing the JSON response from the Postmark API,

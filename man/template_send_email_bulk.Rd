@@ -43,5 +43,6 @@ A data frame containing the JSON response from the Postmark API,
 invisibly.
 }
 \description{
-Send email to more than 50 emails, sending multiple POST requests.
+Send email to more than 500 recipients, sending multiple POST requests via
+\code{\link[httr2:req_perform_sequential]{httr2::req_perform_sequential()}}.
 }
