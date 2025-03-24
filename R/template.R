@@ -88,6 +88,49 @@ template_send_email <- function(
 
 }
 
+#' Send Bulk Email Using a Template
+#'
+#' Send email to more than 50 emails, sending multiple POST requests.
+#' @inheritParams template_send_email
+#' @param wait How many seconds to wait between each POST request.
+#'
+#' @return A data frame containing the JSON response from the Postmark API.
+#'
+#' @export
+template_send_email_bulk <- function(
+    from,
+    to,
+    id,
+    template_model,
+    msg_stream,
+    tag = NULL,
+    track_opens = FALSE,
+    token = NULL,
+    wait = 0.5
+) {
+
+  stopifnot(rlang::is_scalar_double(wait, n = 1L))
+
+  to <- split_vec(to, 50L)
+
+  msg <- lapply(to, function(x) {
+    template_send_email(
+      from,
+      to = x,
+      id,
+      template_model,
+      msg_stream,
+      tag,
+      track_opens,
+      token
+    )
+    Sys.sleep(wait)
+  })
+
+  Reduce(rbind, msg)
+
+}
+
 #' List Templates
 #'
 #' Retrieves a list of templates from the Postmark API. Templates
