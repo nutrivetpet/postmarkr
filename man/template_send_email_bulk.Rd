@@ -42,7 +42,8 @@ documentation on how to get a server token.}
 \item{wait}{How many seconds to wait between each POST request.}
 }
 \value{
-A data frame containing the JSON response from the Postmark API.
+A data frame containing the JSON response from the Postmark API,
+invisibly.
 }
 \description{
 Send email to more than 50 emails, sending multiple POST requests.

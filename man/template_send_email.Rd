@@ -39,7 +39,8 @@ function will attempt to retrieve the token using \code{get_token()}
 documentation on how to get a server token.}
 }
 \value{
-A data frame containing the JSON response from the Postmark API.
+A data frame containing the JSON response from the Postmark API,
+invisibly.
 }
 \description{
 Sends an email using a predefined template.

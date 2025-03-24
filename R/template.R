@@ -11,7 +11,8 @@
 #' @param track_opens A logical value. Whether to track when recipients open the
 #'   email. Default is FALSE.
 #'
-#' @return A data frame containing the JSON response from the Postmark API.
+#' @return A data frame containing the JSON response from the Postmark API,
+#'   invisibly.
 #'
 #' @examples
 #' \dontrun{
@@ -84,7 +85,7 @@ template_send_email <- function(
     dat <- tibble::as_tibble(dat)
   }
 
-  dat
+  invisible(dat)
 
 }
 
@@ -94,7 +95,8 @@ template_send_email <- function(
 #' @inheritParams template_send_email
 #' @param wait How many seconds to wait between each POST request.
 #'
-#' @return A data frame containing the JSON response from the Postmark API.
+#' @return A data frame containing the JSON response from the Postmark API,
+#'   invisibly.
 #'
 #' @export
 template_send_email_bulk <- function(
