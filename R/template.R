@@ -96,7 +96,6 @@ template_send_email <- function(
 #'
 #' Send email to more than 50 emails, sending multiple POST requests.
 #' @inheritParams template_send_email
-#' @param wait How many seconds to wait between each POST request.
 #'
 #' @return A data frame containing the JSON response from the Postmark API,
 #'   invisibly.

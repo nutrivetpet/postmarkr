@@ -37,8 +37,6 @@ email. Default is FALSE.}
 function will attempt to retrieve the token using \code{get_token()}
 \code{POSTMARK_SERVER_TOKEN} as an environment variable. Check the Postmark's API
 documentation on how to get a server token.}
-
-\item{wait}{How many seconds to wait between each POST request.}
 }
 \value{
 A data frame containing the JSON response from the Postmark API,
