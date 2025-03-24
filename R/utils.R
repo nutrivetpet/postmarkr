@@ -76,3 +76,25 @@ split_vec <- function(x, n = 10L) {
   split(x, groups)
 
 }
+
+rep_list <- function(x, n) {
+
+  stopifnot(rlang::is_list(x), rlang::is_named(x))
+
+  template_fn <- function(...) {
+    args <- list(...)
+    args <- rlang::set_names(x, names(x))
+    args
+  }
+
+  reps <- lapply(x, function(x) rep(x, n))
+
+  args <- c(
+    list(f = template_fn),
+    reps,
+    list(USE.NAMES = FALSE)
+  )
+
+  rlang::exec("Map", !!!args)
+
+}

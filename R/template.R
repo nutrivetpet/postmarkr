@@ -109,25 +109,75 @@ template_send_email_bulk <- function(
     wait = 0.5
 ) {
 
-  stopifnot(rlang::is_scalar_double(wait))
+  stopifnot(
+    rlang::is_scalar_character(from),
+    rlang::is_character(to),
+    length(to) <= 500L, # up to 500 messages per API call
+    rlang::is_scalar_integer(id),
+    rlang::is_list(template_model),
+    rlang::is_named(template_model),
+    rlang::is_scalar_logical(track_opens),
+    rlang::is_scalar_double(wait)
+  )
 
-  to <- split_vec(to, 50L)
+  if (!is.null(tag)) {
+    stopifnot(rlang::is_scalar_character(tag), nchar(tag) <= 1e3L)
+  }
 
-  msg <- lapply(to, function(x) {
-    template_send_email(
-      from,
-      to = x,
-      id,
-      template_model,
-      msg_stream,
-      tag,
-      track_opens,
-      token
+  msg_stream <- rlang::arg_match(msg_stream, c("outbound", "broadcast"))
+
+  template_model <- rep_list(template_model, length(to))
+
+  bdy <- Map(
+    function(from, to, id, template_model, track_opens) {
+      list(
+        From = from,
+        To = to,
+        TemplateId = id,
+        TemplateModel = template_model,
+        TrackOpens = track_opens
+      )
+    },
+    from,
+    to,
+    id,
+    template_model,
+    track_opens,
+    USE.NAMES = FALSE
+  )
+
+  if (!is.null(tag)) {
+    bdy <- Map(
+      function(x, y) {
+        x[["Tag"]] <- y
+        x
+      },
+      bdy,
+      tag
     )
-    Sys.sleep(wait)
-  })
+  }
 
-  Reduce(rbind, msg)
+  bdy <- list("Messages" = bdy)
+
+  req <-
+    build_req("/email/batchWithTemplates/", "POST", token) |>
+    httr2::req_headers("Content-Type" = "application/json") |>
+    httr2::req_body_json(bdy)
+
+  resp <- httr2::req_perform(req)
+
+  if (httr2::resp_is_error(resp)) {
+    httr2::resp_check_status(resp)
+  }
+
+  dat <- httr2::resp_body_json(resp, simplifyVector = TRUE)
+
+  if (rlang::is_installed("tibble")) {
+    dat <- tibble::as_tibble(dat)
+  }
+
+  dat
+
 
 }
 
