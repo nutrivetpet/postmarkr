@@ -2,7 +2,7 @@
 % Please edit documentation in R/template.R
 \name{template_send_email_bulk}
 \alias{template_send_email_bulk}
-\title{Send Bulk Email Using a Template}
+\title{Send Batch Email Using a Template}
 \usage{
 template_send_email_bulk(
   from,

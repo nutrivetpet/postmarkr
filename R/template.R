@@ -92,7 +92,7 @@ template_send_email <- function(
 
 }
 
-#' Send Bulk Email Using a Template
+#' Send Batch Email Using a Template
 #'
 #' Send email to more than 500 recipients, sending multiple POST requests via
 #' [httr2::req_perform_sequential()].
