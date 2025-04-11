@@ -39,8 +39,7 @@ response details.
 \description{
 This function sends a single email via the Postmark API service. It supports
 both HTML and plain text email formats (but not both simultaneously) and can
-be used for both transactional ("outbound") and bulk ("broadcast") email
-message streams.
+be used for both the "outbound" and "broadcast") email message streams.
 }
 \examples{
 \dontrun{
