@@ -57,7 +57,7 @@ dat <- template_send_email_bulk(
 
 ## Features
 
-- Send batch emails
+- Send batch emails with template
 - Get email delivery logs
 - List email templates
 - Track email delivery statistics
