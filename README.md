@@ -32,11 +32,26 @@ This is a basic example which shows you how to solve a common problem:
 
 ``` r
 library(postmarkr)
-outbound_messages_fetch(count = 20L)
+dat <- template_send_email_bulk(
+  from = "xyz@mail.com",
+  to = c( # potentially, a long vector of emails
+    "abcd@mail.com",
+    "efgh@mail.com"
+  ),
+  id = 36620093L,
+  template_model = list(
+    template_var_01 = "nutrivetpet",
+    template_var_02 = "www.nutrivetpet.com"
+  ),
+  msg_stream = "broadcast",
+  tag = "test",
+  track_opens = TRUE
+)
 ```
 
 ## Features
 
+- Send bulk emails
 - Get email delivery logs
 - List email templates
 - Track email delivery statistics
