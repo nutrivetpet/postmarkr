@@ -103,7 +103,7 @@ template_send_email <- function(
 #'   invisibly.
 #'
 #' @export
-template_send_email_bulk <- function(
+template_send_email_batch <- function(
     from,
     to,
     id,

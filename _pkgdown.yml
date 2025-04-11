@@ -15,7 +15,7 @@ reference:
   contents:
   - template_list
   - template_send_email
-  - template_send_email_bulk
+  - template_send_email_batch
 
 - title: Stats
   desc: >

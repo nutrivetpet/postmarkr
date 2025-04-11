@@ -32,7 +32,7 @@ This is a basic example which shows you how to solve a common problem:
 
 ``` r
 library(postmarkr)
-dat <- template_send_email_bulk(
+dat <- template_send_email_batch(
   from = "xyz@mail.com",
   to = c( # potentially, a long vector of emails
     "abcd@mail.com",
