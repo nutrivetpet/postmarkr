@@ -132,13 +132,14 @@ template_send_email_bulk <- function(
   template_model <- rep_list(template_model, length(to))
 
   bdy <- Map(
-    function(from, to, id, template_model, track_opens) {
+    function(from, to, id, template_model, track_opens, msg_stream) {
       list(
         From = from,
         To = to,
         TemplateId = id,
         TemplateModel = template_model,
-        TrackOpens = track_opens
+        TrackOpens = track_opens,
+        MessageStream = msg_stream
       )
     },
     from,
@@ -146,6 +147,7 @@ template_send_email_bulk <- function(
     id,
     template_model,
     track_opens,
+    msg_stream,
     USE.NAMES = FALSE
   )
 
