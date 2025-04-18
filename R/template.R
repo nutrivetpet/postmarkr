@@ -182,7 +182,7 @@ template_send_email_batch <- function(
   )
 
   dat_lst <- lapply(resp, \(x) httr2::resp_body_json(x, simplifyVector = TRUE))
-  dat <- Reduce(rbind, dat_lst)
+  dat <- dplyr::bind_rows(dat_lst)
 
   if (rlang::is_installed("tibble")) {
     dat <- tibble::as_tibble(dat)

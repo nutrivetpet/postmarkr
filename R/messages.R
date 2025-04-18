@@ -135,7 +135,7 @@ outbound_messages_collect <- function(token = NULL, quiet = TRUE, ...) {
     lapply(out, function(x) Filter(is.data.frame, x)) |>
     lapply(`[[`, "Messages")
 
-  dat <- Reduce(rbind, msg)
+  dat <- dplyr::bind_rows(msg)
 
   if (rlang::is_installed("tibble")) {
     dat <- tibble::as_tibble(dat)
