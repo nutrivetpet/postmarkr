@@ -39,8 +39,8 @@ function will attempt to retrieve the token using \code{get_token()}
 documentation on how to get a server token.}
 }
 \value{
-A data frame containing the JSON response from the Postmark API,
-invisibly.
+A data frame or tibble (if tibble is installed) containing the
+response details, invisibly.
 }
 \description{
 Send email to more than 500 recipients, sending multiple POST requests via
