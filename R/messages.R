@@ -47,8 +47,8 @@
 #'}
 outbound_messages_fetch <- function(count, offset = 0L, token = NULL, ...) {
   stopifnot(
-    rlang::is_integer(count, n = 1L),
-    rlang::is_integer(offset, n = 1L),
+    is_integer(count, n = 1L),
+    is_integer(offset, n = 1L),
     count > 0,
     count <= 500,
     count + offset <= 1e4
@@ -61,8 +61,8 @@ outbound_messages_fetch <- function(count, offset = 0L, token = NULL, ...) {
     count = count,
     offset = offset
   )
-  resp <- httr2::req_perform(req)
-  httr2::resp_body_json(resp, simplifyVector = TRUE)
+  resp <- req_perform(req)
+  resp_body_json(resp, simplifyVector = TRUE)
 }
 
 #' Collect all outbound email messages
@@ -99,14 +99,14 @@ outbound_messages_collect <- function(token = NULL, quiet = TRUE, ...) {
   sent <- stats[["Sent"]]
 
   if (is.null(sent)) {
-    rlang::abort(
+    abort(
       "Cannot get number of emails sent.",
       class = "wrong_email_number"
     )
   }
 
   if (!quiet) {
-    rlang::inform(sprintf("Total number of messages is %s.", sent))
+    inform(sprintf("Total number of messages is %s.", sent))
   }
 
   batches <- generate_offset_batches(as.integer(sent))
@@ -125,7 +125,7 @@ outbound_messages_collect <- function(token = NULL, quiet = TRUE, ...) {
   )
 
   if (!length(out)) {
-    rlang::abort(
+    abort(
       "Cannot retrieve messages.",
       class = "wrong_api_call"
     )
@@ -137,7 +137,7 @@ outbound_messages_collect <- function(token = NULL, quiet = TRUE, ...) {
 
   dat <- dplyr::bind_rows(msg)
 
-  if (rlang::is_installed("tibble")) {
+  if (is_installed("tibble")) {
     dat <- tibble::as_tibble(dat)
   }
 

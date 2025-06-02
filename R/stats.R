@@ -28,6 +28,6 @@ stats_outbound_overview <- function(token = NULL, ...) {
   }
 
   req <- build_req("/stats/outbound", "GET", token)
-  resp <- httr2::req_perform(req)
-  httr2::resp_body_json(resp, simplifyVector = FALSE)
+  resp <- req_perform(req)
+  resp_body_json(resp, simplifyVector = FALSE)
 }

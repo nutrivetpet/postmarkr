@@ -43,21 +43,21 @@ template_send_email <- function(
 ) {
 
   stopifnot(
-    rlang::is_scalar_character(from),
-    rlang::is_character(to),
+    is_scalar_character(from),
+    is_character(to),
     length(to) <= 50L,
-    rlang::is_scalar_integer(id),
-    rlang::is_list(template_model),
-    rlang::is_named(template_model),
+    is_scalar_integer(id),
+    is_list(template_model),
+    is_named(template_model),
     nchar(tag) <= 1e3L,
-    rlang::is_scalar_logical(track_opens)
+    is_scalar_logical(track_opens)
   )
 
   if (!is.null(tag)) {
-    stopifnot(rlang::is_scalar_character(tag), nchar(tag) <= 1e3L)
+    stopifnot(is_scalar_character(tag), nchar(tag) <= 1e3L)
   }
 
-  msg_stream <- rlang::arg_match(msg_stream, c("outbound", "broadcast"))
+  msg_stream <- arg_match(msg_stream, c("outbound", "broadcast"))
 
   to <- paste0(to, collapse = ", ")
 
@@ -73,18 +73,18 @@ template_send_email <- function(
 
   req <-
     build_req("/email/withTemplate/", "POST", token) |>
-    httr2::req_headers("Content-Type" = "application/json") |>
-    httr2::req_body_json(bdy)
+    req_headers("Content-Type" = "application/json") |>
+    req_body_json(bdy)
 
-  resp <- httr2::req_perform(req)
+  resp <- req_perform(req)
 
-  if (httr2::resp_is_error(resp)) {
-    httr2::resp_check_status(resp)
+  if (resp_is_error(resp)) {
+    resp_check_status(resp)
   }
 
-  dat <- httr2::resp_body_json(resp, simplifyVector = TRUE)
+  dat <- resp_body_json(resp, simplifyVector = TRUE)
 
-  if (rlang::is_installed("tibble")) {
+  if (is_installed("tibble")) {
     dat <- tibble::as_tibble(dat)
   }
 
@@ -95,7 +95,7 @@ template_send_email <- function(
 #' Send Batch Email Using a Template
 #'
 #' Send email to more than 500 recipients, sending multiple POST requests via
-#' [httr2::req_perform_sequential()].
+#' [req_perform_sequential()].
 #'
 #' @inheritParams template_send_email
 #'
@@ -115,19 +115,19 @@ template_send_email_batch <- function(
 ) {
 
   stopifnot(
-    rlang::is_scalar_character(from),
-    rlang::is_character(to),
-    rlang::is_scalar_integer(id),
-    rlang::is_list(template_model),
-    rlang::is_named(template_model),
-    rlang::is_scalar_logical(track_opens)
+    is_scalar_character(from),
+    is_character(to),
+    is_scalar_integer(id),
+    is_list(template_model),
+    is_named(template_model),
+    is_scalar_logical(track_opens)
   )
 
   if (!is.null(tag)) {
-    stopifnot(rlang::is_scalar_character(tag), nchar(tag) <= 1e3L)
+    stopifnot(is_scalar_character(tag), nchar(tag) <= 1e3L)
   }
 
-  msg_stream <- rlang::arg_match(msg_stream, c("outbound", "broadcast"))
+  msg_stream <- arg_match(msg_stream, c("outbound", "broadcast"))
 
   template_model <- rep_list(template_model, length(to))
 
@@ -170,21 +170,21 @@ template_send_email_batch <- function(
     bdy,
     function(x) {
       build_req("/email/batchWithTemplates/", "POST", token) |>
-        httr2::req_headers("Content-Type" = "application/json") |>
-        httr2::req_body_json(x)
+        req_headers("Content-Type" = "application/json") |>
+        req_body_json(x)
     }
   )
 
-  resp <- httr2::req_perform_sequential(
+  resp <- req_perform_sequential(
     req_lst,
     on_error = "continue",
     progress = TRUE
   )
 
-  dat_lst <- lapply(resp, \(x) httr2::resp_body_json(x, simplifyVector = TRUE))
+  dat_lst <- lapply(resp, \(x) resp_body_json(x, simplifyVector = TRUE))
   dat <- dplyr::bind_rows(dat_lst)
 
-  if (rlang::is_installed("tibble")) {
+  if (is_installed("tibble")) {
     dat <- tibble::as_tibble(dat)
   }
 
@@ -221,11 +221,11 @@ template_send_email_batch <- function(
 template_list <- function(count, type = "all", token = NULL) {
 
   stopifnot(
-    rlang::is_scalar_integer(count),
+    is_scalar_integer(count),
     count > 0
   )
 
-  typ <- rlang::arg_match(type, c("all", "standard", "layout"))
+  typ <- arg_match(type, c("all", "standard", "layout"))
 
   req <- build_req(
     "templates",
@@ -236,11 +236,11 @@ template_list <- function(count, type = "all", token = NULL) {
     type = capitilize_first(type)
   )
 
-  resp <- httr2::req_perform(req)
-  out <- httr2::resp_body_json(resp, simplifyVector = TRUE)
+  resp <- req_perform(req)
+  out <- resp_body_json(resp, simplifyVector = TRUE)
   dat <- out[["Templates"]]
 
-  if (rlang::is_installed("tibble")) {
+  if (is_installed("tibble")) {
     dat <- tibble::as_tibble(dat)
   }
 

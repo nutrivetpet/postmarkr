@@ -38,37 +38,37 @@ email_send_single <- function(
   token = NULL
 ) {
   stopifnot(
-    rlang::is_scalar_character(from),
-    rlang::is_character(to),
+    is_scalar_character(from),
+    is_character(to),
     length(to) <= 50L
   )
 
-  msg_stream <- rlang::arg_match(msg_stream, c("outbound", "broadcast"))
+  msg_stream <- arg_match(msg_stream, c("outbound", "broadcast"))
 
   if (!is.null(subject)) {
-    stopifnot(rlang::is_scalar_character(subject))
+    stopifnot(is_scalar_character(subject))
   }
 
   has_html <- !is.null(html_body)
   has_text <- !is.null(text_body)
 
   if (has_html) {
-    stopifnot(rlang::is_scalar_character(html_body))
+    stopifnot(is_scalar_character(html_body))
   }
 
   if (has_text) {
-    stopifnot(rlang::is_scalar_character(text_body))
+    stopifnot(is_scalar_character(text_body))
   }
 
   if (has_html && has_text) {
-    rlang::abort(
+    abort(
       "Cannot provide both `html_body` and `text_body`.",
       class = "too_many_args"
     )
   }
 
   if (!has_html && !has_text) {
-    rlang::abort(
+    abort(
       "Must provide either `html_body` or `text_body`.",
       class = "missing_args"
     )
@@ -91,18 +91,18 @@ email_send_single <- function(
 
   req <-
     build_req("email", "POST", token) |>
-    httr2::req_headers("Content-Type" = "application/json") |>
-    httr2::req_body_json(bdy)
+    req_headers("Content-Type" = "application/json") |>
+    req_body_json(bdy)
 
-  resp <- httr2::req_perform(req)
+  resp <- req_perform(req)
 
-  if (httr2::resp_is_error(resp)) {
-    httr2::resp_check_status(resp)
+  if (resp_is_error(resp)) {
+    resp_check_status(resp)
   }
 
-  dat <- httr2::resp_body_json(resp, simplifyVector = TRUE)
+  dat <- resp_body_json(resp, simplifyVector = TRUE)
 
-  if (rlang::is_installed("tibble")) {
+  if (is_installed("tibble")) {
     dat <- tibble::as_tibble(dat)
   }
 
