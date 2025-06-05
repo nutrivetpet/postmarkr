@@ -32,16 +32,15 @@
 #'
 #' @export
 template_send_email <- function(
-    from,
-    to,
-    id,
-    template_model,
-    msg_stream,
-    tag = NULL,
-    track_opens = FALSE,
-    token = NULL
+  from,
+  to,
+  id,
+  template_model,
+  msg_stream,
+  tag = NULL,
+  track_opens = FALSE,
+  token = NULL
 ) {
-
   stopifnot(
     is_scalar_character(from),
     is_character(to),
@@ -89,7 +88,6 @@ template_send_email <- function(
   }
 
   invisible(dat)
-
 }
 
 #' Send Batch Email Using a Template
@@ -104,16 +102,15 @@ template_send_email <- function(
 #'
 #' @export
 template_send_email_batch <- function(
-    from,
-    to,
-    id,
-    template_model,
-    msg_stream,
-    tag = NULL,
-    track_opens = FALSE,
-    token = NULL
+  from,
+  to,
+  id,
+  template_model,
+  msg_stream,
+  tag = NULL,
+  track_opens = FALSE,
+  token = NULL
 ) {
-
   stopifnot(
     is_scalar_character(from),
     is_character(to),
@@ -189,7 +186,6 @@ template_send_email_batch <- function(
   }
 
   invisible(dat)
-
 }
 
 #' List Templates
@@ -219,7 +215,6 @@ template_send_email_batch <- function(
 #' }
 #' @export
 template_list <- function(count, type = "all", token = NULL) {
-
   stopifnot(
     is_scalar_integer(count),
     count > 0
@@ -245,5 +240,4 @@ template_list <- function(count, type = "all", token = NULL) {
   }
 
   dat
-
 }

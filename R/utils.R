@@ -59,11 +59,9 @@ capitilize_first <- function(x) {
   )
 
   out
-
 }
 
 split_vec <- function(x, n) {
-
   stopifnot(
     # is_character(x),
     is_scalar_integer(n),
@@ -74,11 +72,9 @@ split_vec <- function(x, n) {
   groups <- ceiling(seq_along(x) / n)
 
   unname(split(x, groups))
-
 }
 
 rep_list <- function(x, n) {
-
   stopifnot(is_list(x), is_named(x))
 
   template_fn <- function(...) {
@@ -96,5 +92,4 @@ rep_list <- function(x, n) {
   )
 
   exec("Map", !!!args)
-
 }

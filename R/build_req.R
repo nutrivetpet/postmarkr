@@ -22,7 +22,6 @@ build_req <- function(endpoint, method, token = NULL, ...) {
     }
 
     req <- req_url_query(req, !!!dots)
-
   }
 
   req
