@@ -23,7 +23,7 @@ affiliated with Postmark).
 You can install the development version of postmarkr like so:
 
 ``` r
-pak::pak("andreranza/postmarkr")
+pak::pak("nutrivetpet/postmarkr")
 ```
 
 ## Example

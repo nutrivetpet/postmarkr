@@ -29,7 +29,7 @@ It is an independent, community-developed R package for the [Postmark](https://p
 You can install the development version of postmarkr like so:
 
 ``` r
-pak::pak("andreranza/postmarkr")
+pak::pak("nutrivetpet/postmarkr")
 ```
 
 ## Example
