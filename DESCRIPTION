@@ -5,15 +5,16 @@ Authors@R: c(
     person("Andrea", "Ranzato", , "andrea@nutrivetpet.com", role = c("aut", "cre")),
     person("nutrivetpet Srls", role = "fnd")
   )
-Description: This package provides functions to interact with the Postmark API from R.
+Description: This package provides functions to interact with the Postmark
+    API from R.
 License: MIT + file LICENSE
-Encoding: UTF-8
-Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
+URL: https://andreranza.github.io/postmarkr/
 Imports: 
     dplyr,
     httr2,
     rlang
 Suggests: 
     tibble
-URL: https://andreranza.github.io/postmarkr/
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
