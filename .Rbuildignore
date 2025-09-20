@@ -8,3 +8,4 @@
 ^pkgdown$
 ^scratch$
 ^[\.]?air\.toml$
+^codecov\.yml$
