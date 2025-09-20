@@ -11,7 +11,7 @@ of count and offset values."><meta property="og:image" content="https://andreran
 
     <a class="navbar-brand me-2" href="../index.html">postmarkr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,21 +42,14 @@ of count and offset values.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">outbound_messages_collect</span><span class="op">(</span>token <span class="op">=</span> <span class="cn">NULL</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">outbound_messages_collect</span><span class="op">(</span>quiet <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
 
 
-<dl><dt id="arg-token">token<a class="anchor" aria-label="anchor" href="#arg-token"></a></dt>
-<dd><p>Character string. Your Postmark API token. If NULL (default), the
-function will attempt to retrieve the token using <code>get_token()</code>
-<code>POSTMARK_SERVER_TOKEN</code> as an environment variable. Check the Postmark's API
-documentation on how to get a server token.</p></dd>
-
-
-<dt id="arg-quiet">quiet<a class="anchor" aria-label="anchor" href="#arg-quiet"></a></dt>
+<dl><dt id="arg-quiet">quiet<a class="anchor" aria-label="anchor" href="#arg-quiet"></a></dt>
 <dd><p>Logical. If FALSE, displays an informational message about the
 total number of emails. Default is TRUE (no messages).</p></dd>
 
@@ -81,8 +74,8 @@ Results are combined into a single data frame or tibble.</p>
 <span class="r-in"><span><span class="co"># Get all outbound messages with default settings</span></span></span>
 <span class="r-in"><span><span class="va">messages</span> <span class="op">&lt;-</span> <span class="fu">outbound_messages_collect</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Get messages with a specific token and display count information</span></span></span>
-<span class="r-in"><span><span class="va">messages</span> <span class="op">&lt;-</span> <span class="fu">outbound_messages_collect</span><span class="op">(</span>token <span class="op">=</span> <span class="st">"your_api_token"</span>, quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Get messages and display count information</span></span></span>
+<span class="r-in"><span><span class="va">messages</span> <span class="op">&lt;-</span> <span class="fu">outbound_messages_collect</span><span class="op">(</span>quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>

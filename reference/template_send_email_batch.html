@@ -9,7 +9,7 @@ req_perform_sequential()."><meta property="og:image" content="https://andreranza
 
     <a class="navbar-brand me-2" href="../index.html">postmarkr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,8 +46,7 @@ req_perform_sequential()."><meta property="og:image" content="https://andreranza
 <span>  <span class="va">template_model</span>,</span>
 <span>  <span class="va">msg_stream</span>,</span>
 <span>  tag <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  track_opens <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  token <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  track_opens <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -84,13 +83,6 @@ email. Maximum 1000 characters. Default is NULL.</p></dd>
 <dt id="arg-track-opens">track_opens<a class="anchor" aria-label="anchor" href="#arg-track-opens"></a></dt>
 <dd><p>A logical value. Whether to track when recipients open the
 email. Default is FALSE.</p></dd>
-
-
-<dt id="arg-token">token<a class="anchor" aria-label="anchor" href="#arg-token"></a></dt>
-<dd><p>Character string. Your Postmark API token. If NULL (default), the
-function will attempt to retrieve the token using <code>get_token()</code>
-<code>POSTMARK_SERVER_TOKEN</code> as an environment variable. Check the Postmark's API
-documentation on how to get a server token.</p></dd>
 
 </dl></div>
     <div class="section level2">

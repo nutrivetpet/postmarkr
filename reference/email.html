@@ -11,7 +11,7 @@ be used for both the "outbound" and "broadcast") email message streams.'><meta p
 
     <a class="navbar-brand me-2" href="../index.html">postmarkr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -48,8 +48,7 @@ be used for both the "outbound" and "broadcast") email message streams.</p>
 <span>  <span class="va">msg_stream</span>,</span>
 <span>  subject <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  html_body <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  text_body <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  token <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  text_body <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -79,13 +78,6 @@ be used for both the "outbound" and "broadcast") email message streams.</p>
 
 <dt id="arg-text-body">text_body<a class="anchor" aria-label="anchor" href="#arg-text-body"></a></dt>
 <dd><p>Character scalar. Plain text content of the email.</p></dd>
-
-
-<dt id="arg-token">token<a class="anchor" aria-label="anchor" href="#arg-token"></a></dt>
-<dd><p>Character string. Your Postmark API token. If NULL (default), the
-function will attempt to retrieve the token using <code>get_token()</code>
-<code>POSTMARK_SERVER_TOKEN</code> as an environment variable. Check the Postmark's API
-documentation on how to get a server token.</p></dd>
 
 </dl></div>
     <div class="section level2">
