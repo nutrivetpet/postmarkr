@@ -18,7 +18,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Andrea Ranzato \email{andrea.ranzato01@gmail.com}
+\strong{Maintainer}: Andrea Ranzato \email{andrea@nutrivetpet.com}
 
 Other contributors:
 \itemize{
