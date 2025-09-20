@@ -44,18 +44,30 @@ email_send_single <- function(
   msg_stream <- arg_match(msg_stream, c("outbound", "broadcast"))
 
   if (!is.null(subject)) {
-    stopifnot("`subject` must be a single character string" = is_scalar_character(subject))
+    stopifnot(
+      "`subject` must be a single character string" = is_scalar_character(
+        subject
+      )
+    )
   }
 
   has_html <- !is.null(html_body)
   has_text <- !is.null(text_body)
 
   if (has_html) {
-    stopifnot("`html_body` must be a single character string" = is_scalar_character(html_body))
+    stopifnot(
+      "`html_body` must be a single character string" = is_scalar_character(
+        html_body
+      )
+    )
   }
 
   if (has_text) {
-    stopifnot("`text_body` must be a single character string" = is_scalar_character(text_body))
+    stopifnot(
+      "`text_body` must be a single character string" = is_scalar_character(
+        text_body
+      )
+    )
   }
 
   if (has_html && has_text) {
