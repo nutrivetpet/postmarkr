@@ -9,6 +9,8 @@ Description: This package provides functions to interact with the Postmark
     API from R.
 License: MIT + file LICENSE
 URL: https://andreranza.github.io/postmarkr/
+Depends: 
+    R (>= 4.1.0)
 Imports: 
     dplyr,
     httr2,
