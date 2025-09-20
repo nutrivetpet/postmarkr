@@ -5,9 +5,7 @@
 
 <!-- badges: start -->
 
-[![Project Status: WIP – Initial development is in progress, but there
-has not yet been a stable, usable release suitable for the
-public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![R-CMD-check](https://github.com/andreranza/postmarkr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/andreranza/postmarkr/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
 coverage](https://codecov.io/gh/nutrivetpet/postmarkr/graph/badge.svg)](https://app.codecov.io/gh/nutrivetpet/postmarkr)
@@ -17,8 +15,8 @@ The goal of postmarkr is to interact with the [Postmark
 API](https://postmarkapp.com/developer), from R.
 
 It is an independent, community-developed R package for the
-[Postmark](https://postmarkapp.com) email service (not created by or
-affiliated with Postmark).
+[Postmark](https://postmarkapp.com) email service (**not created by or
+affiliated with Postmark**).
 
 ## Installation
 
@@ -36,7 +34,7 @@ This is a basic example which shows you how to solve a common problem:
 library(postmarkr)
 dat <- template_send_email_batch(
   from = "xyz@mail.com",
-  to = c( # potentially, a long vector of emails
+  to = c(
     "abcd@mail.com",
     "efgh@mail.com"
   ),
@@ -53,7 +51,16 @@ dat <- template_send_email_batch(
 
 ## Features
 
-- Send batch emails with template
-- Get email delivery logs
-- List email templates
-- Track email delivery statistics
+- **Single Email Delivery**: Send individual emails with
+  `email_send_single()`
+- **Template-Based Emails**: Send templated emails with
+  `template_send_email()` and `template_send_email_batch()`
+- **Email Templates**: List available email templates with
+  `template_list()`
+- **Message Logs**: Retrieve outbound messages with
+  `outbound_messages_collect()` and `outbound_messages_fetch()`
+- **Delivery Statistics**: Track email performance with
+  `stats_outbound_overview()`
+
+**Note:** API coverage is still pretty limited compared to all available
+endpoints.
