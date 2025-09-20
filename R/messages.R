@@ -47,8 +47,8 @@
 #'}
 outbound_messages_fetch <- function(count, offset = 0L, token = NULL, ...) {
   stopifnot(
-    "`count` must be a single integer" = is_integer(count, n = 1L),
-    "`offset` must be a single integer" = is_integer(offset, n = 1L),
+    "`count` must be a single integer" = is_scalar_integer(count),
+    "`offset` must be a single integer" = is_scalar_integer(offset),
     "`count` must be greater than 0" = count > 0,
     "`count` must be 500 or fewer" = count <= 500,
     "`count + offset` must be 10,000 or fewer" = count + offset <= 1e4

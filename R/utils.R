@@ -47,7 +47,7 @@ supported_args <- function() {
 
 capitilize_first <- function(x) {
   # TODO: vectorized
-  stopifnot("`x` must be a single character string" = is_character(x, n = 1L))
+  stopifnot("`x` must be a single character string" = is_scalar_character(x))
 
   vec <- unlist(strsplit(x, split = ""))
   frst <- toupper(vec[[1L]])
