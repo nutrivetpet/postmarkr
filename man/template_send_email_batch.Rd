@@ -44,5 +44,5 @@ response details, invisibly.
 }
 \description{
 Send email to more than 500 recipients, sending multiple POST requests via
-\code{\link[=req_perform_sequential]{req_perform_sequential()}}.
+\code{req_perform_sequential()}.
 }

@@ -49,7 +49,9 @@ template_send_email <- function(
     "`template_model` must be a list" = is_list(template_model),
     "`template_model` must be a named list" = is_named(template_model),
     "`tag` must be 1000 characters or fewer" = nchar(tag) <= 1e3L,
-    "`track_opens` must be a single logical value" = is_scalar_logical(track_opens)
+    "`track_opens` must be a single logical value" = is_scalar_logical(
+      track_opens
+    )
   )
 
   if (!is.null(tag)) {
@@ -96,7 +98,7 @@ template_send_email <- function(
 #' Send Batch Email Using a Template
 #'
 #' Send email to more than 500 recipients, sending multiple POST requests via
-#' [req_perform_sequential()].
+#' `req_perform_sequential()`.
 #'
 #' @inheritParams template_send_email
 #'
@@ -120,7 +122,9 @@ template_send_email_batch <- function(
     "`id` must be a single integer" = is_scalar_integer(id),
     "`template_model` must be a list" = is_list(template_model),
     "`template_model` must be a named list" = is_named(template_model),
-    "`track_opens` must be a single logical value" = is_scalar_logical(track_opens)
+    "`track_opens` must be a single logical value" = is_scalar_logical(
+      track_opens
+    )
   )
 
   if (!is.null(tag)) {
