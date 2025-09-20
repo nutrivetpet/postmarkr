@@ -42,18 +42,21 @@ template_send_email <- function(
   token = NULL
 ) {
   stopifnot(
-    is_scalar_character(from),
-    is_character(to),
-    length(to) <= 50L,
-    is_scalar_integer(id),
-    is_list(template_model),
-    is_named(template_model),
-    nchar(tag) <= 1e3L,
-    is_scalar_logical(track_opens)
+    "`from` must be a single character string" = is_scalar_character(from),
+    "`to` must be a character vector" = is_character(to),
+    "`to` must have 50 or fewer recipients" = length(to) <= 50L,
+    "`id` must be a single integer" = is_scalar_integer(id),
+    "`template_model` must be a list" = is_list(template_model),
+    "`template_model` must be a named list" = is_named(template_model),
+    "`tag` must be 1000 characters or fewer" = nchar(tag) <= 1e3L,
+    "`track_opens` must be a single logical value" = is_scalar_logical(track_opens)
   )
 
   if (!is.null(tag)) {
-    stopifnot(is_scalar_character(tag), nchar(tag) <= 1e3L)
+    stopifnot(
+      "`tag` must be a single character string" = is_scalar_character(tag),
+      "`tag` must be 1000 characters or fewer" = nchar(tag) <= 1e3L
+    )
   }
 
   msg_stream <- arg_match(msg_stream, c("outbound", "broadcast"))
@@ -112,16 +115,19 @@ template_send_email_batch <- function(
   token = NULL
 ) {
   stopifnot(
-    is_scalar_character(from),
-    is_character(to),
-    is_scalar_integer(id),
-    is_list(template_model),
-    is_named(template_model),
-    is_scalar_logical(track_opens)
+    "`from` must be a single character string" = is_scalar_character(from),
+    "`to` must be a character vector" = is_character(to),
+    "`id` must be a single integer" = is_scalar_integer(id),
+    "`template_model` must be a list" = is_list(template_model),
+    "`template_model` must be a named list" = is_named(template_model),
+    "`track_opens` must be a single logical value" = is_scalar_logical(track_opens)
   )
 
   if (!is.null(tag)) {
-    stopifnot(is_scalar_character(tag), nchar(tag) <= 1e3L)
+    stopifnot(
+      "`tag` must be a single character string" = is_scalar_character(tag),
+      "`tag` must be 1000 characters or fewer" = nchar(tag) <= 1e3L
+    )
   }
 
   msg_stream <- arg_match(msg_stream, c("outbound", "broadcast"))
@@ -216,8 +222,8 @@ template_send_email_batch <- function(
 #' @export
 template_list <- function(count, type = "all", token = NULL) {
   stopifnot(
-    is_scalar_integer(count),
-    count > 0
+    "`count` must be a single integer" = is_scalar_integer(count),
+    "`count` must be greater than 0" = count > 0
   )
 
   typ <- arg_match(type, c("all", "standard", "layout"))

@@ -22,7 +22,7 @@ build_header <- function(req, token) {
 }
 
 generate_offset_batches <- function(n) {
-  stopifnot(is_integer(n, 1L))
+  stopifnot("`n` must be a single integer" = is_integer(n, 1L))
   offset <- seq(0L, n, by = 500L)
   count <- rep(500L, length(offset))
   data.frame(count = count, offset = offset)
@@ -47,7 +47,7 @@ supported_args <- function() {
 
 capitilize_first <- function(x) {
   # TODO: vectorized
-  stopifnot(is_character(x, n = 1L))
+  stopifnot("`x` must be a single character string" = is_character(x, n = 1L))
 
   vec <- unlist(strsplit(x, split = ""))
   frst <- toupper(vec[[1L]])
@@ -63,10 +63,10 @@ capitilize_first <- function(x) {
 
 split_vec <- function(x, n) {
   stopifnot(
-    # is_character(x),
-    is_scalar_integer(n),
-    n > 0L,
-    length(x) > 0L
+    # "`x` must be a character vector" = is_character(x),
+    "`n` must be a single integer" = is_scalar_integer(n),
+    "`n` must be greater than 0" = n > 0L,
+    "`x` must not be empty" = length(x) > 0L
   )
 
   groups <- ceiling(seq_along(x) / n)
@@ -75,7 +75,10 @@ split_vec <- function(x, n) {
 }
 
 rep_list <- function(x, n) {
-  stopifnot(is_list(x), is_named(x))
+  stopifnot(
+    "`x` must be a list" = is_list(x),
+    "`x` must be a named list" = is_named(x)
+  )
 
   template_fn <- function(...) {
     args <- list(...)
