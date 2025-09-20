@@ -4,14 +4,9 @@
 \alias{outbound_messages_collect}
 \title{Collect all outbound email messages}
 \usage{
-outbound_messages_collect(token = NULL, quiet = TRUE, ...)
+outbound_messages_collect(quiet = TRUE, ...)
 }
 \arguments{
-\item{token}{Character string. Your Postmark API token. If NULL (default), the
-function will attempt to retrieve the token using \code{get_token()}
-\code{POSTMARK_SERVER_TOKEN} as an environment variable. Check the Postmark's API
-documentation on how to get a server token.}
-
 \item{quiet}{Logical. If FALSE, displays an informational message about the
 total number of emails. Default is TRUE (no messages).}
 
@@ -36,8 +31,8 @@ of count and offset values.
 # Get all outbound messages with default settings
 messages <- outbound_messages_collect()
 
-# Get messages with a specific token and display count information
-messages <- outbound_messages_collect(token = "your_api_token", quiet = FALSE)
+# Get messages and display count information
+messages <- outbound_messages_collect(quiet = FALSE)
 }
 
 }

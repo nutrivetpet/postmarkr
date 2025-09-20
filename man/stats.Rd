@@ -4,14 +4,9 @@
 \alias{stats_outbound_overview}
 \title{Get Overview of Outbound Messages}
 \usage{
-stats_outbound_overview(token = NULL, ...)
+stats_outbound_overview(...)
 }
 \arguments{
-\item{token}{Character string. Your Postmark API token. If NULL (default), the
-function will attempt to retrieve the token using \code{get_token()}
-\code{POSTMARK_SERVER_TOKEN} as an environment variable. Check the Postmark's API
-documentation on how to get a server token.}
-
 \item{...}{Additional arguments passed to the underlying request functions.}
 }
 \value{
@@ -25,11 +20,8 @@ Postmark account.
 }
 \examples{
 \dontrun{
-# Using default token from environment
-stats <- get_outbound_overview()
-
-# Using a specific token
-stats <- get_outbound_overview("your-postmark-token")
+# Get outbound message statistics
+stats <- stats_outbound_overview()
 }
 
 }

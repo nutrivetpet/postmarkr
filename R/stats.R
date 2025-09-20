@@ -4,7 +4,6 @@
 #' This function fetches aggregated metrics about messages sent through your
 #' Postmark account.
 #'
-#' @inheritParams outbound_messages_fetch
 #' @param ... Additional arguments passed to the underlying request functions.
 #'
 #' @return A list containing outbound message statistics as returned by the
@@ -14,20 +13,13 @@
 #'
 #' @examples
 #' \dontrun{
-#' # Using default token from environment
-#' stats <- get_outbound_overview()
-#'
-#' # Using a specific token
-#' stats <- get_outbound_overview("your-postmark-token")
+#' # Get outbound message statistics
+#' stats <- stats_outbound_overview()
 #' }
 #'
 #' @export
-stats_outbound_overview <- function(token = NULL, ...) {
-  if (is.null(token)) {
-    token <- get_token()
-  }
-
-  req <- build_req("/stats/outbound", "GET", token)
+stats_outbound_overview <- function(...) {
+  req <- build_req("/stats/outbound", "GET", ...)
   resp <- req_perform(req)
   resp_body_json(resp, simplifyVector = FALSE)
 }

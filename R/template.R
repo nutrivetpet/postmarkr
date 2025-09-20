@@ -38,8 +38,7 @@ template_send_email <- function(
   template_model,
   msg_stream,
   tag = NULL,
-  track_opens = FALSE,
-  token = NULL
+  track_opens = FALSE
 ) {
   stopifnot(
     "`from` must be a single character string" = is_scalar_character(from),
@@ -76,7 +75,7 @@ template_send_email <- function(
   )
 
   req <-
-    build_req("/email/withTemplate/", "POST", token) |>
+    build_req("/email/withTemplate/", "POST") |>
     req_headers("Content-Type" = "application/json") |>
     req_body_json(bdy)
 
@@ -113,8 +112,7 @@ template_send_email_batch <- function(
   template_model,
   msg_stream,
   tag = NULL,
-  track_opens = FALSE,
-  token = NULL
+  track_opens = FALSE
 ) {
   stopifnot(
     "`from` must be a single character string" = is_scalar_character(from),
@@ -176,7 +174,7 @@ template_send_email_batch <- function(
   req_lst <- lapply(
     bdy,
     function(x) {
-      build_req("/email/batchWithTemplates/", "POST", token) |>
+      build_req("/email/batchWithTemplates/", "POST") |>
         req_headers("Content-Type" = "application/json") |>
         req_body_json(x)
     }
@@ -203,7 +201,6 @@ template_send_email_batch <- function(
 #' Retrieves a list of templates from the Postmark API. Templates
 #' can be filtered by type and paginated using count and offset parameters.
 #'
-#' @inheritParams outbound_messages_fetch
 #' @param count An integer specifying the number of templates to retrieve.
 #' @param type A string specifying the template type to filter by: "all",
 #'   "standard", or "layout". Defaults to "all".
@@ -220,11 +217,11 @@ template_send_email_batch <- function(
 #' # Get only layout templates
 #' layouts <- template_list(count = 50, type = "layout")
 #'
-#' # Use a specific token
-#' templates <- template_list(count = 10, token = "your-api-token")
+#' # Get all templates with pagination
+#' templates <- template_list(count = 100)
 #' }
 #' @export
-template_list <- function(count, type = "all", token = NULL) {
+template_list <- function(count, type = "all") {
   stopifnot(
     "`count` must be a single integer" = is_scalar_integer(count),
     "`count` must be greater than 0" = count > 0
@@ -235,7 +232,6 @@ template_list <- function(count, type = "all", token = NULL) {
   req <- build_req(
     "templates",
     "GET",
-    token = token,
     count = count,
     offset = 0L,
     type = capitilize_first(type)

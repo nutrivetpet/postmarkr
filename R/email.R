@@ -10,7 +10,6 @@
 #' @param subject Character scalar. Email subject line.
 #' @param html_body Character scalar. HTML content of the email.
 #' @param text_body Character scalar. Plain text content of the email.
-#' @inheritParams outbound_messages_fetch
 #'
 #' @return A data frame or tibble (if tibble is installed) containing the
 #'   response details.
@@ -34,8 +33,7 @@ email_send_single <- function(
   msg_stream,
   subject = NULL,
   html_body = NULL,
-  text_body = NULL,
-  token = NULL
+  text_body = NULL
 ) {
   stopifnot(
     "`from` must be a single character string" = is_scalar_character(from),
@@ -90,7 +88,7 @@ email_send_single <- function(
   }
 
   req <-
-    build_req("email", "POST", token) |>
+    build_req("email", "POST") |>
     req_headers("Content-Type" = "application/json") |>
     req_body_json(bdy)
 

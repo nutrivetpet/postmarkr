@@ -4,18 +4,13 @@
 \alias{template_list}
 \title{List Templates}
 \usage{
-template_list(count, type = "all", token = NULL)
+template_list(count, type = "all")
 }
 \arguments{
 \item{count}{An integer specifying the number of templates to retrieve.}
 
 \item{type}{A string specifying the template type to filter by: "all",
 "standard", or "layout". Defaults to "all".}
-
-\item{token}{Character string. Your Postmark API token. If NULL (default), the
-function will attempt to retrieve the token using \code{get_token()}
-\code{POSTMARK_SERVER_TOKEN} as an environment variable. Check the Postmark's API
-documentation on how to get a server token.}
 }
 \value{
 A data frame (or tibble if tibble is installed) containing the
@@ -34,7 +29,7 @@ templates <- template_list(count = 10)
 # Get only layout templates
 layouts <- template_list(count = 50, type = "layout")
 
-# Use a specific token
-templates <- template_list(count = 10, token = "your-api-token")
+# Get all templates with pagination
+templates <- template_list(count = 100)
 }
 }

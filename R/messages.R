@@ -8,12 +8,6 @@
 #'  positive and not exceed 500.
 #' @param offset An integer specifying the number of messages to skip. Defaults
 #'  to 0. The sum of count and offset must not exceed 10,000.
-#' @param token Astring token. Check  Can be set as `POSTMARK_SERVER_TOKEN` as an
-#'  environment variable.
-#' @param token Character string. Your Postmark API token. If NULL (default), the
-#'  function will attempt to retrieve the token using `get_token()`
-#'  `POSTMARK_SERVER_TOKEN` as an environment variable. Check the Postmark's API
-#'  documentation on how to get a server token.
 #' @param ... Additional query parameters to filter results. See
 #'  <https://postmarkapp.com/developer/api/messages-api#outbound-messages> for
 #'  supported parameters (e.g., `recipient`, `tag`, `status`).
@@ -45,7 +39,7 @@
 #'   status = "sent"
 #' )
 #'}
-outbound_messages_fetch <- function(count, offset = 0L, token = NULL, ...) {
+outbound_messages_fetch <- function(count, offset = 0L, ...) {
   stopifnot(
     "`count` must be a single integer" = is_scalar_integer(count),
     "`offset` must be a single integer" = is_scalar_integer(offset),
@@ -57,9 +51,9 @@ outbound_messages_fetch <- function(count, offset = 0L, token = NULL, ...) {
   req <- build_req(
     "messages/outbound",
     "GET",
-    token = token,
     count = count,
-    offset = offset
+    offset = offset,
+    ...
   )
   resp <- req_perform(req)
   resp_body_json(resp, simplifyVector = TRUE)
@@ -71,7 +65,6 @@ outbound_messages_fetch <- function(count, offset = 0L, token = NULL, ...) {
 #' needed. It handles pagination automatically by generating appropriate batches
 #' of count and offset values.
 #'
-#' @inheritParams outbound_messages_fetch
 #' @param quiet Logical. If FALSE, displays an informational message about the
 #'   total number of emails. Default is TRUE (no messages).
 #' @param ... Additional arguments passed to [outbound_messages_fetch()].
@@ -89,13 +82,13 @@ outbound_messages_fetch <- function(count, offset = 0L, token = NULL, ...) {
 #' # Get all outbound messages with default settings
 #' messages <- outbound_messages_collect()
 #'
-#' # Get messages with a specific token and display count information
-#' messages <- outbound_messages_collect(token = "your_api_token", quiet = FALSE)
+#' # Get messages and display count information
+#' messages <- outbound_messages_collect(quiet = FALSE)
 #' }
 #'
 #' @export
-outbound_messages_collect <- function(token = NULL, quiet = TRUE, ...) {
-  stats <- stats_outbound_overview(token)
+outbound_messages_collect <- function(quiet = TRUE, ...) {
+  stats <- stats_outbound_overview()
   sent <- stats[["Sent"]]
 
   if (is.null(sent)) {
@@ -116,7 +109,6 @@ outbound_messages_collect <- function(token = NULL, quiet = TRUE, ...) {
       outbound_messages_fetch(
         count = count_val,
         offset = offset_val,
-        token = token,
         ...
       )
     },

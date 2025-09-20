@@ -10,8 +10,7 @@ email_send_single(
   msg_stream,
   subject = NULL,
   html_body = NULL,
-  text_body = NULL,
-  token = NULL
+  text_body = NULL
 )
 }
 \arguments{
@@ -26,11 +25,6 @@ email_send_single(
 \item{html_body}{Character scalar. HTML content of the email.}
 
 \item{text_body}{Character scalar. Plain text content of the email.}
-
-\item{token}{Character string. Your Postmark API token. If NULL (default), the
-function will attempt to retrieve the token using \code{get_token()}
-\code{POSTMARK_SERVER_TOKEN} as an environment variable. Check the Postmark's API
-documentation on how to get a server token.}
 }
 \value{
 A data frame or tibble (if tibble is installed) containing the

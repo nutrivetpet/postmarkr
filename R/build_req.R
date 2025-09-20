@@ -1,9 +1,6 @@
-build_req <- function(endpoint, method, token = NULL, ...) {
+build_req <- function(endpoint, method, ...) {
   dots <- list2(...)
-
-  if (is.null(token)) {
-    token <- get_token()
-  }
+  token <- get_token()
 
   req <-
     request("https://api.postmarkapp.com") |>

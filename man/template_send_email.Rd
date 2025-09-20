@@ -11,8 +11,7 @@ template_send_email(
   template_model,
   msg_stream,
   tag = NULL,
-  track_opens = FALSE,
-  token = NULL
+  track_opens = FALSE
 )
 }
 \arguments{
@@ -32,11 +31,6 @@ email. Maximum 1000 characters. Default is NULL.}
 
 \item{track_opens}{A logical value. Whether to track when recipients open the
 email. Default is FALSE.}
-
-\item{token}{Character string. Your Postmark API token. If NULL (default), the
-function will attempt to retrieve the token using \code{get_token()}
-\code{POSTMARK_SERVER_TOKEN} as an environment variable. Check the Postmark's API
-documentation on how to get a server token.}
 }
 \value{
 A data frame or tibble (if tibble is installed) containing the
