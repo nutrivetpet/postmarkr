@@ -40,6 +40,20 @@
 #' )
 #'}
 outbound_messages_fetch <- function(count, offset = 0L, ...) {
+  outbound_messages_fetch_impl(
+    count = count,
+    offset = offset,
+    env = "live",
+    ...
+  )
+}
+
+outbound_messages_fetch_impl <- function(
+  count,
+  offset = 0L,
+  env = c("live", "test"),
+  ...
+) {
   stopifnot(
     "`count` must be a single integer" = is_scalar_integer(count),
     "`offset` must be a single integer" = is_scalar_integer(offset),
@@ -51,6 +65,7 @@ outbound_messages_fetch <- function(count, offset = 0L, ...) {
   req <- build_req(
     "messages/outbound",
     "GET",
+    env,
     count = count,
     offset = offset,
     ...
@@ -88,7 +103,15 @@ outbound_messages_fetch <- function(count, offset = 0L, ...) {
 #'
 #' @export
 outbound_messages_collect <- function(quiet = TRUE, ...) {
-  stats <- stats_outbound_overview()
+  outbound_messages_collect_impl(quiet = quiet, env = "live", ...)
+}
+
+outbound_messages_collect_impl <- function(
+  quiet = TRUE,
+  env = c("live", "test"),
+  ...
+) {
+  stats <- stats_outbound_overview_impl(env)
   sent <- stats[["Sent"]]
 
   if (is.null(sent)) {
@@ -106,9 +129,10 @@ outbound_messages_collect <- function(quiet = TRUE, ...) {
 
   out <- Map(
     function(count_val, offset_val) {
-      outbound_messages_fetch(
+      outbound_messages_fetch_impl(
         count = count_val,
         offset = offset_val,
+        env,
         ...
       )
     },

@@ -1,10 +1,19 @@
-get_token <- function() {
-  token <- Sys.getenv("POSTMARK_SERVER_TOKEN")
+get_token <- function(env = c("live", "test")) {
+  env <- arg_match(env, env)
+  envar <- switch(
+    env,
+    test = "POSTMARK_TEST_SERVER_TOKEN",
+    live = "POSTMARK_SERVER_TOKEN"
+  )
+  token <- Sys.getenv(envar)
   if (!nzchar(token)) {
     abort(
       c(
         "Cannot find token for API authentication.",
-        i = "Did you forget to set the `POSTMARK_SERVER_TOKEN` env. variable?"
+        i = sprintf(
+          "Did you forget to set the `%s` env. variable?",
+          envar
+        )
       ),
       class = "missing_token"
     )

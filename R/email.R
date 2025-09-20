@@ -35,6 +35,26 @@ email_send_single <- function(
   html_body = NULL,
   text_body = NULL
 ) {
+  email_send_single_impl(
+    from = from,
+    to = to,
+    msg_stream = msg_stream,
+    subject = subject,
+    html_body = html_body,
+    text_body = text_body,
+    env = "live"
+  )
+}
+
+email_send_single_impl <- function(
+  from,
+  to,
+  msg_stream,
+  subject = NULL,
+  html_body = NULL,
+  text_body = NULL,
+  env = c("live", "test")
+) {
   stopifnot(
     "`from` must be a single character string" = is_scalar_character(from),
     "`to` must be a character vector" = is_character(to),
@@ -100,7 +120,7 @@ email_send_single <- function(
   }
 
   req <-
-    build_req("email", "POST") |>
+    build_req("email", "POST", env) |>
     req_headers("Content-Type" = "application/json") |>
     req_body_json(bdy)
 

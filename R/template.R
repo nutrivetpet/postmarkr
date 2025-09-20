@@ -40,6 +40,28 @@ template_send_email <- function(
   tag = NULL,
   track_opens = FALSE
 ) {
+  template_send_email_impl(
+    from = from,
+    to = to,
+    id = id,
+    template_model = template_model,
+    msg_stream = msg_stream,
+    tag = tag,
+    track_opens = track_opens,
+    env = "live"
+  )
+}
+
+template_send_email_impl <- function(
+  from,
+  to,
+  id,
+  template_model,
+  msg_stream,
+  tag = NULL,
+  track_opens = FALSE,
+  env = c("live", "test")
+) {
   stopifnot(
     "`from` must be a single character string" = is_scalar_character(from),
     "`to` must be a character vector" = is_character(to),
@@ -75,7 +97,7 @@ template_send_email <- function(
   )
 
   req <-
-    build_req("/email/withTemplate/", "POST") |>
+    build_req("/email/withTemplate/", "POST", env) |>
     req_headers("Content-Type" = "application/json") |>
     req_body_json(bdy)
 
@@ -113,6 +135,28 @@ template_send_email_batch <- function(
   msg_stream,
   tag = NULL,
   track_opens = FALSE
+) {
+  template_send_email_batch_impl(
+    from = from,
+    to = to,
+    id = id,
+    template_model = template_model,
+    msg_stream = msg_stream,
+    tag = tag,
+    track_opens = track_opens,
+    env = "live"
+  )
+}
+
+template_send_email_batch_impl <- function(
+  from,
+  to,
+  id,
+  template_model,
+  msg_stream,
+  tag = NULL,
+  track_opens = FALSE,
+  env = c("live", "test")
 ) {
   stopifnot(
     "`from` must be a single character string" = is_scalar_character(from),
@@ -174,7 +218,7 @@ template_send_email_batch <- function(
   req_lst <- lapply(
     bdy,
     function(x) {
-      build_req("/email/batchWithTemplates/", "POST") |>
+      build_req("/email/batchWithTemplates/", "POST", env) |>
         req_headers("Content-Type" = "application/json") |>
         req_body_json(x)
     }
@@ -222,6 +266,10 @@ template_send_email_batch <- function(
 #' }
 #' @export
 template_list <- function(count, type = "all") {
+  template_list_impl(count = count, type = type, env = "live")
+}
+
+template_list_impl <- function(count, type = "all", env = c("live", "test")) {
   stopifnot(
     "`count` must be a single integer" = is_scalar_integer(count),
     "`count` must be greater than 0" = count > 0
@@ -232,6 +280,7 @@ template_list <- function(count, type = "all") {
   req <- build_req(
     "templates",
     "GET",
+    env,
     count = count,
     offset = 0L,
     type = capitilize_first(type)

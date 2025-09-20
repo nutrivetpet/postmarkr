@@ -19,7 +19,11 @@
 #'
 #' @export
 stats_outbound_overview <- function(...) {
-  req <- build_req("/stats/outbound", "GET", ...)
+  stats_outbound_overview_impl(env = "live", ...)
+}
+
+stats_outbound_overview_impl <- function(env = c("live", "test"), ...) {
+  req <- build_req("/stats/outbound", "GET", env, ...)
   resp <- req_perform(req)
   resp_body_json(resp, simplifyVector = FALSE)
 }
