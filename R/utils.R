@@ -44,7 +44,7 @@ supported_args <- function() {
     "recipient",
     "fromemail",
     "tag",
-    "statu",
+    "status",
     "todate",
     "fromdate",
     "subject",
