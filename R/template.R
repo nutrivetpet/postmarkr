@@ -283,7 +283,7 @@ template_list_impl <- function(count, type = "all", env = c("live", "test")) {
     env,
     count = count,
     offset = 0L,
-    type = capitilize_first(type)
+    type = capitalize_first(type)
   )
 
   resp <- req_perform(req)

@@ -54,7 +54,7 @@ supported_args <- function() {
   )
 }
 
-capitilize_first <- function(x) {
+capitalize_first <- function(x) {
   # TODO: vectorized
   stopifnot("`x` must be a single character string" = is_scalar_character(x))
 

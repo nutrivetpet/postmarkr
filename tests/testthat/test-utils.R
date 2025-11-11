@@ -23,8 +23,8 @@ test_that("generate_offset_batches() works", {
   )
 })
 
-test_that("capitilize_first() works", {
-  expect_identical(capitilize_first("test"), "Test")
+test_that("capitalize_first() works", {
+  expect_identical(capitalize_first("test"), "Test")
 })
 
 test_that("rep_list() works", {
