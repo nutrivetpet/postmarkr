@@ -1,14 +1,17 @@
 Package: postmarkr
-Title: Email Delivery Made Simple: Unofficial Postmark API Integration for R
+Title: Email Delivery Made Simple: Unofficial Postmark API Integration for
+    R
 Version: 0.0.1
 Authors@R: c(
     person("Andrea", "Ranzato", , "andrea@nutrivetpet.com", role = c("aut", "cre")),
-    person("nutrivetpet Srls", role = "fnd")
+    person("nutrivetpet Srls", role = c("fnd", "cph"))
   )
-Description: This package provides functions to interact with the Postmark
-    API from R.
+Description: Provides functions for interacting with the Postmark API from
+    R.  This package is not created by or affiliated with Postmark.
 License: MIT + file LICENSE
-URL: https://andreranza.github.io/postmarkr/
+URL: https://andreranza.github.io/postmarkr,
+    https://github.com/nutrivetpet/postmarkr
+BugReports: https://github.com/nutrivetpet/postmarkr/issues
 Depends: 
     R (>= 4.1.0)
 Imports: 
@@ -18,7 +21,7 @@ Imports:
 Suggests: 
     testthat (>= 3.0.0),
     tibble
+Config/testthat/edition: 3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
-Config/testthat/edition: 3

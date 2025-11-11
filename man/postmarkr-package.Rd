@@ -8,12 +8,14 @@
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-This package provides functions to interact with the Postmark API from R.
+Provides functions for interacting with the Postmark API from R. This package is not created by or affiliated with Postmark.
 }
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://andreranza.github.io/postmarkr/}
+  \item \url{https://andreranza.github.io/postmarkr}
+  \item \url{https://github.com/nutrivetpet/postmarkr}
+  \item Report bugs at \url{https://github.com/nutrivetpet/postmarkr/issues}
 }
 
 }
@@ -22,7 +24,7 @@ Useful links:
 
 Other contributors:
 \itemize{
-  \item nutrivetpet Srls [funder]
+  \item nutrivetpet Srls [funder, copyright holder]
 }
 
 }
