@@ -1,8 +1,138 @@
 #' Email - Single email message
-#' @description Represents a single email to be sent
+#'
+#' @description
+#' An S7 class representing a single email message to be sent via the Postmark
+#' API. This class encapsulates all the properties needed to compose and send
+#' an email, including content, recipients, tracking settings, and attachments.
+#'
+#' @details
+#' The `email` class provides a structured way to compose emails for sending
+#' through Postmark. It supports:
+#' \itemize{
+#'   \item HTML and plain text content (mutually exclusive)
+#'   \item Multiple recipients via To, Cc, and Bcc fields (max 50 combined)
+#'   \item Custom email headers for routing and priority
+#'   \item Metadata for internal tracking
+#'   \item File attachments and inline images
+#'   \item Open and click tracking configuration
+#'   \item Email categorization via tags
+#' }
+#'
+#' **Important Limitations:**
+#' \itemize{
+#'   \item Maximum 50 total recipients (To, Cc, Bcc combined)
+#'   \item Maximum 10 MB total message size (including attachments)
+#'   \item Cannot provide both `html_body` and `text_body` simultaneously
+#'   \item Must provide either `html_body` or `text_body`
+#'   \item One tag per message, maximum 1000 characters
+#' }
+#'
+#' @section Properties:
+#'
+#' **Required:**
+#' \describe{
+#'   \item{from}{Character scalar. Sender email address (must be verified in
+#'     Postmark). Supports name formatting: `"John Doe <email@example.com>"`}
+#'   \item{to}{Character vector. Recipient email addresses. Multiple recipients
+#'     allowed (max 50 total across To, Cc, Bcc)}
+#' }
+#'
+#' **Content (one required):**
+#' \describe{
+#'   \item{html_body}{Character scalar. HTML content of the email. Use for
+#'     rich formatting, images, and styling. Mutually exclusive with
+#'     `text_body`. Maximum 5 MB.}
+#'   \item{text_body}{Character scalar. Plain text content of the email.
+#'     Use for simple text-only emails. Mutually exclusive with `html_body`.
+#'     Maximum 5 MB.}
+#' }
+#'
+#' **Optional:**
+#' \describe{
+#'   \item{subject}{Character scalar. Email subject line.}
+#'   \item{cc}{Character vector. Carbon copy recipients. Visible to all
+#'     recipients.}
+#'   \item{bcc}{Character vector. Blind carbon copy recipients. Hidden from
+#'     other recipients.}
+#'   \item{reply_to}{Character scalar. Reply-To address for responses.}
+#'   \item{tag}{Character scalar. Category tag for statistics and filtering.
+#'     One tag per message, maximum 1000 characters. Examples: "welcome-email",
+#'     "password-reset", "invoice".}
+#'   \item{metadata}{List. Key-value pairs for internal tracking. Does not
+#'     affect email delivery. Example: `list(customer_id = "12345",
+#'     campaign = "onboarding")`.}
+#'   \item{headers}{List of lists. Custom email headers. Each element should
+#'     have `Name` and `Value` keys. Example: `list(list(Name = "X-Priority",
+#'     Value = "High"))`. Use for custom routing, priority settings, or
+#'     Message-ID override.}
+#'   \item{track_opens}{Logical scalar. Enable open tracking using invisible
+#'     pixel. Only works with HTML emails. Provides insights on when and where
+#'     emails are opened.}
+#'   \item{track_links}{Character scalar. Link tracking mode. Options:
+#'     `"None"` (no tracking), `"HtmlAndText"` (track all links),
+#'     `"HtmlOnly"` (HTML links only), `"TextOnly"` (text links only).
+#'     Replaces URLs with tracking URLs that redirect to original destination.}
+#'   \item{attachments}{List of lists. File attachments and inline images.
+#'     Each attachment should have `Name`, `Content` (base64-encoded),
+#'     `ContentType`, and optionally `ContentID` (for inline images) keys.
+#'     Total message size including attachments limited to 10 MB.}
+#' }
+#'
+#' @examples
+#' \dontrun{
+#' # Simple text email
+#' simple_email <- email(
+#'   from = "sender@example.com",
+#'   to = "recipient@example.com",
+#'   subject = "Hello from R",
+#'   text_body = "This is a plain text email."
+#' )
+#'
+#' # HTML email with tracking
+#' html_email <- email(
+#'   from = "sender@example.com",
+#'   to = "recipient@example.com",
+#'   subject = "Welcome!",
+#'   html_body = "<h1>Welcome!</h1><p>Thanks for signing up.</p>",
+#'   track_opens = TRUE,
+#'   track_links = "HtmlOnly",
+#'   tag = "welcome-email"
+#' )
+#'
+#' # Email with multiple recipients and metadata
+#' multi_email <- email(
+#'   from = "notifications@example.com",
+#'   to = c("user1@example.com", "user2@example.com"),
+#'   cc = "manager@example.com",
+#'   subject = "Project Update",
+#'   html_body = "<p>Project status update attached.</p>",
+#'   metadata = list(
+#'     project_id = "ABC123",
+#'     department = "Engineering"
+#'   ),
+#'   tag = "project-updates"
+#' )
+#'
+#' # Email with custom headers
+#' priority_email <- email(
+#'   from = "urgent@example.com",
+#'   to = "support@example.com",
+#'   subject = "Urgent Issue",
+#'   text_body = "This requires immediate attention.",
+#'   headers = list(
+#'     list(Name = "X-Priority", Value = "1"),
+#'     list(Name = "Importance", Value = "high")
+#'   )
+#' )
+#' }
+#'
+#' @seealso
+#' \url{https://postmarkapp.com/developer/api/email-api#send-a-single-email}
+#' for complete Postmark email API documentation
+#'
 #' @export
 email <- new_class(
-  "Email",
+  "email",
   properties = list(
     from = class_character,
     to = class_character,
@@ -17,15 +147,34 @@ email <- new_class(
     headers = class_list,
     track_opens = class_logical,
     track_links = class_character,
-    attachments = class_list,
-  )
+    attachments = class_list
+  ),
+  validator = function(self) {
+    # Check html_body and text_body are mutually exclusive and at least one exists
+    has_html <- length(self@html_body) > 0
+    has_text <- length(self@text_body) > 0
+
+    if (has_html && has_text) {
+      email_abort_body_conflict()
+    }
+
+    if (!has_html && !has_text) {
+      email_abort_missing_body()
+    }
+
+    # Check maximum recipients (To, Cc, Bcc combined <= 50)
+    total_recipients <- length(self@to) + length(self@cc) + length(self@bcc)
+    if (total_recipients > POSTMARK_MAX_RECIPIENTS_SINGLE) {
+      email_abort_too_many_recipients(total_recipients)
+    }
+  }
 )
 
 #' Send a single email
 #'
 #' This function sends a single email via the Postmark API service. It supports
 #' both HTML and plain text email formats (but not both simultaneously) and can
-#' be used for both the "outbound" and "broadcast") email message streams.
+#' be used for both the "outbound" and "broadcast" email message streams.
 #'
 #' @param from Character scalar. Email address of the sender.
 #' @param to Character vector. Email addresses of recipients (max 50).
