@@ -92,6 +92,7 @@ postmarkr <- new_class(
     ),
     timeout = new_property(
       class = class_numeric,
+      default = 1, # TODO: is this a good default?
       validator = function(value) {
         if (!is_integerish(value, n = 1L)) {
           pstmrk_abort(
