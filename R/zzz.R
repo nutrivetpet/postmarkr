@@ -29,9 +29,9 @@ method(as_api_body, email) <- function(x) {
   }
 
   if (length(x@html_body) > 0) {
-    body$HtmlBody <- x@html_body
+    body$HtmlBody <- as.character(x@html_body)
   } else if (length(x@text_body) > 0) {
-    body$TextBody <- x@text_body
+    body$TextBody <- as.character(x@text_body)
   } else {
     pstmrk_abort("Missing body", class = "postmarkr_error_internal")
   }
