@@ -50,8 +50,8 @@
 #' documentation
 #'
 #' @export
-postmark <- new_class(
-  name = "postmark",
+postmarkr <- new_class(
+  name = "postmarkr",
   properties = list(
     token = new_property(
       class = class_character,
@@ -109,18 +109,3 @@ postmark <- new_class(
     )
   )
 )
-
-#' @export
-method(print, postmark) <- function(x, ...) {
-  redacted_token <- paste0(
-    substr(x@token, 1, 8),
-    "-****-****-****-************"
-  )
-
-  cat("<postmarkr::postmark>\n")
-  cat("  @ token          : chr ", redacted_token, "\n", sep = "")
-  cat("  @ message_stream : chr ", x@message_stream, "\n", sep = "")
-  cat("  @ base_url       : chr ", x@base_url, "\n", sep = "")
-  cat("  @ timeout        : num ", x@timeout, " seconds\n", sep = "")
-  invisible(x)
-}

@@ -1,3 +1,26 @@
+#' Email - Single email message
+#' @description Represents a single email to be sent
+#' @export
+email <- new_class(
+  "Email",
+  properties = list(
+    from = class_character,
+    to = class_character,
+    cc = class_character,
+    bcc = class_character,
+    subject = class_character,
+    tag = class_character,
+    html_body = class_character,
+    text_body = class_character,
+    reply_to = class_character,
+    metadata = class_list,
+    headers = class_list,
+    track_opens = class_logical,
+    track_links = class_character,
+    attachments = class_list,
+  )
+)
+
 #' Send a single email
 #'
 #' This function sends a single email via the Postmark API service. It supports
