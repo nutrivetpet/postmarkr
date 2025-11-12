@@ -57,7 +57,9 @@ postmark <- new_class(
       class = class_character,
       validator = function(value) {
         uuid_pattern <- "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
-        if (!grepl(uuid_pattern, value, ignore.case = TRUE)) {
+        if (
+          !length(value) > 0 || !grepl(uuid_pattern, value, ignore.case = TRUE)
+        ) {
           pstmrk_abort(
             "`token` must be a valid UUID format (e.g., '6777be1f-2a8f-4419-a8b4-fe6ff4490za0')",
             class = "postmarkr_error_invalid_token"
@@ -68,7 +70,7 @@ postmark <- new_class(
     message_stream = new_property(
       class = class_character,
       validator = function(value) {
-        if (!value %in% c("broadcast", "transactional")) {
+        if (!length(value) > 0 || !value %in% c("broadcast", "transactional")) {
           pstmrk_abort(
             "`message_stream` must be either 'broadcast' or 'transactional'",
             class = "postmarkr_error_invalid_message_stream"
@@ -80,7 +82,7 @@ postmark <- new_class(
       class = class_character,
       default = POSTMARK_BASE_URL,
       validator = function(value) {
-        if (!grepl("^https?://", value)) {
+        if (!length(value) > 0 || !grepl("^https?://", value)) {
           pstmrk_abort(
             "`base_url` must start with http:// or https://",
             class = "postmarkr_error_invalid_base_url"
