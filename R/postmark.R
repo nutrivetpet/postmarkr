@@ -76,8 +76,29 @@ postmark <- new_class(
     ),
     base_url = new_property(
       class = class_character,
-      default = POSTMARK_BASE_URL
+      default = POSTMARK_BASE_URL,
+      validator = function(value) {
+        if (!grepl("^https?://", value)) {
+          pstmrk_abort(
+            "`base_url` must start with http:// or https://"
+          )
+        }
+      }
     ),
-    timeout = class_numeric
+    timeout = new_property(
+      class = class_numeric,
+      validator = function(value) {
+        if (!is_integerish(value, n = 1L)) {
+          pstmrk_abort(
+            "`timeout` must be an integerish"
+          )
+        }
+        if (value < 1) {
+          pstmrk_abort(
+            "`timeout` must be at least 1 second"
+          )
+        }
+      }
+    )
   )
 )
