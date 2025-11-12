@@ -11,7 +11,7 @@ outbound_messages_fetch(count, offset = 0L, ...)
 positive and not exceed 500.}
 
 \item{offset}{An integer specifying the number of messages to skip. Defaults
-to 0. The sum of count and offset must not exceed 10,000.}
+to 0. The sum of count and offset must not exceed 10'000.}
 
 \item{...}{Additional query parameters to filter results. See
 \url{https://postmarkapp.com/developer/api/messages-api#outbound-messages} for

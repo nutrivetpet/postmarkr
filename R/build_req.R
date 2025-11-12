@@ -3,7 +3,7 @@ build_req <- function(endpoint, method, env, ...) {
   token <- get_token(env)
 
   req <-
-    request("https://api.postmarkapp.com") |>
+    request(POSTMARK_BASE_URL) |>
     req_url_path_append(endpoint) |>
     req_method(method) |>
     build_header(token)

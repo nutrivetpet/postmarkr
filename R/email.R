@@ -55,10 +55,14 @@ email_send_single_impl <- function(
   text_body = NULL,
   env = c("live", "test")
 ) {
+  recipients_error <- sprintf(
+    "`to` must have %d or fewer recipients",
+    POSTMARK_MAX_RECIPIENTS_SINGLE
+  )
   stopifnot(
     "`from` must be a single character string" = is_scalar_character(from),
     "`to` must be a character vector" = is_character(to),
-    "`to` must have 50 or fewer recipients" = length(to) <= 50L
+    recipients_error = length(to) <= POSTMARK_MAX_RECIPIENTS_SINGLE
   )
 
   msg_stream <- arg_match(msg_stream, c("outbound", "broadcast"))

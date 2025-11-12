@@ -62,10 +62,14 @@ template_send_email_impl <- function(
   track_opens = FALSE,
   env = c("live", "test")
 ) {
+  recipients_error <- sprintf(
+    "`to` must have %d or fewer recipients",
+    POSTMARK_MAX_RECIPIENTS_SINGLE
+  )
   stopifnot(
     "`from` must be a single character string" = is_scalar_character(from),
     "`to` must be a character vector" = is_character(to),
-    "`to` must have 50 or fewer recipients" = length(to) <= 50L,
+    recipients_error = length(to) <= POSTMARK_MAX_RECIPIENTS_SINGLE,
     "`id` must be a single integer" = is_scalar_integer(id),
     "`template_model` must be a list" = is_list(template_model),
     "`template_model` must be a named list" = is_named(template_model),
@@ -211,7 +215,7 @@ template_send_email_batch_impl <- function(
     )
   }
 
-  bdy_lst <- unname(split(bdy, (seq_along(bdy) - 1) %/% 500))
+  bdy_lst <- unname(split(bdy, (seq_along(bdy) - 1) %/% POSTMARK_MAX_BATCH_SIZE))
 
   bdy <- lapply(bdy_lst, \(x) list("Messages" = x))
 

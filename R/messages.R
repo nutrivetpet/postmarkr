@@ -7,7 +7,7 @@
 #' @param count An integer specifying the number of messages to retrieve. Must be
 #'  positive and not exceed 500.
 #' @param offset An integer specifying the number of messages to skip. Defaults
-#'  to 0. The sum of count and offset must not exceed 10,000.
+#'  to 0. The sum of count and offset must not exceed 10'000.
 #' @param ... Additional query parameters to filter results. See
 #'  <https://postmarkapp.com/developer/api/messages-api#outbound-messages> for
 #'  supported parameters (e.g., `recipient`, `tag`, `status`).
@@ -54,12 +54,20 @@ outbound_messages_fetch_impl <- function(
   env = c("live", "test"),
   ...
 ) {
+  count_error <- sprintf(
+    "`count` must be %d or fewer",
+    POSTMARK_MAX_BATCH_SIZE
+  )
+  offset_error <- sprintf(
+    "`count + offset` must be %d or fewer",
+    POSTMARK_MAX_OFFSET
+  )
   stopifnot(
     "`count` must be a single integer" = is_scalar_integer(count),
     "`offset` must be a single integer" = is_scalar_integer(offset),
     "`count` must be greater than 0" = count > 0,
-    "`count` must be 500 or fewer" = count <= 500,
-    "`count + offset` must be 10,000 or fewer" = count + offset <= 1e4
+    count_error = count <= POSTMARK_MAX_BATCH_SIZE,
+    offset_error = count + offset <= POSTMARK_MAX_OFFSET
   )
 
   req <- build_req(
