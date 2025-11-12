@@ -4,6 +4,8 @@
 #' This function fetches aggregated metrics about messages sent through your
 #' Postmark account.
 #'
+#' @param client A client object containing your API credentials and
+#'   configuration. Create one using [postmark()].
 #' @param ... Additional arguments passed to the underlying request functions.
 #'
 #' @return A list containing outbound message statistics as returned by the
@@ -13,17 +15,25 @@
 #'
 #' @examples
 #' \dontrun{
+#' # Create a postmark client
+#' client <- postmark(
+#'   token = "your-server-token-here",
+#'   message_stream = "transactional"
+#' )
+#'
 #' # Get outbound message statistics
-#' stats <- stats_outbound_overview()
+#' stats <- stats_outbound_overview(client)
 #' }
 #'
 #' @export
-stats_outbound_overview <- function(...) {
-  stats_outbound_overview_impl(env = "live", ...)
-}
+stats_outbound_overview <- new_generic(
+  name = "stats_outbound_overview",
+  dispatch_args = "client"
+)
 
-stats_outbound_overview_impl <- function(env = c("live", "test"), ...) {
-  req <- build_req("/stats/outbound", "GET", env, ...)
+#' @export
+method(stats_outbound_overview, postmark) <- function(client, ...) {
+  req <- build_req_s7(client, "/stats/outbound", "GET", ...)
   resp <- req_perform(req)
   resp_body_json(resp, simplifyVector = FALSE)
 }

@@ -4,9 +4,12 @@
 \alias{stats_outbound_overview}
 \title{Get Overview of Outbound Messages}
 \usage{
-stats_outbound_overview(...)
+stats_outbound_overview(client, ...)
 }
 \arguments{
+\item{client}{A client object containing your API credentials and
+configuration. Create one using \code{\link[=postmark]{postmark()}}.}
+
 \item{...}{Additional arguments passed to the underlying request functions.}
 }
 \value{
@@ -20,8 +23,14 @@ Postmark account.
 }
 \examples{
 \dontrun{
+# Create a postmark client
+client <- postmark(
+  token = "your-server-token-here",
+  message_stream = "transactional"
+)
+
 # Get outbound message statistics
-stats <- stats_outbound_overview()
+stats <- stats_outbound_overview(client)
 }
 
 }

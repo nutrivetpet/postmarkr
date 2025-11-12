@@ -23,3 +23,47 @@ build_req <- function(endpoint, method, env, ...) {
 
   req
 }
+
+#' Build HTTP Request for S7 Client
+#'
+#' Creates an httr2 request object using a postmark S7 client.
+#'
+#' @param client A client object as returned by [postmark()].
+#' @param endpoint The API endpoint path (e.g., "/stats/outbound").
+#' @param method HTTP method (e.g., "GET", "POST").
+#' @param ... Additional query parameters.
+#'
+#' @return An httr2 request object.
+#' @keywords internal
+build_req_s7 <- function(client, endpoint, method, ...) {
+  dots <- list2(...)
+
+  req <-
+    request(client@base_url) |>
+    req_url_path_append(endpoint) |>
+    req_method(method) |>
+    req_headers(
+      "Accept" = "application/json",
+      "X-Postmark-Server-Token" = client@token,
+      .redact = "X-Postmark-Server-Token"
+    )
+
+  if (!is.null(client@timeout)) {
+    req <- req_timeout(req, client@timeout)
+  }
+
+  if (length(dots)) {
+    args <- names2(dots)
+
+    if (!all(args %in% supported_args())) {
+      pstmrk_abort(
+        "Some arguments are not supported.",
+        class = "not_supported_args"
+      )
+    }
+
+    req <- req_url_query(req, !!!dots)
+  }
+
+  req
+}
