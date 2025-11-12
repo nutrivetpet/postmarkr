@@ -2,7 +2,6 @@
 % Please edit documentation in R/email.R
 \name{email}
 \alias{email}
-\alias{email_send_single}
 \title{Email - Single email message}
 \usage{
 email(
@@ -20,15 +19,6 @@ email(
   track_opens = logical(0),
   track_links = character(0),
   attachments = list()
-)
-
-email_send_single(
-  from,
-  to,
-  msg_stream,
-  subject = NULL,
-  html_body = NULL,
-  text_body = NULL
 )
 }
 \arguments{
@@ -52,10 +42,6 @@ response details.
 An S7 class representing a single email message to be sent via the Postmark
 API. This class encapsulates all the properties needed to compose and send
 an email, including content, recipients, tracking settings, and attachments.
-
-This function sends a single email via the Postmark API service. It supports
-both HTML and plain text email formats (but not both simultaneously) and can
-be used for both the "outbound" and "broadcast" email message streams.
 }
 \details{
 The \code{email} class provides a structured way to compose emails for sending
@@ -79,57 +65,6 @@ through Postmark. It supports:
 \item One tag per message, maximum 1000 characters
 }
 }
-\section{Properties}{
-
-
-\strong{Required:}
-\describe{
-\item{from}{Character scalar. Sender email address (must be verified in
-Postmark). Supports name formatting: \code{"John Doe <email@example.com>"}}
-\item{to}{Character vector. Recipient email addresses. Multiple recipients
-allowed (max 50 total across To, Cc, Bcc)}
-}
-
-\strong{Content (one required):}
-\describe{
-\item{html_body}{Character scalar. HTML content of the email. Use for
-rich formatting, images, and styling. Mutually exclusive with
-\code{text_body}. Maximum 5 MB.}
-\item{text_body}{Character scalar. Plain text content of the email.
-Use for simple text-only emails. Mutually exclusive with \code{html_body}.
-Maximum 5 MB.}
-}
-
-\strong{Optional:}
-\describe{
-\item{subject}{Character scalar. Email subject line.}
-\item{cc}{Character vector. Carbon copy recipients. Visible to all
-recipients.}
-\item{bcc}{Character vector. Blind carbon copy recipients. Hidden from
-other recipients.}
-\item{reply_to}{Character scalar. Reply-To address for responses.}
-\item{tag}{Character scalar. Category tag for statistics and filtering.
-One tag per message, maximum 1000 characters. Examples: "welcome-email",
-"password-reset", "invoice".}
-\item{metadata}{List. Key-value pairs for internal tracking. Does not
-affect email delivery. Example: \code{list(customer_id = "12345", campaign = "onboarding")}.}
-\item{headers}{List of lists. Custom email headers. Each element should
-have \code{Name} and \code{Value} keys. Example: \code{list(list(Name = "X-Priority", Value = "High"))}. Use for custom routing, priority settings, or
-Message-ID override.}
-\item{track_opens}{Logical scalar. Enable open tracking using invisible
-pixel. Only works with HTML emails. Provides insights on when and where
-emails are opened.}
-\item{track_links}{Character scalar. Link tracking mode. Options:
-\code{"None"} (no tracking), \code{"HtmlAndText"} (track all links),
-\code{"HtmlOnly"} (HTML links only), \code{"TextOnly"} (text links only).
-Replaces URLs with tracking URLs that redirect to original destination.}
-\item{attachments}{List of lists. File attachments and inline images.
-Each attachment should have \code{Name}, \code{Content} (base64-encoded),
-\code{ContentType}, and optionally \code{ContentID} (for inline images) keys.
-Total message size including attachments limited to 10 MB.}
-}
-}
-
 \examples{
 \dontrun{
 # Simple text email
@@ -178,15 +113,6 @@ priority_email <- email(
 )
 }
 
-\dontrun{
- email_send_single(
-  from = "sender@example.com",
-  to = "recipient@example.com",
-  msg_stream = "outbound",
-  subject = "Hello from R",
-  html_body = "<h1>Hello world!</h1>",
-)
-}
 }
 \seealso{
 \url{https://postmarkapp.com/developer/api/email-api#send-a-single-email}
