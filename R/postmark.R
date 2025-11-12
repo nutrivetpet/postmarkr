@@ -1,0 +1,82 @@
+#' Postmark API Client
+#'
+#' @description
+#' An S7 class representing a Postmark API client for sending emails.
+#' This class encapsulates the configuration needed to interact with the
+#' Postmark email service.
+#'
+#' @param token character. Your Postmark Server API Token in UUID format
+#'   (e.g., '6777be1f-2a8f-4419-a8b4-fe6ff4490za0'). This token authenticates
+#'   your requests to the Postmark API.
+#' @param message_stream character. The message stream to use for sending emails.
+#'   Must be either "broadcast" (for newsletters and marketing emails) or
+#'   "transactional" (for one-to-one triggered emails).
+#' @param base_url character. The base URL for the Postmark API. Defaults to
+#'   the standard Postmark API endpoint. Generally should not be changed
+#'   unless using a custom or test environment.
+#' @param timeout numeric. Request timeout in seconds for API calls.
+#'
+#' @details
+#' The `postmark` class provides a structured way to configure and use the
+#' Postmark API. Before creating an instance, ensure you have:
+#' \itemize{
+#'   \item A valid Postmark Server API Token
+#'   \item Verified sender signatures or domains in your Postmark account
+#' }
+#'
+#' The `token` property is validated to ensure it matches the UUID format
+#' required by Postmark. The `message_stream` property is validated to be
+#' either "broadcast" or "transactional".
+#'
+#' @examples
+#' \dontrun{
+#' # Create a postmark client for transactional emails
+#' client <- postmark(
+#'   token = "your-server-token-here",
+#'   message_stream = "transactional",
+#'   timeout = 30
+#' )
+#'
+#' # Create a postmark client for broadcast emails
+#' broadcast_client <- postmark(
+#'   token = "your-server-token-here",
+#'   message_stream = "broadcast"
+#' )
+#' }
+#'
+#' @seealso
+#' \url{https://postmarkapp.com/developer/api/overview} for Postmark API
+#' documentation
+#'
+#' @export
+postmark <- new_class(
+  name = "postmark",
+  properties = list(
+    token = new_property(
+      class = class_character,
+      validator = function(value) {
+        uuid_pattern <- "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+        if (!grepl(uuid_pattern, value, ignore.case = TRUE)) {
+          pstmrk_abort(
+            "`token` must be a valid UUID format (e.g., '6777be1f-2a8f-4419-a8b4-fe6ff4490za0')"
+          )
+        }
+      }
+    ),
+    message_stream = new_property(
+      class = class_character,
+      validator = function(value) {
+        if (!value %in% c("broadcast", "transactional")) {
+          pstmrk_abort(
+            "`message_stream` must be either 'broadcast' or 'transactional'"
+          )
+        }
+      }
+    ),
+    base_url = new_property(
+      class = class_character,
+      default = POSTMARK_BASE_URL
+    ),
+    timeout = class_numeric
+  )
+)
