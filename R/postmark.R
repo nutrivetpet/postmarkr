@@ -59,7 +59,8 @@ postmark <- new_class(
         uuid_pattern <- "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
         if (!grepl(uuid_pattern, value, ignore.case = TRUE)) {
           pstmrk_abort(
-            "`token` must be a valid UUID format (e.g., '6777be1f-2a8f-4419-a8b4-fe6ff4490za0')"
+            "`token` must be a valid UUID format (e.g., '6777be1f-2a8f-4419-a8b4-fe6ff4490za0')",
+            class = "postmarkr_error_invalid_token"
           )
         }
       }
@@ -69,7 +70,8 @@ postmark <- new_class(
       validator = function(value) {
         if (!value %in% c("broadcast", "transactional")) {
           pstmrk_abort(
-            "`message_stream` must be either 'broadcast' or 'transactional'"
+            "`message_stream` must be either 'broadcast' or 'transactional'",
+            class = "postmarkr_error_invalid_message_stream"
           )
         }
       }
@@ -80,7 +82,8 @@ postmark <- new_class(
       validator = function(value) {
         if (!grepl("^https?://", value)) {
           pstmrk_abort(
-            "`base_url` must start with http:// or https://"
+            "`base_url` must start with http:// or https://",
+            class = "postmarkr_error_invalid_base_url"
           )
         }
       }
@@ -90,12 +93,14 @@ postmark <- new_class(
       validator = function(value) {
         if (!is_integerish(value, n = 1L)) {
           pstmrk_abort(
-            "`timeout` must be an integerish"
+            "`timeout` must be an integerish",
+            class = "postmarkr_error_invalid_timeout"
           )
         }
         if (value < 1) {
           pstmrk_abort(
-            "`timeout` must be at least 1 second"
+            "`timeout` must be at least 1 second",
+            class = "postmarkr_error_invalid_timeout"
           )
         }
       }
