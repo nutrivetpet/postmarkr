@@ -18,12 +18,12 @@ your requests to the Postmark API.}
 
 \item{message_stream}{character. The message stream to use for sending emails.
 Must be either "broadcast" (for newsletters and marketing emails) or
-"transactional" (for one-to-one triggered emails). Defaults to
-"transactional".}
+"transactional" (for one-to-one triggered emails).}
 
 \item{base_url}{character. The base URL for the Postmark API. Defaults to
-the standard Postmark API endpoint. Generally should not be changed
-unless using a custom or test environment.}
+the standard Postmark API endpoint (\verb{https://api.postmarkapp.com}).
+\strong{You should not need to change this.} Only modify for testing/mocking
+purposes (e.g., pointing to a local mock server during development).}
 
 \item{timeout}{numeric. Request timeout in seconds for API calls.}
 }
