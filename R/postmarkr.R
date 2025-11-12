@@ -10,7 +10,7 @@
 #'   your requests to the Postmark API.
 #' @param message_stream character. The message stream to use for sending emails.
 #'   Must be either "broadcast" (for newsletters and marketing emails) or
-#'   "transactional" (for one-to-one triggered emails).
+#'   "outbound" (for transactional one-to-one triggered emails).
 #' @param base_url character. The base URL for the Postmark API. Defaults to
 #'   the standard Postmark API endpoint (`https://api.postmarkapp.com`).
 #'   **You should not need to change this.** Only modify for testing/mocking
@@ -27,14 +27,14 @@
 #'
 #' The `token` property is validated to ensure it matches the UUID format
 #' required by Postmark. The `message_stream` property is validated to be
-#' either "broadcast" or "transactional".
+#' either "broadcast" or "outbound".
 #'
 #' @examples
 #' \dontrun{
 #' # Create a postmark client for transactional emails
 #' client <- postmark(
 #'   token = "your-server-token-here",
-#'   message_stream = "transactional",
+#'   message_stream = "outbound",
 #'   timeout = 30
 #' )
 #'
@@ -70,9 +70,9 @@ postmarkr <- new_class(
     message_stream = new_property(
       class = class_character,
       validator = function(value) {
-        if (!length(value) > 0 || !value %in% c("broadcast", "transactional")) {
+        if (!length(value) > 0 || !value %in% c("broadcast", "outbound")) {
           pstmrk_abort(
-            "`message_stream` must be either 'broadcast' or 'transactional'",
+            "`message_stream` must be either 'broadcast' or 'outbound'",
             class = "postmarkr_error_invalid_message_stream"
           )
         }
