@@ -15,16 +15,10 @@ template_send_email_batch(
 )
 }
 \arguments{
-\item{from}{Character scalar. Email address of the sender.}
-
-\item{to}{Character vector. Email addresses of recipients (max 50).}
-
 \item{id}{A single integer. The template ID in Postmark.}
 
 \item{template_model}{A named list. Variables to be populated in the
 template.}
-
-\item{msg_stream}{Character scalar. Either "outbound" or "broadcast".}
 
 \item{tag}{A single character string. Optional tag for categorizing the
 email. Maximum 1000 characters. Default is NULL.}

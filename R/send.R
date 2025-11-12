@@ -18,7 +18,7 @@ method(send, list(postmarkr, email)) <- function(client, message) {
   resp <- req_perform(req)
 
   postmarkr_response(
-    data = resp_body_json(resp),
+    data = resp_body_json(resp, simplifyVector = TRUE),
     status = resp_status(resp),
     request = req,
     response = resp,

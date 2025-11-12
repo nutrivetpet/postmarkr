@@ -8,7 +8,7 @@ postmarkr(
   token = character(0),
   message_stream = character(0),
   base_url = "https://api.postmarkapp.com",
-  timeout = integer(0)
+  timeout = 1
 )
 }
 \arguments{
@@ -18,7 +18,7 @@ your requests to the Postmark API.}
 
 \item{message_stream}{character. The message stream to use for sending emails.
 Must be either "broadcast" (for newsletters and marketing emails) or
-"transactional" (for one-to-one triggered emails).}
+"outbound" (for transactional one-to-one triggered emails).}
 
 \item{base_url}{character. The base URL for the Postmark API. Defaults to
 the standard Postmark API endpoint (\verb{https://api.postmarkapp.com}).
@@ -42,14 +42,14 @@ Postmark API. Before creating an instance, ensure you have:
 
 The \code{token} property is validated to ensure it matches the UUID format
 required by Postmark. The \code{message_stream} property is validated to be
-either "broadcast" or "transactional".
+either "broadcast" or "outbound".
 }
 \examples{
 \dontrun{
 # Create a postmark client for transactional emails
 client <- postmark(
   token = "your-server-token-here",
-  message_stream = "transactional",
+  message_stream = "outbound",
   timeout = 30
 )
 
