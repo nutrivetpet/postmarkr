@@ -55,19 +55,25 @@ supported_args <- function() {
 }
 
 capitalize_first <- function(x) {
-  # TODO: vectorized
-  stopifnot("`x` must be a single character string" = is_scalar_character(x))
-
-  vec <- unlist(strsplit(x, split = ""))
-  frst <- toupper(vec[[1L]])
-
-  out <- paste0(
-    frst,
-    paste0(vec[-1], collapse = ""),
-    collapse = ""
+  stopifnot(
+    "`x` must be a character vector" = is_character(x)
   )
 
-  out
+  vec <- strsplit(x, split = "")
+  uppercase <- lapply(vec, function(x) {
+    if (length(x) == 0L) "" else toupper(x[[1L]])
+  })
+
+  out <- Map(
+    function(x, y) {
+      replace(x, 1L, y)
+    },
+    vec,
+    uppercase,
+    USE.NAMES = FALSE
+  )
+
+  unlist(lapply(out, function(x) paste0(x, collapse = "")))
 }
 
 split_vec <- function(x, n) {

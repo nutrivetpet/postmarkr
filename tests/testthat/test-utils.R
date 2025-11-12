@@ -16,6 +16,14 @@ test_that("generate_offset_batches() works", {
 
 test_that("capitalize_first() works", {
   expect_identical(capitalize_first("test"), "Test")
+  expect_identical(
+    capitalize_first(c("test01", "test02")),
+    c("Test01", "Test02")
+  )
+  expect_identical(
+    capitalize_first(c("test01", "")),
+    c("Test01", "")
+  )
 })
 
 test_that("rep_list() works", {
