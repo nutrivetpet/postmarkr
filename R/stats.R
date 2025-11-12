@@ -16,7 +16,7 @@
 #' @examples
 #' \dontrun{
 #' # Create a postmark client
-#' client <- postmark(
+#' client <- postmarkr(
 #'   token = "your-server-token-here",
 #'   message_stream = "transactional"
 #' )
@@ -32,7 +32,7 @@ stats_outbound_overview <- new_generic(
 )
 
 #' @export
-method(stats_outbound_overview, postmark) <- function(client, ...) {
+method(stats_outbound_overview, postmarkr) <- function(client, ...) {
   req <- build_req_s7(client, "/stats/outbound", "GET", ...)
   resp <- req_perform(req)
   resp_body_json(resp, simplifyVector = FALSE)

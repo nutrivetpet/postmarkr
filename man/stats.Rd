@@ -24,7 +24,7 @@ Postmark account.
 \examples{
 \dontrun{
 # Create a postmark client
-client <- postmark(
+client <- postmarkr(
   token = "your-server-token-here",
   message_stream = "transactional"
 )
