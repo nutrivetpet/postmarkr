@@ -136,7 +136,6 @@ email <- new_class(
     attachments = class_list
   ),
   validator = function(self) {
-    # Check html_body and text_body are mutually exclusive and at least one exists
     has_html <- length(self@html_body) > 0
     has_text <- length(self@text_body) > 0
 
@@ -148,7 +147,6 @@ email <- new_class(
       email_abort_missing_body()
     }
 
-    # Check maximum recipients (To, Cc, Bcc combined <= 50)
     total_recipients <- length(self@to) + length(self@cc) + length(self@bcc)
     if (total_recipients > POSTMARK_MAX_RECIPIENTS_SINGLE) {
       email_abort_too_many_recipients(total_recipients)
