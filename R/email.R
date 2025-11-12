@@ -132,7 +132,16 @@ email <- new_class(
     metadata = class_list,
     headers = class_list,
     track_opens = class_logical,
-    track_links = class_character,
+    track_links = new_property(
+      class = class_character,
+      validator = function(value) {
+        if (length(value) > 0) {
+          if (!value %in% valid_options) {
+            email_abort_invalid_track_links(value)
+          }
+        }
+      }
+    ),
     attachments = class_list
   ),
   validator = function(self) {

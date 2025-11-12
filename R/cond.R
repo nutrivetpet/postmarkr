@@ -45,3 +45,19 @@ email_abort_too_many_recipients <- function(
     call = call
   )
 }
+
+email_abort_invalid_track_links <- function(
+  value,
+  valid_options = c("None", "HtmlAndText", "HtmlOnly", "TextOnly"),
+  call = caller_env()
+) {
+  pstmrk_abort(
+    sprintf(
+      "`track_links` must be one of: %s (got '%s')",
+      paste(valid_options, collapse = ", "),
+      value
+    ),
+    class = "postmarkr_email_invalid_track_links",
+    call = call
+  )
+}
