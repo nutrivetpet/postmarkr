@@ -2,15 +2,13 @@ test_that("stats class can be created with all parameters", {
   params <- stats(
     tag = "welcome-email",
     fromdate = "2024-01-01",
-    todate = "2024-01-31",
-    messagestream = "outbound"
+    todate = "2024-01-31"
   )
 
   expect_true(S7_inherits(params, stats))
   expect_equal(params@tag, "welcome-email")
   expect_equal(params@fromdate, "2024-01-01")
   expect_equal(params@todate, "2024-01-31")
-  expect_equal(params@messagestream, "outbound")
 })
 
 test_that("stats class can be created with no parameters", {
@@ -20,7 +18,6 @@ test_that("stats class can be created with no parameters", {
   expect_equal(params@tag, character(0))
   expect_equal(params@fromdate, character(0))
   expect_equal(params@todate, character(0))
-  expect_equal(params@messagestream, character(0))
 })
 
 test_that("stats class can be created with only tag", {
@@ -30,7 +27,6 @@ test_that("stats class can be created with only tag", {
   expect_equal(params@tag, "order-confirmation")
   expect_equal(params@fromdate, character(0))
   expect_equal(params@todate, character(0))
-  expect_equal(params@messagestream, character(0))
 })
 
 test_that("stats class can be created with only date range", {
@@ -43,17 +39,6 @@ test_that("stats class can be created with only date range", {
   expect_equal(params@tag, character(0))
   expect_equal(params@fromdate, "2024-01-01")
   expect_equal(params@todate, "2024-12-31")
-  expect_equal(params@messagestream, character(0))
-})
-
-test_that("stats class can be created with only messagestream", {
-  params <- stats(messagestream = "broadcast")
-
-  expect_true(S7_inherits(params, stats))
-  expect_equal(params@tag, character(0))
-  expect_equal(params@fromdate, character(0))
-  expect_equal(params@todate, character(0))
-  expect_equal(params@messagestream, "broadcast")
 })
 
 test_that("stats accepts valid tag", {
@@ -191,55 +176,12 @@ test_that("stats rejects numeric todate", {
   expect_error(stats(todate = 20241231))
 })
 
-test_that("stats accepts 'outbound' messagestream", {
-  params <- stats(messagestream = "outbound")
-  expect_equal(params@messagestream, "outbound")
-})
-
-test_that("stats accepts 'broadcast' messagestream", {
-  params <- stats(messagestream = "broadcast")
-  expect_equal(params@messagestream, "broadcast")
-})
-
-test_that("stats rejects invalid messagestream", {
-  expect_error(
-    stats(messagestream = "invalid"),
-    class = "postmarkr_error_invalid_messagestream"
-  )
-})
-
-test_that("stats rejects 'transactional' messagestream", {
-  expect_error(
-    stats(messagestream = "transactional"),
-    class = "postmarkr_error_invalid_messagestream"
-  )
-})
-
-test_that("stats rejects empty string messagestream", {
-  expect_error(
-    stats(messagestream = ""),
-    class = "postmarkr_error_invalid_messagestream"
-  )
-})
-
-test_that("stats rejects non-scalar messagestream", {
-  expect_error(
-    stats(messagestream = c("outbound", "broadcast")),
-    class = "postmarkr_error_invalid_messagestream"
-  )
-})
-
-test_that("stats rejects numeric messagestream", {
-  expect_error(stats(messagestream = 123))
-})
-
 test_that("stats validates multiple properties independently", {
   expect_error(
     stats(
       tag = "valid-tag",
       fromdate = "invalid-date",
-      todate = "2024-12-31",
-      messagestream = "outbound"
+      todate = "2024-12-31"
     ),
     class = "postmarkr_error_invalid_fromdate"
   )
@@ -251,8 +193,7 @@ test_that("stats validates all properties when all are invalid", {
     stats(
       tag = c("tag1", "tag2"),
       fromdate = "invalid-date",
-      todate = "invalid-date",
-      messagestream = "invalid"
+      todate = "invalid-date"
     ),
     class = "postmarkr_error_invalid_tag"
   )
@@ -475,23 +416,6 @@ test_that("stats_get works with date range params", {
   expect_true(result@success)
 })
 
-test_that("stats_get works with messagestream param", {
-  token <- Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")
-  skip_if(!nzchar(token), "POSTMARK_TEST_SERVER_TOKEN not set")
-
-  client <- postmarkr(
-    token = token,
-    message_stream = "outbound",
-    timeout = 30
-  )
-
-  params <- stats(messagestream = "outbound")
-  result <- stats_get(client, "overview", params = params)
-
-  expect_true(S7_inherits(result, postmarkr_response))
-  expect_true(result@success)
-})
-
 test_that("stats_get works with all params", {
   token <- Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")
   skip_if(!nzchar(token), "POSTMARK_TEST_SERVER_TOKEN not set")
@@ -505,8 +429,7 @@ test_that("stats_get works with all params", {
   params <- stats(
     tag = "test-tag",
     fromdate = "2024-01-01",
-    todate = "2024-01-31",
-    messagestream = "outbound"
+    todate = "2024-01-31"
   )
   result <- stats_get(client, "overview", params = params)
 

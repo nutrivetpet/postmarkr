@@ -11,13 +11,12 @@
 #'   YYYY-MM-DD format (e.g., "2024-01-01").
 #' @param todate character. Optional end date for the statistics query in
 #'   YYYY-MM-DD format (e.g., "2024-12-31").
-#' @param messagestream character. Optional message stream to filter by.
-#'   Must be either "outbound" (transactional emails) or "broadcast"
-#'   (bulk/marketing emails).
 #'
 #' @details
 #' The `stats` class provides a structured way to pass query parameters
 #' to Postmark statistics API endpoints. All properties are optional.
+#' The message stream is automatically determined from the client object
+#' and does not need to be specified in the params.
 #'
 #'
 #' @examples
@@ -26,8 +25,7 @@
 #' params <- stats(
 #'   tag = "welcome-email",
 #'   fromdate = "2024-01-01",
-#'   todate = "2024-01-31",
-#'   messagestream = "outbound"
+#'   todate = "2024-01-31"
 #' )
 #'
 #' # Create stats parameters with only date range
@@ -97,22 +95,6 @@ stats <- new_class(
           pstmrk_abort(
             "`todate` must be in YYYY-MM-DD format (e.g., '2024-12-31') if provided",
             class = "postmarkr_error_invalid_todate"
-          )
-        }
-      }
-    ),
-    messagestream = new_property(
-      class = class_character,
-      validator = function(value) {
-        if (
-          length(value) > 0 &&
-            (!is_scalar_character(value) ||
-              !nzchar(value) ||
-              !value %in% c("outbound", "broadcast"))
-        ) {
-          pstmrk_abort(
-            "`messagestream` must be 'outbound' or 'broadcast' if provided",
-            class = "postmarkr_error_invalid_messagestream"
           )
         }
       }
@@ -205,6 +187,12 @@ method(stats_get, list(postmarkr, class_character)) <- function(
   )
 
   query_params <- list()
+
+  # Add messagestream from client (convert message_stream to messagestream)
+  if (length(client@message_stream) > 0) {
+    query_params$messagestream <- client@message_stream
+  }
+
   if (!is.null(params)) {
     if (!inherits(params, "stats")) {
       pstmrk_abort(
@@ -223,10 +211,6 @@ method(stats_get, list(postmarkr, class_character)) <- function(
 
     if (length(params@todate) > 0) {
       query_params$todate <- params@todate
-    }
-
-    if (length(params@messagestream) > 0) {
-      query_params$messagestream <- params@messagestream
     }
   }
 
