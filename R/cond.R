@@ -12,8 +12,6 @@ pstmrk_abort <- function(
   )
 }
 
-# Email validation errors
-
 email_abort_body_conflict <- function(call = caller_env()) {
   pstmrk_abort(
     "Cannot provide both `html_body` and `text_body` simultaneously",

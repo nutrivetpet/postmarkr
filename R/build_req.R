@@ -26,7 +26,7 @@ build_req <- function(endpoint, method, env, ...) {
 
 #' Build HTTP Request for S7 Client
 #'
-#' Creates an httr2 request object using a postmark S7 client.
+#' Creates an httr2 request object using a postmarkr S7 client.
 #'
 #' @param client A client object as returned by [Postmarkr()].
 #' @param endpoint The API endpoint path (e.g., "/stats/outbound").
@@ -34,6 +34,7 @@ build_req <- function(endpoint, method, env, ...) {
 #' @param ... Additional query parameters.
 #'
 #' @return An httr2 request object.
+#' @noRd
 #' @keywords internal
 build_req_s7 <- function(client, endpoint, method, ...) {
   dots <- list2(...)
