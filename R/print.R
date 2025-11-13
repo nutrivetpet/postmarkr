@@ -1,11 +1,11 @@
 #' @export
-method(print, postmarkr) <- function(x, ...) {
+method(print, Postmarkr) <- function(x, ...) {
   redacted_token <- paste0(
     substr(x@token, 1, 8),
     "-****-****-****-************"
   )
 
-  cat("<postmarkr::postmark>\n")
+  cat("<Postmarkr::postmark>\n")
   cat("  @ token          : chr ", redacted_token, "\n", sep = "")
   cat("  @ message_stream : chr ", x@message_stream, "\n", sep = "")
   cat("  @ base_url       : chr ", x@base_url, "\n", sep = "")

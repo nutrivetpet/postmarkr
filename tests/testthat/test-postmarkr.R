@@ -1,18 +1,18 @@
 test_that("postmark class can be created with valid parameters", {
-  client <- postmarkr(
+  client <- Postmarkr(
     token = "6777be1f-2a8f-4419-a8b4-fe6ff44900a0",
     message_stream = "outbound",
     timeout = 30
   )
 
-  expect_true(S7_inherits(client, postmarkr))
+  expect_true(S7_inherits(client, Postmarkr))
   expect_equal(client@token, "6777be1f-2a8f-4419-a8b4-fe6ff44900a0")
   expect_equal(client@message_stream, "outbound")
   expect_equal(client@timeout, 30)
 })
 
 test_that("postmark class uses default base_url", {
-  client <- postmarkr(
+  client <- Postmarkr(
     token = "6777be1f-2a8f-4419-a8b4-fe6ff44900a0",
     message_stream = "outbound",
     timeout = 30
@@ -22,7 +22,7 @@ test_that("postmark class uses default base_url", {
 })
 
 test_that("postmark class accepts custom base_url", {
-  client <- postmarkr(
+  client <- Postmarkr(
     token = "6777be1f-2a8f-4419-a8b4-fe6ff44900a0",
     message_stream = "outbound",
     base_url = "http://localhost:8080",
@@ -34,7 +34,7 @@ test_that("postmark class accepts custom base_url", {
 
 test_that("postmark rejects invalid token format", {
   expect_error(
-    postmarkr(
+    Postmarkr(
       token = "invalid-token",
       message_stream = "outbound",
       timeout = 30
@@ -45,7 +45,7 @@ test_that("postmark rejects invalid token format", {
 
 test_that("postmark rejects non-UUID token", {
   expect_error(
-    postmarkr(
+    Postmarkr(
       token = "not-a-uuid-at-all",
       message_stream = "outbound",
       timeout = 30
@@ -55,17 +55,17 @@ test_that("postmark rejects non-UUID token", {
 })
 
 test_that("postmark accepts UUID with uppercase letters", {
-  client <- postmarkr(
+  client <- Postmarkr(
     token = "6777BE1F-2A8F-4419-A8B4-FE6FF44900A0",
     message_stream = "outbound",
     timeout = 30
   )
 
-  expect_true(S7_inherits(client, postmarkr))
+  expect_true(S7_inherits(client, Postmarkr))
 })
 
 test_that("postmark accepts 'broadcast' message_stream", {
-  client <- postmarkr(
+  client <- Postmarkr(
     token = "6777be1f-2a8f-4419-a8b4-fe6ff44900a0",
     message_stream = "broadcast",
     timeout = 30
@@ -75,7 +75,7 @@ test_that("postmark accepts 'broadcast' message_stream", {
 })
 
 test_that("postmark accepts 'outbound' message_stream", {
-  client <- postmarkr(
+  client <- Postmarkr(
     token = "6777be1f-2a8f-4419-a8b4-fe6ff44900a0",
     message_stream = "outbound",
     timeout = 30
@@ -86,7 +86,7 @@ test_that("postmark accepts 'outbound' message_stream", {
 
 test_that("postmark rejects invalid message_stream", {
   expect_error(
-    postmarkr(
+    Postmarkr(
       token = "6777be1f-2a8f-4419-a8b4-fe6ff44900a0",
       message_stream = "invalid",
       timeout = 30
@@ -97,7 +97,7 @@ test_that("postmark rejects invalid message_stream", {
 
 test_that("postmark rejects empty message_stream", {
   expect_error(
-    postmarkr(
+    Postmarkr(
       token = "6777be1f-2a8f-4419-a8b4-fe6ff44900a0",
       message_stream = "",
       timeout = 30
@@ -108,7 +108,7 @@ test_that("postmark rejects empty message_stream", {
 
 test_that("postmark rejects base_url without protocol", {
   expect_error(
-    postmarkr(
+    Postmarkr(
       token = "6777be1f-2a8f-4419-a8b4-fe6ff44900a0",
       message_stream = "outbound",
       base_url = "api.postmarkapp.com",
@@ -119,7 +119,7 @@ test_that("postmark rejects base_url without protocol", {
 })
 
 test_that("postmark accepts https base_url", {
-  client <- postmarkr(
+  client <- Postmarkr(
     token = "6777be1f-2a8f-4419-a8b4-fe6ff44900a0",
     message_stream = "outbound",
     base_url = "https://api.postmarkapp.com",
@@ -130,7 +130,7 @@ test_that("postmark accepts https base_url", {
 })
 
 test_that("postmark accepts http base_url", {
-  client <- postmarkr(
+  client <- Postmarkr(
     token = "6777be1f-2a8f-4419-a8b4-fe6ff44900a0",
     message_stream = "outbound",
     base_url = "http://localhost:8080",
@@ -142,7 +142,7 @@ test_that("postmark accepts http base_url", {
 
 test_that("postmark rejects timeout less than 1", {
   expect_error(
-    postmarkr(
+    Postmarkr(
       token = "6777be1f-2a8f-4419-a8b4-fe6ff44900a0",
       message_stream = "outbound",
       timeout = 0
@@ -153,7 +153,7 @@ test_that("postmark rejects timeout less than 1", {
 
 test_that("postmark rejects negative timeout", {
   expect_error(
-    postmarkr(
+    Postmarkr(
       token = "6777be1f-2a8f-4419-a8b4-fe6ff44900a0",
       message_stream = "outbound",
       timeout = -5
@@ -164,7 +164,7 @@ test_that("postmark rejects negative timeout", {
 
 test_that("postmark rejects non-integerish timeout", {
   expect_error(
-    postmarkr(
+    Postmarkr(
       token = "6777be1f-2a8f-4419-a8b4-fe6ff44900a0",
       message_stream = "outbound",
       timeout = 5.5
@@ -174,13 +174,13 @@ test_that("postmark rejects non-integerish timeout", {
 })
 
 test_that("postmark accepts valid timeout values", {
-  client1 <- postmarkr(
+  client1 <- Postmarkr(
     token = "6777be1f-2a8f-4419-a8b4-fe6ff44900a0",
     message_stream = "outbound",
     timeout = 1
   )
 
-  client2 <- postmarkr(
+  client2 <- Postmarkr(
     token = "6777be1f-2a8f-4419-a8b4-fe6ff44900a0",
     message_stream = "outbound",
     timeout = 60

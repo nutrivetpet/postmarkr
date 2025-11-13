@@ -18,7 +18,7 @@
 #' @param timeout numeric. Request timeout in seconds for API calls.
 #'
 #' @details
-#' The `postmarkr` class provides a structured way to configure and use the
+#' The `Postmarkr` class provides a structured way to configure and use the
 #' Postmark API. Before creating an instance, ensure you have:
 #' \itemize{
 #'   \item A valid Postmark Server API Token
@@ -31,15 +31,15 @@
 #'
 #' @examples
 #' \dontrun{
-#' # Create a postmarkr client for transactional emails
-#' client <- postmarkr(
+#' # Create a Postmarkr client for transactional emails
+#' client <- Postmarkr(
 #'   token = "your-server-token-here",
 #'   message_stream = "outbound",
 #'   timeout = 30
 #' )
 #'
 #' # Create a postmark client for broadcast emails
-#' broadcast_client <- postmarkr(
+#' broadcast_client <- Postmarkr(
 #'   token = "your-server-token-here",
 #'   message_stream = "broadcast"
 #' )
@@ -50,8 +50,8 @@
 #' documentation
 #'
 #' @export
-postmarkr <- new_class(
-  name = "postmarkr",
+Postmarkr <- new_class(
+  name = "Postmarkr",
   properties = list(
     token = new_property(
       class = class_character,

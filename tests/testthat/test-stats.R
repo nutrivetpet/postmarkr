@@ -253,7 +253,7 @@ test_that("stats_get rejects non-scalar endpoint", {
   skip_if_offline()
   skip_if_not(nzchar(Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")))
 
-  client <- postmarkr(
+  client <- Postmarkr(
     token = Sys.getenv("POSTMARK_TEST_SERVER_TOKEN"),
     message_stream = "outbound",
     timeout = 30
@@ -271,7 +271,7 @@ test_that("stats_get rejects empty string endpoint", {
   skip_if_offline()
   skip_if_not(nzchar(Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")))
 
-  client <- postmarkr(
+  client <- Postmarkr(
     token = Sys.getenv("POSTMARK_TEST_SERVER_TOKEN"),
     message_stream = "outbound",
     timeout = 30
@@ -289,7 +289,7 @@ test_that("stats_get rejects non-Stats params", {
   skip_if_offline()
   skip_if_not(nzchar(Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")))
 
-  client <- postmarkr(
+  client <- Postmarkr(
     token = Sys.getenv("POSTMARK_TEST_SERVER_TOKEN"),
     message_stream = "outbound",
     timeout = 30
@@ -304,7 +304,7 @@ test_that("stats_get works with no endpoint and no params", {
   skip_if_offline()
   skip_if_not(nzchar(Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")))
 
-  client <- postmarkr(
+  client <- Postmarkr(
     token = Sys.getenv("POSTMARK_TEST_SERVER_TOKEN"),
     message_stream = "outbound",
     timeout = 30
@@ -324,7 +324,7 @@ test_that("stats_get works with specific endpoint", {
   skip_if_offline()
   skip_if_not(nzchar(Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")))
 
-  client <- postmarkr(
+  client <- Postmarkr(
     token = Sys.getenv("POSTMARK_TEST_SERVER_TOKEN"),
     message_stream = "outbound",
     timeout = 30
@@ -344,7 +344,7 @@ test_that("stats_get works with tag parameter", {
   skip_if_offline()
   skip_if_not(nzchar(Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")))
 
-  client <- postmarkr(
+  client <- Postmarkr(
     token = Sys.getenv("POSTMARK_TEST_SERVER_TOKEN"),
     message_stream = "outbound",
     timeout = 30
@@ -363,7 +363,7 @@ test_that("stats_get works with date range parameters", {
   skip_if_offline()
   skip_if_not(nzchar(Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")))
 
-  client <- postmarkr(
+  client <- Postmarkr(
     token = Sys.getenv("POSTMARK_TEST_SERVER_TOKEN"),
     message_stream = "outbound",
     timeout = 30
@@ -385,7 +385,7 @@ test_that("stats_get works with all parameters", {
   skip_if_offline()
   skip_if_not(nzchar(Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")))
 
-  client <- postmarkr(
+  client <- Postmarkr(
     token = Sys.getenv("POSTMARK_TEST_SERVER_TOKEN"),
     message_stream = "outbound",
     timeout = 30
@@ -408,7 +408,7 @@ test_that("stats_get rejects with broadcast message stream", {
   skip_if_offline()
   skip_if_not(nzchar(Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")))
 
-  client <- postmarkr(
+  client <- Postmarkr(
     token = Sys.getenv("POSTMARK_TEST_SERVER_TOKEN"),
     message_stream = "broadcast",
     timeout = 30
@@ -545,7 +545,7 @@ test_that("stats_get returns validated data in response", {
   skip_if_offline()
   skip_if_not(nzchar(Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")))
 
-  client <- postmarkr(
+  client <- Postmarkr(
     token = Sys.getenv("POSTMARK_TEST_SERVER_TOKEN"),
     message_stream = "outbound",
     timeout = 30
@@ -564,7 +564,7 @@ test_that("stats_get with endpoint returns validated time series data", {
   skip_if_offline()
   skip_if_not(nzchar(Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")))
 
-  client <- postmarkr(
+  client <- Postmarkr(
     token = Sys.getenv("POSTMARK_TEST_SERVER_TOKEN"),
     message_stream = "outbound",
     timeout = 30

@@ -120,7 +120,7 @@ Stats <- new_class(
 #' This provides a flexible way to query different types of statistics using
 #' the same interface.
 #'
-#' @param client A postmarkr client object created with [postmark()].
+#' @param client A Postmarkr client object created with [postmark()].
 #' @param endpoint character. The Stats endpoint path (e.g., "overview",
 #'   "sends", "bounces", "opens/emailclients", "clicks",
 #'   "clicks/browserfamilies"). The "/stats/" prefix and message stream
@@ -133,7 +133,7 @@ Stats <- new_class(
 #' @examples
 #' \dontrun{
 #' # Create a client
-#' client <- postmarkr(
+#' client <- Postmarkr(
 #'   token = "your-server-token",
 #'   message_stream = "outbound"
 #' )
@@ -333,7 +333,7 @@ validate_stats_response <- function(data, endpoint) {
   dat
 }
 
-method(stats_get, list(postmarkr, Stats)) <- function(
+method(stats_get, list(Postmarkr, Stats)) <- function(
   client,
   params,
   endpoint = NULL
