@@ -131,3 +131,119 @@ stats <- new_class(
     }
   }
 )
+
+#' Get Statistics from Postmark
+#'
+#' @description
+#' Generic function to retrieve statistics from various Postmark API endpoints.
+#' This provides a flexible way to query different types of statistics using
+#' the same interface.
+#'
+#' @param client A postmarkr client object created with [postmark()].
+#' @param endpoint character. The stats endpoint path (e.g., "overview",
+#'   "sends", "bounces", "opens/emailclients", "clicks",
+#'   "clicks/browserfamilies"). The "/stats/" prefix and message stream
+#'   will be added automatically.
+#' @param params Optional stats parameters object created with [stats()].
+#'   If not provided, no query parameters will be sent.
+#'
+#' @return A postmarkr_response object containing the statistics data.
+#'
+#' @examples
+#' \dontrun{
+#' # Create a client
+#' client <- postmarkr(
+#'   token = "your-server-token",
+#'   message_stream = "outbound"
+#' )
+#'
+#' # Get overview statistics
+#' stats_get(client, "overview")
+#'
+#' # Get sent counts with date range
+#' params <- stats(
+#'   fromdate = "2024-01-01",
+#'   todate = "2024-01-31"
+#' )
+#' stats_get(client, "sends", params)
+#'
+#' # Get open counts filtered by tag
+#' params <- stats(
+#'   tag = "welcome-email",
+#'   fromdate = "2024-01-01",
+#'   todate = "2024-01-31"
+#' )
+#' stats_get(client, "opens", params)
+#'
+#' # Get click statistics by browser family
+#' stats_get(client, "clicks/browserfamilies", params)
+#' }
+#'
+#' @seealso
+#' \url{https://postmarkapp.com/developer/api/stats-api} for Postmark Stats API
+#' documentation
+#'
+#' @export
+stats_get <- new_generic("stats_get", c("client", "endpoint"))
+
+method(stats_get, list(postmarkr, class_character)) <- function(
+  client,
+  endpoint,
+  params = NULL
+) {
+  if (!is_scalar_character(endpoint) || !nzchar(endpoint)) {
+    pstmrk_abort(
+      "`endpoint` must be a single non-empty character string",
+      class = "postmarkr_error_invalid_endpoint"
+    )
+  }
+
+  full_endpoint <- paste0(
+    "/stats/",
+    client@message_stream,
+    if (endpoint != "") paste0("/", endpoint) else ""
+  )
+
+  query_params <- list()
+  if (!is.null(params)) {
+    if (!inherits(params, "stats")) {
+      pstmrk_abort(
+        "`params` must be a stats object or NULL",
+        class = "postmarkr_error_invalid_params"
+      )
+    }
+
+    if (length(params@tag) > 0) {
+      query_params$tag <- params@tag
+    }
+
+    if (length(params@fromdate) > 0) {
+      query_params$fromdate <- params@fromdate
+    }
+
+    if (length(params@todate) > 0) {
+      query_params$todate <- params@todate
+    }
+
+    if (length(params@messagestream) > 0) {
+      query_params$messagestream <- params@messagestream
+    }
+  }
+
+  req <- build_req_s7(
+    client = client,
+    endpoint = full_endpoint,
+    method = "GET",
+    !!!query_params
+  )
+
+  resp <- req_perform(req)
+
+  postmarkr_response(
+    data = resp_body_json(resp, simplifyVector = TRUE),
+    status = resp_status(resp),
+    request = req,
+    response = resp,
+    success = isFALSE(resp_is_error(resp))
+  )
+}
