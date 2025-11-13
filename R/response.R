@@ -1,5 +1,7 @@
 #' Response from Postmark API
-#' @description Structured response object
+#' Structured response object
+#' @noRd
+#' @keywords internals
 postmarkr_response <- new_class(
   "postmarkr_response",
   properties = list(
