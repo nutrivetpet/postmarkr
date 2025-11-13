@@ -1,184 +1,184 @@
-test_that("stats class can be created with all parameters", {
-  params <- stats(
+test_that("Stats class can be created with all parameters", {
+  params <- Stats(
     tag = "welcome-email",
     fromdate = "2024-01-01",
     todate = "2024-01-31"
   )
 
-  expect_true(S7_inherits(params, stats))
+  expect_true(S7_inherits(params, Stats))
   expect_equal(params@tag, "welcome-email")
   expect_equal(params@fromdate, "2024-01-01")
   expect_equal(params@todate, "2024-01-31")
 })
 
-test_that("stats class can be created with no parameters", {
-  params <- stats()
+test_that("Stats class can be created with no parameters", {
+  params <- Stats()
 
-  expect_true(S7_inherits(params, stats))
+  expect_true(S7_inherits(params, Stats))
   expect_equal(params@tag, character(0))
   expect_equal(params@fromdate, character(0))
   expect_equal(params@todate, character(0))
 })
 
-test_that("stats class can be created with only tag", {
-  params <- stats(tag = "order-confirmation")
+test_that("Stats class can be created with only tag", {
+  params <- Stats(tag = "order-confirmation")
 
-  expect_true(S7_inherits(params, stats))
+  expect_true(S7_inherits(params, Stats))
   expect_equal(params@tag, "order-confirmation")
   expect_equal(params@fromdate, character(0))
   expect_equal(params@todate, character(0))
 })
 
-test_that("stats class can be created with only date range", {
-  params <- stats(
+test_that("Stats class can be created with only date range", {
+  params <- Stats(
     fromdate = "2024-01-01",
     todate = "2024-12-31"
   )
 
-  expect_true(S7_inherits(params, stats))
+  expect_true(S7_inherits(params, Stats))
   expect_equal(params@tag, character(0))
   expect_equal(params@fromdate, "2024-01-01")
   expect_equal(params@todate, "2024-12-31")
 })
 
-test_that("stats accepts valid tag", {
-  params <- stats(tag = "test-tag")
+test_that("Stats accepts valid tag", {
+  params <- Stats(tag = "test-tag")
   expect_equal(params@tag, "test-tag")
 })
 
-test_that("stats rejects non-scalar tag", {
+test_that("Stats rejects non-scalar tag", {
   expect_error(
-    stats(tag = c("tag1", "tag2")),
+    Stats(tag = c("tag1", "tag2")),
     class = "postmarkr_error_invalid_tag"
   )
 })
 
-test_that("stats rejects empty string tag", {
+test_that("Stats rejects empty string tag", {
   expect_error(
-    stats(tag = ""),
+    Stats(tag = ""),
     class = "postmarkr_error_invalid_tag"
   )
 })
 
-test_that("stats rejects numeric tag", {
-  expect_error(stats(tag = 123))
+test_that("Stats rejects numeric tag", {
+  expect_error(Stats(tag = 123))
 })
 
-test_that("stats accepts valid fromdate in YYYY-MM-DD format", {
-  params <- stats(fromdate = "2024-01-01")
+test_that("Stats accepts valid fromdate in YYYY-MM-DD format", {
+  params <- Stats(fromdate = "2024-01-01")
   expect_equal(params@fromdate, "2024-01-01")
 })
 
-test_that("stats accepts fromdate with different months", {
-  params <- stats(fromdate = "2024-12-31")
+test_that("Stats accepts fromdate with different months", {
+  params <- Stats(fromdate = "2024-12-31")
   expect_equal(params@fromdate, "2024-12-31")
 })
 
-test_that("stats rejects fromdate without leading zeros", {
+test_that("Stats rejects fromdate without leading zeros", {
   expect_error(
-    stats(fromdate = "2024-1-1"),
+    Stats(fromdate = "2024-1-1"),
     class = "postmarkr_error_invalid_fromdate"
   )
 })
 
-test_that("stats rejects fromdate with time component", {
+test_that("Stats rejects fromdate with time component", {
   expect_error(
-    stats(fromdate = "2024-01-01T00:00:00Z"),
+    Stats(fromdate = "2024-01-01T00:00:00Z"),
     class = "postmarkr_error_invalid_fromdate"
   )
 })
 
-test_that("stats rejects fromdate in wrong format", {
+test_that("Stats rejects fromdate in wrong format", {
   expect_error(
-    stats(fromdate = "01/01/2024"),
+    Stats(fromdate = "01/01/2024"),
     class = "postmarkr_error_invalid_fromdate"
   )
 })
 
-test_that("stats rejects fromdate with invalid separator", {
+test_that("Stats rejects fromdate with invalid separator", {
   expect_error(
-    stats(fromdate = "2024.01.01"),
+    Stats(fromdate = "2024.01.01"),
     class = "postmarkr_error_invalid_fromdate"
   )
 })
 
-test_that("stats rejects non-scalar fromdate", {
+test_that("Stats rejects non-scalar fromdate", {
   expect_error(
-    stats(fromdate = c("2024-01-01", "2024-12-31")),
+    Stats(fromdate = c("2024-01-01", "2024-12-31")),
     class = "postmarkr_error_invalid_fromdate"
   )
 })
 
-test_that("stats rejects empty string fromdate", {
+test_that("Stats rejects empty string fromdate", {
   expect_error(
-    stats(fromdate = ""),
+    Stats(fromdate = ""),
     class = "postmarkr_error_invalid_fromdate"
   )
 })
 
-test_that("stats rejects numeric fromdate", {
-  expect_error(stats(fromdate = 20240101))
+test_that("Stats rejects numeric fromdate", {
+  expect_error(Stats(fromdate = 20240101))
 })
 
-test_that("stats accepts valid todate in YYYY-MM-DD format", {
-  params <- stats(todate = "2024-12-31")
+test_that("Stats accepts valid todate in YYYY-MM-DD format", {
+  params <- Stats(todate = "2024-12-31")
   expect_equal(params@todate, "2024-12-31")
 })
 
-test_that("stats accepts todate with different months", {
-  params <- stats(todate = "2024-06-15")
+test_that("Stats accepts todate with different months", {
+  params <- Stats(todate = "2024-06-15")
   expect_equal(params@todate, "2024-06-15")
 })
 
-test_that("stats rejects todate without leading zeros", {
+test_that("Stats rejects todate without leading zeros", {
   expect_error(
-    stats(todate = "2024-1-1"),
+    Stats(todate = "2024-1-1"),
     class = "postmarkr_error_invalid_todate"
   )
 })
 
-test_that("stats rejects todate with time component", {
+test_that("Stats rejects todate with time component", {
   expect_error(
-    stats(todate = "2024-12-31T23:59:59Z"),
+    Stats(todate = "2024-12-31T23:59:59Z"),
     class = "postmarkr_error_invalid_todate"
   )
 })
 
-test_that("stats rejects todate in wrong format", {
+test_that("Stats rejects todate in wrong format", {
   expect_error(
-    stats(todate = "12/31/2024"),
+    Stats(todate = "12/31/2024"),
     class = "postmarkr_error_invalid_todate"
   )
 })
 
-test_that("stats rejects todate with invalid separator", {
+test_that("Stats rejects todate with invalid separator", {
   expect_error(
-    stats(todate = "2024/12/31"),
+    Stats(todate = "2024/12/31"),
     class = "postmarkr_error_invalid_todate"
   )
 })
 
-test_that("stats rejects non-scalar todate", {
+test_that("Stats rejects non-scalar todate", {
   expect_error(
-    stats(todate = c("2024-01-01", "2024-12-31")),
+    Stats(todate = c("2024-01-01", "2024-12-31")),
     class = "postmarkr_error_invalid_todate"
   )
 })
 
-test_that("stats rejects empty string todate", {
+test_that("Stats rejects empty string todate", {
   expect_error(
-    stats(todate = ""),
+    Stats(todate = ""),
     class = "postmarkr_error_invalid_todate"
   )
 })
 
-test_that("stats rejects numeric todate", {
-  expect_error(stats(todate = 20241231))
+test_that("Stats rejects numeric todate", {
+  expect_error(Stats(todate = 20241231))
 })
 
-test_that("stats validates multiple properties independently", {
+test_that("Stats validates multiple properties independently", {
   expect_error(
-    stats(
+    Stats(
       tag = "valid-tag",
       fromdate = "invalid-date",
       todate = "2024-12-31"
@@ -187,10 +187,10 @@ test_that("stats validates multiple properties independently", {
   )
 })
 
-test_that("stats validates all properties when all are invalid", {
+test_that("Stats validates all properties when all are invalid", {
   # Should fail on first validation error (tag is checked first)
   expect_error(
-    stats(
+    Stats(
       tag = c("tag1", "tag2"),
       fromdate = "invalid-date",
       todate = "invalid-date"
@@ -199,8 +199,8 @@ test_that("stats validates all properties when all are invalid", {
   )
 })
 
-test_that("stats accepts valid date range where fromdate is before todate", {
-  params <- stats(
+test_that("Stats accepts valid date range where fromdate is before todate", {
+  params <- Stats(
     fromdate = "2024-01-01",
     todate = "2024-12-31"
   )
@@ -208,8 +208,8 @@ test_that("stats accepts valid date range where fromdate is before todate", {
   expect_equal(params@todate, "2024-12-31")
 })
 
-test_that("stats accepts date range where fromdate equals todate", {
-  params <- stats(
+test_that("Stats accepts date range where fromdate equals todate", {
+  params <- Stats(
     fromdate = "2024-06-15",
     todate = "2024-06-15"
   )
@@ -217,9 +217,9 @@ test_that("stats accepts date range where fromdate equals todate", {
   expect_equal(params@todate, "2024-06-15")
 })
 
-test_that("stats rejects date range where fromdate is after todate", {
+test_that("Stats rejects date range where fromdate is after todate", {
   expect_error(
-    stats(
+    Stats(
       fromdate = "2024-12-31",
       todate = "2024-01-01"
     ),
@@ -227,9 +227,9 @@ test_that("stats rejects date range where fromdate is after todate", {
   )
 })
 
-test_that("stats rejects date range where fromdate is one day after todate", {
+test_that("Stats rejects date range where fromdate is one day after todate", {
   expect_error(
-    stats(
+    Stats(
       fromdate = "2024-06-16",
       todate = "2024-06-15"
     ),
@@ -237,14 +237,14 @@ test_that("stats rejects date range where fromdate is one day after todate", {
   )
 })
 
-test_that("stats allows fromdate without todate", {
-  params <- stats(fromdate = "2024-01-01")
+test_that("Stats allows fromdate without todate", {
+  params <- Stats(fromdate = "2024-01-01")
   expect_equal(params@fromdate, "2024-01-01")
   expect_equal(params@todate, character(0))
 })
 
-test_that("stats allows todate without fromdate", {
-  params <- stats(todate = "2024-12-31")
+test_that("Stats allows todate without fromdate", {
+  params <- Stats(todate = "2024-12-31")
   expect_equal(params@fromdate, character(0))
   expect_equal(params@todate, "2024-12-31")
 })
@@ -259,7 +259,7 @@ test_that("stats_get rejects non-scalar endpoint", {
     timeout = 30
   )
 
-  params <- stats()
+  params <- Stats()
 
   expect_error(
     stats_get(client, params, endpoint = c("overview", "sends")),
@@ -277,7 +277,7 @@ test_that("stats_get rejects empty string endpoint", {
     timeout = 30
   )
 
-  params <- stats()
+  params <- Stats()
 
   expect_error(
     stats_get(client, params, endpoint = ""),
@@ -285,7 +285,7 @@ test_that("stats_get rejects empty string endpoint", {
   )
 })
 
-test_that("stats_get rejects non-stats params", {
+test_that("stats_get rejects non-Stats params", {
   skip_if_offline()
   skip_if_not(nzchar(Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")))
 
@@ -310,7 +310,7 @@ test_that("stats_get works with no endpoint and no params", {
     timeout = 30
   )
 
-  params <- stats()
+  params <- Stats()
 
   result <- stats_get(client, params)
 
@@ -330,7 +330,7 @@ test_that("stats_get works with specific endpoint", {
     timeout = 30
   )
 
-  params <- stats()
+  params <- Stats()
 
   result <- stats_get(client, params, endpoint = "sends")
 
@@ -350,7 +350,7 @@ test_that("stats_get works with tag parameter", {
     timeout = 30
   )
 
-  params <- stats(tag = "test-tag")
+  params <- Stats(tag = "test-tag")
 
   result <- stats_get(client, params)
 
@@ -369,7 +369,7 @@ test_that("stats_get works with date range parameters", {
     timeout = 30
   )
 
-  params <- stats(
+  params <- Stats(
     fromdate = "2024-01-01",
     todate = "2024-01-31"
   )
@@ -391,7 +391,7 @@ test_that("stats_get works with all parameters", {
     timeout = 30
   )
 
-  params <- stats(
+  params <- Stats(
     tag = "test-tag",
     fromdate = "2024-01-01",
     todate = "2024-01-31"
@@ -414,7 +414,7 @@ test_that("stats_get rejects with broadcast message stream", {
     timeout = 30
   )
 
-  params <- stats()
+  params <- Stats()
 
   expect_error(stats_get(client, params), "404")
 })
@@ -551,7 +551,7 @@ test_that("stats_get returns validated data in response", {
     timeout = 30
   )
 
-  params <- stats()
+  params <- Stats()
 
   result <- stats_get(client, params)
 
@@ -570,7 +570,7 @@ test_that("stats_get with endpoint returns validated time series data", {
     timeout = 30
   )
 
-  params <- stats()
+  params <- Stats()
 
   result <- stats_get(client, params, endpoint = "sends")
 

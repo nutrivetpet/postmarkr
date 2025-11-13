@@ -9,12 +9,12 @@ stats_get(client, params, ...)
 \arguments{
 \item{client}{A postmarkr client object created with \code{\link[=postmark]{postmark()}}.}
 
-\item{params}{Optional stats parameters object created with \code{\link[=stats]{stats()}}.
+\item{params}{Optional Stats parameters object created with \code{\link[=Stats]{Stats()}}.
 If not provided, no query parameters will be sent.}
 
-\item{endpoint}{character. The stats endpoint path (e.g., "overview",
+\item{endpoint}{character. The Stats endpoint path (e.g., "overview",
 "sends", "bounces", "opens/emailclients", "clicks",
-"clicks/browserfamilies"). The "/stats/" prefix and message stream
+"clicks/browserfamilies"). The "/Stats/" prefix and message stream
 will be added automatically.}
 }
 \value{
@@ -34,14 +34,14 @@ client <- postmarkr(
 )
 
 # Get sent counts with date range
-params <- stats(
+params <- Stats(
   fromdate = "2024-01-01",
   todate = "2024-01-31"
 )
 stats_get(client, params)
 
 # Get open counts filtered by tag
-params <- stats(
+params <- Stats(
   tag = "welcome-email",
   fromdate = "2024-01-01",
   todate = "2024-01-31"
@@ -54,6 +54,6 @@ stats_get(client, params, "clicks/browserfamilies")
 
 }
 \seealso{
-\url{https://postmarkapp.com/developer/api/stats-api} for Postmark Stats API
+\url{https://postmarkapp.com/developer/api/Stats-api} for Postmark Stats API
 documentation
 }

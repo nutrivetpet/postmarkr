@@ -13,28 +13,28 @@
 #'   YYYY-MM-DD format (e.g., "2024-12-31").
 #'
 #' @details
-#' The `stats` class provides a structured way to pass query parameters
+#' The `Stats` class provides a structured way to pass query parameters
 #' to Postmark statistics API endpoints. All properties are optional.
 #' The message stream is automatically determined from the client object
 #' and does not need to be specified in the params.
 #'
 #' @examples
 #' \dontrun{
-#' # Create stats parameters with all fields
-#' params <- stats(
+#' # Create Stats parameters with all fields
+#' params <- Stats(
 #'   tag = "welcome-email",
 #'   fromdate = "2024-01-01",
 #'   todate = "2024-01-31"
 #' )
 #'
-#' # Create stats parameters with only date range
-#' params <- stats(
+#' # Create Stats parameters with only date range
+#' params <- Stats(
 #'   fromdate = "2024-01-01",
 #'   todate = "2024-01-31"
 #' )
 #'
-#' # Create empty stats parameters
-#' params <- stats()
+#' # Create empty Stats parameters
+#' params <- Stats()
 #' }
 #'
 #' @seealso
@@ -42,8 +42,8 @@
 #' documentation
 #'
 #' @export
-stats <- new_class(
-  name = "stats",
+Stats <- new_class(
+  name = "Stats",
   properties = list(
     tag = new_property(
       class = class_character,
@@ -121,11 +121,11 @@ stats <- new_class(
 #' the same interface.
 #'
 #' @param client A postmarkr client object created with [postmark()].
-#' @param endpoint character. The stats endpoint path (e.g., "overview",
+#' @param endpoint character. The Stats endpoint path (e.g., "overview",
 #'   "sends", "bounces", "opens/emailclients", "clicks",
 #'   "clicks/browserfamilies"). The "/stats/" prefix and message stream
 #'   will be added automatically.
-#' @param params Optional stats parameters object created with [stats()].
+#' @param params Optional Stats parameters object created with [Stats()].
 #'   If not provided, no query parameters will be sent.
 #'
 #' @return A postmarkr_response object containing the statistics data.
@@ -139,14 +139,14 @@ stats <- new_class(
 #' )
 #'
 #' # Get sent counts with date range
-#' params <- stats(
+#' params <- Stats(
 #'   fromdate = "2024-01-01",
 #'   todate = "2024-01-31"
 #' )
 #' stats_get(client, params)
 #'
 #' # Get open counts filtered by tag
-#' params <- stats(
+#' params <- Stats(
 #'   tag = "welcome-email",
 #'   fromdate = "2024-01-01",
 #'   todate = "2024-01-31"
@@ -232,13 +232,13 @@ stats_timeseries_response <- new_class(
 #' Convert API Response to Stats Class
 #'
 #' @description
-#' Attempts to convert a raw API response to the appropriate stats class.
+#' Attempts to convert a raw API response to the appropriate Stats class.
 #' If the structure doesn't match expected format, provides an informative error.
 #'
 #' @param data The raw response data from the API
 #' @param endpoint The endpoint path that was called
 #'
-#' @return A validated stats response object
+#' @return A validated Stats response object
 #' @noRd
 #' @keywords internal
 validate_stats_response <- function(data, endpoint) {
@@ -275,7 +275,7 @@ validate_stats_response <- function(data, endpoint) {
       if (length(missing_fields) > 0) {
         pstmrk_abort(
           c(
-            "Unexpected structure in stats overview response.",
+            "Unexpected structure in Stats overview response.",
             "i" = "This might indicate a change in the Postmark API.",
             "i" = "Please report this issue at: https://github.com/nutrivetpet/postmarkr/issues",
             "x" = paste(
@@ -292,7 +292,7 @@ validate_stats_response <- function(data, endpoint) {
       if (inherits(dat, "try-error")) {
         pstmrk_abort(
           c(
-            "Unexpected structure in stats overview response.",
+            "Unexpected structure in Stats overview response.",
             "i" = "This might indicate a change in the Postmark API.",
             "i" = "Please report this issue at: https://github.com/nutrivetpet/postmarkr/issues"
           ),
@@ -305,7 +305,7 @@ validate_stats_response <- function(data, endpoint) {
       if (!"Days" %in% names(data)) {
         pstmrk_abort(
           c(
-            "Expected `Days` field in stats response but it was not found.",
+            "Expected `Days` field in Stats response but it was not found.",
             "i" = "This might indicate a change in the Postmark API.",
             "i" = "Please report this issue at: https://github.com/nutrivetpet/postmarkr/issues"
           ),
@@ -319,7 +319,7 @@ validate_stats_response <- function(data, endpoint) {
       if (inherits(dat, "try-error")) {
         pstmrk_abort(
           c(
-            "Unexpected structure in stats time series response.",
+            "Unexpected structure in Stats time series response.",
             "i" = "This might indicate a change in the Postmark API.",
             "i" = "Please report this issue at: https://github.com/nutrivetpet/postmarkr/issues"
           ),
@@ -333,7 +333,7 @@ validate_stats_response <- function(data, endpoint) {
   dat
 }
 
-method(stats_get, list(postmarkr, stats)) <- function(
+method(stats_get, list(postmarkr, Stats)) <- function(
   client,
   params,
   endpoint = NULL
@@ -355,9 +355,9 @@ method(stats_get, list(postmarkr, stats)) <- function(
 
   query_params <- list()
 
-  if (!S7_inherits(params, stats)) {
+  if (!S7_inherits(params, Stats)) {
     pstmrk_abort(
-      "`params` must be a stats object or NULL",
+      "`params` must be a Stats object or NULL",
       class = "postmarkr_error_invalid_params"
     )
   }
