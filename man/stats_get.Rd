@@ -54,6 +54,6 @@ stats_get(client, params, "clicks/browserfamilies")
 
 }
 \seealso{
-\url{https://postmarkapp.com/developer/api/Stats-api} for Postmark Stats API
+\url{https://postmarkapp.com/developer/api/stats-api} for Postmark Stats API
 documentation
 }
