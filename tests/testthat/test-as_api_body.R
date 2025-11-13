@@ -267,7 +267,7 @@ test_that("as_api_body handles complex Email with all fields", {
   expect_equal(result$Subject, "Complete Email Test")
   expect_equal(result$HtmlBody, "<h1>Hello</h1><p>World</p>")
   expect_equal(result$ReplyTo, "reply@example.com")
-  expect_equal(result$Tag, "test-Email")
+  expect_equal(result$Tag, "test-email")
   expect_equal(result$TrackOpens, TRUE)
   expect_equal(result$TrackLinks, "HtmlOnly")
 })
