@@ -188,7 +188,6 @@ method(stats_get, list(postmarkr, class_character)) <- function(
 
   query_params <- list()
 
-  # Add messagestream from client (convert message_stream to messagestream)
   if (length(client@message_stream) > 0) {
     query_params$messagestream <- client@message_stream
   }
