@@ -216,7 +216,7 @@ method(stats_get, list(postmarkr, stats)) <- function(
   resp <- req_perform(req)
 
   postmarkr_response(
-    data = resp_body_json(resp, simplifyVector = TRUE),
+    data = resp_body_json(resp, simplifyVector = TRUE), # TODO: why does not return a data.frame? Probably bc it would be a one row dataframe
     status = resp_status(resp),
     request = req,
     response = resp,
