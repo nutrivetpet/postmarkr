@@ -2,6 +2,7 @@
 % Please edit documentation in R/postmarkr-package.R
 \docType{package}
 \name{postmarkr-package}
+\alias{postmarkr}
 \alias{postmarkr-package}
 \title{postmarkr: Email Delivery Made Simple: Unofficial Postmark API Integration for R}
 \description{

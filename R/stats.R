@@ -120,7 +120,7 @@ Stats <- new_class(
 #' This provides a flexible way to query different types of statistics using
 #' the same interface.
 #'
-#' @param client A Postmarkr client object created with [postmark()].
+#' @param client A Postmarkr client object created with [Postmarkr()].
 #' @param endpoint character. The Stats endpoint path (e.g., "overview",
 #'   "sends", "bounces", "opens/emailclients", "clicks",
 #'   "clicks/browserfamilies"). The "/stats/" prefix and message stream

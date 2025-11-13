@@ -7,7 +7,7 @@
 build_req_s7(client, endpoint, method, ...)
 }
 \arguments{
-\item{client}{A client object as returned by \code{\link[=postmark]{postmark()}}.}
+\item{client}{A client object as returned by \code{\link[=Postmarkr]{Postmarkr()}}.}
 
 \item{endpoint}{The API endpoint path (e.g., "/stats/outbound").}
 

@@ -7,14 +7,14 @@
 stats_get(client, params, ...)
 }
 \arguments{
-\item{client}{A postmarkr client object created with \code{\link[=postmark]{postmark()}}.}
+\item{client}{A Postmarkr client object created with \code{\link[=Postmarkr]{Postmarkr()}}.}
 
 \item{params}{Optional Stats parameters object created with \code{\link[=Stats]{Stats()}}.
 If not provided, no query parameters will be sent.}
 
 \item{endpoint}{character. The Stats endpoint path (e.g., "overview",
 "sends", "bounces", "opens/emailclients", "clicks",
-"clicks/browserfamilies"). The "/Stats/" prefix and message stream
+"clicks/browserfamilies"). The "/stats/" prefix and message stream
 will be added automatically.}
 }
 \value{
@@ -28,7 +28,7 @@ the same interface.
 \examples{
 \dontrun{
 # Create a client
-client <- postmarkr(
+client <- Postmarkr(
   token = "your-server-token",
   message_stream = "outbound"
 )
