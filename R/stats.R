@@ -139,15 +139,12 @@ stats <- new_class(
 #'   message_stream = "outbound"
 #' )
 #'
-#' # Get overview statistics
-#' stats_get(client, "overview")
-#'
 #' # Get sent counts with date range
 #' params <- stats(
 #'   fromdate = "2024-01-01",
 #'   todate = "2024-01-31"
 #' )
-#' stats_get(client, "sends", params)
+#' stats_get(client, params)
 #'
 #' # Get open counts filtered by tag
 #' params <- stats(
@@ -155,10 +152,10 @@ stats <- new_class(
 #'   fromdate = "2024-01-01",
 #'   todate = "2024-01-31"
 #' )
-#' stats_get(client, "opens", params)
+#' stats_get(client, params, "opens")
 #'
 #' # Get click statistics by browser family
-#' stats_get(client, "clicks/browserfamilies", params)
+#' stats_get(client, params, "clicks/browserfamilies")
 #' }
 #'
 #' @seealso
@@ -166,47 +163,47 @@ stats <- new_class(
 #' documentation
 #'
 #' @export
-stats_get <- new_generic("stats_get", c("client", "endpoint"))
+stats_get <- new_generic("stats_get", c("client", "params"))
 
-method(stats_get, list(postmarkr, class_character)) <- function(
+method(stats_get, list(postmarkr, stats)) <- function(
   client,
-  endpoint,
-  params = NULL
+  params,
+  endpoint = NULL
 ) {
-  if (!is_scalar_character(endpoint) || !nzchar(endpoint)) {
-    pstmrk_abort(
-      "`endpoint` must be a single non-empty character string",
-      class = "postmarkr_error_invalid_endpoint"
-    )
+  if (!is.null(endpoint)) {
+    if (!is_scalar_character(endpoint) || !nzchar(endpoint)) {
+      pstmrk_abort(
+        "`endpoint` must be a single non-empty character string",
+        class = "postmarkr_error_invalid_endpoint"
+      )
+    }
   }
 
   full_endpoint <- paste0(
     "/stats/",
     client@message_stream,
-    if (endpoint != "") paste0("/", endpoint) else ""
+    if (is.null(endpoint)) "" else paste0("/", endpoint)
   )
 
   query_params <- list()
 
-  if (!is.null(params)) {
-    if (!S7_inherits(params, stats)) {
-      pstmrk_abort(
-        "`params` must be a stats object or NULL",
-        class = "postmarkr_error_invalid_params"
-      )
-    }
+  if (!S7_inherits(params, stats)) {
+    pstmrk_abort(
+      "`params` must be a stats object or NULL",
+      class = "postmarkr_error_invalid_params"
+    )
+  }
 
-    if (length(params@tag) > 0) {
-      query_params$tag <- params@tag
-    }
+  if (length(params@tag) > 0) {
+    query_params$tag <- params@tag
+  }
 
-    if (length(params@fromdate) > 0) {
-      query_params$fromdate <- params@fromdate
-    }
+  if (length(params@fromdate) > 0) {
+    query_params$fromdate <- params@fromdate
+  }
 
-    if (length(params@todate) > 0) {
-      query_params$todate <- params@todate
-    }
+  if (length(params@todate) > 0) {
+    query_params$todate <- params@todate
   }
 
   req <- build_req_s7(

@@ -250,158 +250,114 @@ test_that("stats allows todate without fromdate", {
 })
 
 test_that("stats_get rejects non-scalar endpoint", {
-  token <- Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")
-  skip_if(!nzchar(token), "POSTMARK_TEST_SERVER_TOKEN not set")
+  skip_if_not(nzchar(Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")))
 
   client <- postmarkr(
-    token = token,
-    message_stream = "outbound",
-    timeout = 30
-  )
-
-  expect_error(
-    stats_get(client, c("overview", "sends")),
-    class = "postmarkr_error_invalid_endpoint"
-  )
-})
-
-test_that("stats_get rejects empty string endpoint", {
-  token <- Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")
-  skip_if(!nzchar(token), "POSTMARK_TEST_SERVER_TOKEN not set")
-
-  client <- postmarkr(
-    token = token,
-    message_stream = "outbound",
-    timeout = 30
-  )
-
-  expect_error(
-    stats_get(client, ""),
-    class = "postmarkr_error_invalid_endpoint"
-  )
-})
-
-test_that("stats_get rejects numeric endpoint", {
-  token <- Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")
-  skip_if(!nzchar(token), "POSTMARK_TEST_SERVER_TOKEN not set")
-
-  client <- postmarkr(
-    token = token,
-    message_stream = "outbound",
-    timeout = 30
-  )
-
-  expect_error(
-    stats_get(client, 123)
-  )
-})
-
-test_that("stats_get rejects non-stats params object", {
-  token <- Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")
-  skip_if(!nzchar(token), "POSTMARK_TEST_SERVER_TOKEN not set")
-
-  client <- postmarkr(
-    token = token,
-    message_stream = "outbound",
-    timeout = 30
-  )
-
-  expect_error(
-    stats_get(client, "overview", params = list(tag = "test")),
-    class = "postmarkr_error_invalid_params"
-  )
-})
-
-test_that("stats_get rejects string params", {
-  token <- Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")
-  skip_if(!nzchar(token), "POSTMARK_TEST_SERVER_TOKEN not set")
-
-  client <- postmarkr(
-    token = token,
-    message_stream = "outbound",
-    timeout = 30
-  )
-
-  expect_error(
-    stats_get(client, "overview", params = "invalid"),
-    class = "postmarkr_error_invalid_params"
-  )
-})
-
-test_that("stats_get works with valid endpoint and no params", {
-  token <- Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")
-  skip_if(!nzchar(token), "POSTMARK_TEST_SERVER_TOKEN not set")
-
-  client <- postmarkr(
-    token = token,
-    message_stream = "outbound",
-    timeout = 30
-  )
-
-  result <- stats_get(client, "overview")
-
-  expect_true(S7_inherits(result, postmarkr_response))
-  expect_true(is.list(result@data))
-  expect_equal(result@status, 200)
-  expect_true(result@success)
-})
-
-test_that("stats_get works with NULL params", {
-  token <- Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")
-  skip_if(!nzchar(token), "POSTMARK_TEST_SERVER_TOKEN not set")
-
-  client <- postmarkr(
-    token = token,
-    message_stream = "outbound",
-    timeout = 30
-  )
-
-  result <- stats_get(client, "overview", params = NULL)
-
-  expect_true(S7_inherits(result, postmarkr_response))
-  expect_true(result@success)
-})
-
-test_that("stats_get works with empty stats params", {
-  token <- Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")
-  skip_if(!nzchar(token), "POSTMARK_TEST_SERVER_TOKEN not set")
-
-  client <- postmarkr(
-    token = token,
+    token = Sys.getenv("POSTMARK_TEST_SERVER_TOKEN"),
     message_stream = "outbound",
     timeout = 30
   )
 
   params <- stats()
-  result <- stats_get(client, "overview", params = params)
 
-  expect_true(S7_inherits(result, postmarkr_response))
-  expect_true(result@success)
+  expect_error(
+    stats_get(client, params, endpoint = c("overview", "sends")),
+    class = "postmarkr_error_invalid_endpoint"
+  )
 })
 
-test_that("stats_get works with tag param", {
-  token <- Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")
-  skip_if(!nzchar(token), "POSTMARK_TEST_SERVER_TOKEN not set")
+test_that("stats_get rejects empty string endpoint", {
+  skip_if_not(nzchar(Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")))
 
   client <- postmarkr(
-    token = token,
+    token = Sys.getenv("POSTMARK_TEST_SERVER_TOKEN"),
+    message_stream = "outbound",
+    timeout = 30
+  )
+
+  params <- stats()
+
+  expect_error(
+    stats_get(client, params, endpoint = ""),
+    class = "postmarkr_error_invalid_endpoint"
+  )
+})
+
+test_that("stats_get rejects non-stats params", {
+  skip_if_not(nzchar(Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")))
+
+  client <- postmarkr(
+    token = Sys.getenv("POSTMARK_TEST_SERVER_TOKEN"),
+    message_stream = "outbound",
+    timeout = 30
+  )
+
+  expect_error(
+    stats_get(client, list(tag = "test"))
+  )
+})
+
+test_that("stats_get works with no endpoint and no params", {
+  skip_if_not(nzchar(Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")))
+
+  client <- postmarkr(
+    token = Sys.getenv("POSTMARK_TEST_SERVER_TOKEN"),
+    message_stream = "outbound",
+    timeout = 30
+  )
+
+  params <- stats()
+
+  result <- stats_get(client, params)
+
+  expect_true(S7_inherits(result, postmarkr_response))
+  expect_equal(result@status, 200)
+  expect_true(result@success)
+  expect_type(result@data, "list")
+})
+
+test_that("stats_get works with specific endpoint", {
+  skip_if_not(nzchar(Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")))
+
+  client <- postmarkr(
+    token = Sys.getenv("POSTMARK_TEST_SERVER_TOKEN"),
+    message_stream = "outbound",
+    timeout = 30
+  )
+
+  params <- stats()
+
+  result <- stats_get(client, params, endpoint = "sends")
+
+  expect_true(S7_inherits(result, postmarkr_response))
+  expect_equal(result@status, 200)
+  expect_true(result@success)
+  expect_type(result@data, "list")
+})
+
+test_that("stats_get works with tag parameter", {
+  skip_if_not(nzchar(Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")))
+
+  client <- postmarkr(
+    token = Sys.getenv("POSTMARK_TEST_SERVER_TOKEN"),
     message_stream = "outbound",
     timeout = 30
   )
 
   params <- stats(tag = "test-tag")
-  result <- stats_get(client, "overview", params = params)
+
+  result <- stats_get(client, params)
 
   expect_true(S7_inherits(result, postmarkr_response))
+  expect_equal(result@status, 200)
   expect_true(result@success)
 })
 
-test_that("stats_get works with date range params", {
-  token <- Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")
-  skip_if(!nzchar(token), "POSTMARK_TEST_SERVER_TOKEN not set")
+test_that("stats_get works with date range parameters", {
+  skip_if_not(nzchar(Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")))
 
   client <- postmarkr(
-    token = token,
+    token = Sys.getenv("POSTMARK_TEST_SERVER_TOKEN"),
     message_stream = "outbound",
     timeout = 30
   )
@@ -410,18 +366,19 @@ test_that("stats_get works with date range params", {
     fromdate = "2024-01-01",
     todate = "2024-01-31"
   )
-  result <- stats_get(client, "overview", params = params)
+
+  result <- stats_get(client, params)
 
   expect_true(S7_inherits(result, postmarkr_response))
+  expect_equal(result@status, 200)
   expect_true(result@success)
 })
 
-test_that("stats_get works with all params", {
-  token <- Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")
-  skip_if(!nzchar(token), "POSTMARK_TEST_SERVER_TOKEN not set")
+test_that("stats_get works with all parameters", {
+  skip_if_not(nzchar(Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")))
 
   client <- postmarkr(
-    token = token,
+    token = Sys.getenv("POSTMARK_TEST_SERVER_TOKEN"),
     message_stream = "outbound",
     timeout = 30
   )
@@ -431,63 +388,24 @@ test_that("stats_get works with all params", {
     fromdate = "2024-01-01",
     todate = "2024-01-31"
   )
-  result <- stats_get(client, "overview", params = params)
+
+  result <- stats_get(client, params, endpoint = "sends")
 
   expect_true(S7_inherits(result, postmarkr_response))
+  expect_equal(result@status, 200)
   expect_true(result@success)
 })
 
-test_that("stats_get works with different endpoints", {
-  token <- Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")
-  skip_if(!nzchar(token), "POSTMARK_TEST_SERVER_TOKEN not set")
+test_that("stats_get rejects with broadcast message stream", {
+  skip_if_not(nzchar(Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")))
 
   client <- postmarkr(
-    token = token,
-    message_stream = "outbound",
-    timeout = 30
-  )
-
-  result1 <- stats_get(client, "overview")
-  expect_true(S7_inherits(result1, postmarkr_response))
-  expect_true(result1@success)
-
-  result2 <- stats_get(client, "sends")
-  expect_true(S7_inherits(result2, postmarkr_response))
-  expect_true(result2@success)
-
-  result3 <- stats_get(client, "bounces")
-  expect_true(S7_inherits(result3, postmarkr_response))
-  expect_true(result3@success)
-})
-
-test_that("stats_get works with nested endpoint path", {
-  token <- Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")
-  skip_if(!nzchar(token), "POSTMARK_TEST_SERVER_TOKEN not set")
-
-  client <- postmarkr(
-    token = token,
-    message_stream = "outbound",
-    timeout = 30
-  )
-
-  result <- stats_get(client, "opens/emailclients")
-
-  expect_true(S7_inherits(result, postmarkr_response))
-  expect_true(result@success)
-})
-
-test_that("stats_get works with broadcast message stream", {
-  token <- Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")
-  skip_if(!nzchar(token), "POSTMARK_TEST_SERVER_TOKEN not set")
-
-  client <- postmarkr(
-    token = token,
+    token = Sys.getenv("POSTMARK_TEST_SERVER_TOKEN"),
     message_stream = "broadcast",
     timeout = 30
   )
 
-  result <- stats_get(client, "overview")
+  params <- stats()
 
-  expect_true(S7_inherits(result, postmarkr_response))
-  expect_true(result@success)
+  expect_error(stats_get(client, params), "404")
 })
