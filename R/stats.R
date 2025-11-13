@@ -191,11 +191,7 @@ stats_overview_response <- new_class(
     WithClientRecorded = class_integer,
     WithPlatformRecorded = class_integer,
     WithReadTimeRecorded = class_integer
-  ),
-  validator = function(self) {
-    # All fields should be present
-    NULL
-  }
+  )
 )
 
 #' Validate Stats Time Series Response
