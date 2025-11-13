@@ -2,7 +2,7 @@
   S7::methods_register()
 }
 
-method(as_api_body, email) <- function(x) {
+method(as_api_body, Email) <- function(x) {
   body <- list(
     From = x@from,
     To = paste0(x@to, collapse = ", ")

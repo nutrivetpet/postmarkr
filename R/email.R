@@ -6,7 +6,7 @@
 #' an email, including content, recipients, tracking settings, and attachments.
 #'
 #' @details
-#' The `email` class provides a structured way to compose emails for sending
+#' The `Email` class provides a structured way to compose emails for sending
 #' through Postmark. It supports:
 #' \itemize{
 #'   \item HTML and plain text content (mutually exclusive)
@@ -66,16 +66,16 @@
 #'
 #' @examples
 #' \dontrun{
-#' # Simple text email
-#' simple_email <- email(
+#' # Simple text Email
+#' simple_email <- Email(
 #'   from = "sender@example.com",
 #'   to = "recipient@example.com",
 #'   subject = "Hello from R",
 #'   text_body = "This is a plain text email."
 #' )
 #'
-#' # HTML email with tracking
-#' html_email <- email(
+#' # HTML Email with tracking
+#' html_email <- Email(
 #'   from = "sender@example.com",
 #'   to = "recipient@example.com",
 #'   subject = "Welcome!",
@@ -86,7 +86,7 @@
 #' )
 #'
 #' # Email with multiple recipients and metadata
-#' multi_email <- email(
+#' multi_email <- Email(
 #'   from = "notifications@example.com",
 #'   to = c("user1@example.com", "user2@example.com"),
 #'   cc = "manager@example.com",
@@ -100,7 +100,7 @@
 #' )
 #'
 #' # Email with custom headers
-#' priority_email <- email(
+#' priority_email <- Email(
 #'   from = "urgent@example.com",
 #'   to = "support@example.com",
 #'   subject = "Urgent Issue",
@@ -117,8 +117,8 @@
 #' for complete Postmark email API documentation
 #'
 #' @export
-email <- new_class(
-  "email",
+Email <- new_class(
+  "Email",
   properties = list(
     from = class_character,
     to = class_character,

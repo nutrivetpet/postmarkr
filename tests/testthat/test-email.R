@@ -1,24 +1,24 @@
-test_that("email class accepts valid html_body email", {
-  result <- email(
+test_that("Email class accepts valid html_body Email", {
+  result <- Email(
     from = "sender@example.com",
     to = "recipient@example.com",
     html_body = "<h1>Hello</h1>"
   )
-  expect_true(S7_inherits(result, email))
+  expect_true(S7_inherits(result, Email))
 })
 
-test_that("email class accepts valid text_body email", {
-  result <- email(
+test_that("Email class accepts valid text_body Email", {
+  result <- Email(
     from = "sender@example.com",
     to = "recipient@example.com",
     text_body = "Hello world"
   )
-  expect_true(S7_inherits(result, email))
+  expect_true(S7_inherits(result, Email))
 })
 
-test_that("email class rejects both html_body and text_body", {
+test_that("Email class rejects both html_body and text_body", {
   expect_error(
-    email(
+    Email(
       from = "sender@example.com",
       to = "recipient@example.com",
       html_body = "<h1>Hello</h1>",
@@ -28,9 +28,9 @@ test_that("email class rejects both html_body and text_body", {
   )
 })
 
-test_that("email class rejects neither html_body nor text_body", {
+test_that("Email class rejects neither html_body nor text_body", {
   expect_error(
-    email(
+    Email(
       from = "sender@example.com",
       to = "recipient@example.com"
     ),
@@ -38,20 +38,20 @@ test_that("email class rejects neither html_body nor text_body", {
   )
 })
 
-test_that("email class accepts maximum recipients (50 total)", {
-  result <- email(
+test_that("Email class accepts maximum recipients (50 total)", {
+  result <- Email(
     from = "sender@example.com",
     to = rep("user@example.com", 30),
     cc = rep("cc@example.com", 15),
     bcc = rep("bcc@example.com", 5),
     html_body = "<h1>Hello</h1>"
   )
-  expect_true(S7_inherits(result, email))
+  expect_true(S7_inherits(result, Email))
 })
 
-test_that("email class rejects over 50 total recipients", {
+test_that("Email class rejects over 50 total recipients", {
   expect_error(
-    email(
+    Email(
       from = "sender@example.com",
       to = rep("user@example.com", 30),
       cc = rep("cc@example.com", 15),
@@ -62,8 +62,8 @@ test_that("email class rejects over 50 total recipients", {
   )
 })
 
-test_that("email class accepts all optional fields", {
-  result <- email(
+test_that("Email class accepts all optional fields", {
+  result <- Email(
     from = "sender@example.com",
     to = "recipient@example.com",
     cc = "cc@example.com",
@@ -84,20 +84,20 @@ test_that("email class accepts all optional fields", {
       )
     )
   )
-  expect_true(S7_inherits(result, email))
+  expect_true(S7_inherits(result, Email))
 })
 
-test_that("email class accepts multiple recipients in to field", {
-  result <- email(
+test_that("Email class accepts multiple recipients in to field", {
+  result <- Email(
     from = "sender@example.com",
     to = c("user1@example.com", "user2@example.com", "user3@example.com"),
     html_body = "<h1>Hello</h1>"
   )
-  expect_true(S7_inherits(result, email))
+  expect_true(S7_inherits(result, Email))
 })
 
-test_that("email class accepts empty optional fields", {
-  result <- email(
+test_that("Email class accepts empty optional fields", {
+  result <- Email(
     from = "sender@example.com",
     to = "recipient@example.com",
     html_body = "<h1>Hello</h1>",
@@ -112,21 +112,21 @@ test_that("email class accepts empty optional fields", {
     track_links = character(),
     attachments = list()
   )
-  expect_true(S7_inherits(result, email))
+  expect_true(S7_inherits(result, Email))
 })
 
-test_that("email class with 50 recipients in to field only", {
-  result <- email(
+test_that("Email class with 50 recipients in to field only", {
+  result <- Email(
     from = "sender@example.com",
     to = rep("user@example.com", 50),
     html_body = "<h1>Hello</h1>"
   )
-  expect_true(S7_inherits(result, email))
+  expect_true(S7_inherits(result, Email))
 })
 
-test_that("email class with 51 recipients in to field only fails", {
+test_that("Email class with 51 recipients in to field only fails", {
   expect_error(
-    email(
+    Email(
       from = "sender@example.com",
       to = rep("user@example.com", 51),
       html_body = "<h1>Hello</h1>"
@@ -135,13 +135,13 @@ test_that("email class with 51 recipients in to field only fails", {
   )
 })
 
-test_that("email class with mixed recipient distribution", {
-  result <- email(
+test_that("Email class with mixed recipient distribution", {
+  result <- Email(
     from = "sender@example.com",
     to = rep("to@example.com", 10),
     cc = rep("cc@example.com", 20),
     bcc = rep("bcc@example.com", 20),
     text_body = "Hello"
   )
-  expect_true(S7_inherits(result, email))
+  expect_true(S7_inherits(result, Email))
 })

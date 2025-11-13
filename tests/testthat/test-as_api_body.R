@@ -1,5 +1,5 @@
-test_that("as_api_body converts email with html_body to API format", {
-  e <- email(
+test_that("as_api_body converts Email with html_body to API format", {
+  e <- Email(
     from = "sender@example.com",
     to = "recipient@example.com",
     subject = "Test Subject",
@@ -17,8 +17,8 @@ test_that("as_api_body converts email with html_body to API format", {
   expect_false("TextBody" %in% names(result))
 })
 
-test_that("as_api_body converts email with text_body to API format", {
-  e <- email(
+test_that("as_api_body converts Email with text_body to API format", {
+  e <- Email(
     from = "sender@example.com",
     to = "recipient@example.com",
     subject = "Test Subject",
@@ -37,7 +37,7 @@ test_that("as_api_body converts email with text_body to API format", {
 })
 
 test_that("as_api_body converts multiple recipients to comma-separated string", {
-  e <- email(
+  e <- Email(
     from = "sender@example.com",
     to = c(
       "recipient1@example.com",
@@ -56,7 +56,7 @@ test_that("as_api_body converts multiple recipients to comma-separated string", 
 })
 
 test_that("as_api_body includes Cc when present", {
-  e <- email(
+  e <- Email(
     from = "sender@example.com",
     to = "recipient@example.com",
     cc = c("cc1@example.com", "cc2@example.com"),
@@ -70,7 +70,7 @@ test_that("as_api_body includes Cc when present", {
 })
 
 test_that("as_api_body includes Bcc when present", {
-  e <- email(
+  e <- Email(
     from = "sender@example.com",
     to = "recipient@example.com",
     bcc = "bcc@example.com",
@@ -84,7 +84,7 @@ test_that("as_api_body includes Bcc when present", {
 })
 
 test_that("as_api_body includes ReplyTo when present", {
-  e <- email(
+  e <- Email(
     from = "sender@example.com",
     to = "recipient@example.com",
     reply_to = "reply@example.com",
@@ -98,21 +98,21 @@ test_that("as_api_body includes ReplyTo when present", {
 })
 
 test_that("as_api_body includes Tag when present", {
-  e <- email(
+  e <- Email(
     from = "sender@example.com",
     to = "recipient@example.com",
-    tag = "welcome-email",
+    tag = "welcome-Email",
     text_body = "Hello"
   )
 
   result <- as_api_body(e)
 
   expect_true("Tag" %in% names(result))
-  expect_equal(result$Tag, "welcome-email")
+  expect_equal(result$Tag, "welcome-Email")
 })
 
 test_that("as_api_body includes TrackOpens when present", {
-  e <- email(
+  e <- Email(
     from = "sender@example.com",
     to = "recipient@example.com",
     html_body = "<p>Hello</p>",
@@ -126,7 +126,7 @@ test_that("as_api_body includes TrackOpens when present", {
 })
 
 test_that("as_api_body includes TrackLinks when present", {
-  e <- email(
+  e <- Email(
     from = "sender@example.com",
     to = "recipient@example.com",
     html_body = "<p>Hello</p>",
@@ -140,7 +140,7 @@ test_that("as_api_body includes TrackLinks when present", {
 })
 
 test_that("as_api_body includes Metadata when present", {
-  e <- email(
+  e <- Email(
     from = "sender@example.com",
     to = "recipient@example.com",
     text_body = "Hello",
@@ -159,7 +159,7 @@ test_that("as_api_body includes Metadata when present", {
 })
 
 test_that("as_api_body includes Headers when present", {
-  e <- email(
+  e <- Email(
     from = "sender@example.com",
     to = "recipient@example.com",
     text_body = "Hello",
@@ -177,7 +177,7 @@ test_that("as_api_body includes Headers when present", {
 })
 
 test_that("as_api_body includes Attachments when present", {
-  e <- email(
+  e <- Email(
     from = "sender@example.com",
     to = "recipient@example.com",
     text_body = "Hello",
@@ -200,7 +200,7 @@ test_that("as_api_body includes Attachments when present", {
 })
 
 test_that("as_api_body omits optional fields when not present", {
-  e <- email(
+  e <- Email(
     from = "sender@example.com",
     to = "recipient@example.com",
     text_body = "Hello"
@@ -219,8 +219,8 @@ test_that("as_api_body omits optional fields when not present", {
   expect_false("Attachments" %in% names(result))
 })
 
-test_that("as_api_body handles complex email with all fields", {
-  e <- email(
+test_that("as_api_body handles complex Email with all fields", {
+  e <- Email(
     from = "sender@example.com",
     to = c("recipient1@example.com", "recipient2@example.com"),
     cc = "cc@example.com",
@@ -267,13 +267,13 @@ test_that("as_api_body handles complex email with all fields", {
   expect_equal(result$Subject, "Complete Email Test")
   expect_equal(result$HtmlBody, "<h1>Hello</h1><p>World</p>")
   expect_equal(result$ReplyTo, "reply@example.com")
-  expect_equal(result$Tag, "test-email")
+  expect_equal(result$Tag, "test-Email")
   expect_equal(result$TrackOpens, TRUE)
   expect_equal(result$TrackLinks, "HtmlOnly")
 })
 
 test_that("as_api_body uses camelCase for all property names", {
-  e <- email(
+  e <- Email(
     from = "sender@example.com",
     to = "recipient@example.com",
     html_body = "<p>Test</p>",
