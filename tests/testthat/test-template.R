@@ -1,4 +1,5 @@
 test_that("template_send_email_impl() works", {
+  skip_if_offline()
   skip_on_cran()
   skip_if_not(
     nzchar(Sys.getenv("POSTMARK_TEST_FROM_EMAIL")),

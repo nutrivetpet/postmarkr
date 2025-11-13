@@ -18,7 +18,6 @@
 #' The message stream is automatically determined from the client object
 #' and does not need to be specified in the params.
 #'
-#'
 #' @examples
 #' \dontrun{
 #' # Create stats parameters with all fields
@@ -216,7 +215,6 @@ stats_timeseries_response <- new_class(
           )
         }
 
-        # Check for Date column
         if (is.data.frame(value) && nrow(value) > 0) {
           if (!"Date" %in% names(value)) {
             pstmrk_abort(
@@ -244,109 +242,95 @@ stats_timeseries_response <- new_class(
 #' @noRd
 #' @keywords internal
 validate_stats_response <- function(data, endpoint) {
-  # Determine expected response type from endpoint
-  if (grepl("/stats/[^/]+$", endpoint)) {
-    # Overview endpoint (e.g., /stats/outbound)
+  has_timeseries <- function(x) {
+    if (grepl("/stats/[^/]+$", x)) "no" else "yes"
+  }
 
-    # Check for required fields
-    required_fields <- c(
-      "Sent",
-      "Bounced",
-      "SMTPApiErrors",
-      "BounceRate",
-      "SpamComplaints",
-      "SpamComplaintsRate",
-      "Opens",
-      "UniqueOpens",
-      "Tracked",
-      "WithLinkTracking",
-      "WithOpenTracking",
-      "TotalTrackedLinksSent",
-      "UniqueLinksClicked",
-      "TotalClicks",
-      "WithClientRecorded",
-      "WithPlatformRecorded",
-      "WithReadTimeRecorded"
-    )
+  has_timeseries <- has_timeseries(endpoint)
 
-    missing_fields <- setdiff(required_fields, names(data))
-    if (length(missing_fields) > 0) {
-      pstmrk_abort(
-        c(
-          "Unexpected structure in stats overview response.",
-          "i" = "This might indicate a change in the Postmark API.",
-          "i" = "Please report this issue at: https://github.com/nutrivetpet/postmarkr/issues",
-          "x" = paste(
-            "Missing required fields:",
-            paste(missing_fields, collapse = ", ")
-          )
-        ),
-        class = "postmarkr_error_stats_response_validation"
+  dat <- switch(
+    has_timeseries,
+    no = {
+      required_fields <- c(
+        "Sent",
+        "Bounced",
+        "SMTPApiErrors",
+        "BounceRate",
+        "SpamComplaints",
+        "SpamComplaintsRate",
+        "Opens",
+        "UniqueOpens",
+        "Tracked",
+        "WithLinkTracking",
+        "WithOpenTracking",
+        "TotalTrackedLinksSent",
+        "UniqueLinksClicked",
+        "TotalClicks",
+        "WithClientRecorded",
+        "WithPlatformRecorded",
+        "WithReadTimeRecorded"
       )
-    }
 
-    tryCatch(
-      {
-        # Convert to stats_overview_response
-        do.call(
-          stats_overview_response,
-          data
-        )
-      },
-      error = function(e) {
+      missing_fields <- setdiff(required_fields, names(data))
+      if (length(missing_fields) > 0) {
         pstmrk_abort(
           c(
             "Unexpected structure in stats overview response.",
             "i" = "This might indicate a change in the Postmark API.",
             "i" = "Please report this issue at: https://github.com/nutrivetpet/postmarkr/issues",
-            "x" = paste("Error:", conditionMessage(e))
+            "x" = paste(
+              "Missing required fields:",
+              paste(missing_fields, collapse = ", ")
+            )
           ),
           class = "postmarkr_error_stats_response_validation"
         )
       }
-    )
-  } else {
-    # Time series endpoint (sends, bounces, opens, clicks, etc.)
-    tryCatch(
-      {
-        # Basic validation - check for Days array
-        if (!"Days" %in% names(data)) {
-          pstmrk_abort(
-            c(
-              "Expected `Days` field in stats response but it was not found.",
-              "i" = "This might indicate a change in the Postmark API.",
-              "i" = "Please report this issue at: https://github.com/nutrivetpet/postmarkr/issues"
-            ),
-            class = "postmarkr_error_stats_response_validation"
-          )
-        }
 
-        # For time series responses, we keep the raw data structure
-        # but validate the Days array exists and has the right structure
-        stats_timeseries_response(Days = data$Days)
+      dat <- try(exec(stats_overview_response, !!!data))
 
-        # Return the original data for now
-        # (we can add more specific classes later if needed)
-        data
-      },
-      error = function(e) {
-        # Don't wrap errors that are already postmarkr_error_stats_response_validation
-        if (inherits(e, "postmarkr_error_stats_response_validation")) {
-          stop(e)
-        }
+      if (inherits(dat, "try-error")) {
+        pstmrk_abort(
+          c(
+            "Unexpected structure in stats overview response.",
+            "i" = "This might indicate a change in the Postmark API.",
+            "i" = "Please report this issue at: https://github.com/nutrivetpet/postmarkr/issues"
+          ),
+          class = "postmarkr_error_stats_response_validation"
+        )
+      }
+      dat
+    },
+    yes = {
+      if (!"Days" %in% names(data)) {
+        pstmrk_abort(
+          c(
+            "Expected `Days` field in stats response but it was not found.",
+            "i" = "This might indicate a change in the Postmark API.",
+            "i" = "Please report this issue at: https://github.com/nutrivetpet/postmarkr/issues"
+          ),
+          class = "postmarkr_error_stats_response_validation"
+        )
+      }
+      # For time series responses, we keep the raw data structure
+      # but validate the Days array exists and has the right structure
+      dat <- try(stats_timeseries_response(Days = data$Days))
 
+      if (inherits(dat, "try-error")) {
         pstmrk_abort(
           c(
             "Unexpected structure in stats time series response.",
             "i" = "This might indicate a change in the Postmark API.",
-            "i" = "Please report this issue at: https://github.com/nutrivetpet/postmarkr/issues",
-            "x" = paste("Error:", conditionMessage(e))
+            "i" = "Please report this issue at: https://github.com/nutrivetpet/postmarkr/issues"
           ),
           class = "postmarkr_error_stats_response_validation"
         )
       }
-    )
-  }
+      dat
+    }
+  )
+
+  dat
 }
 
 method(stats_get, list(postmarkr, stats)) <- function(

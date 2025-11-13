@@ -250,6 +250,7 @@ test_that("stats allows todate without fromdate", {
 })
 
 test_that("stats_get rejects non-scalar endpoint", {
+  skip_if_offline()
   skip_if_not(nzchar(Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")))
 
   client <- postmarkr(
@@ -267,6 +268,7 @@ test_that("stats_get rejects non-scalar endpoint", {
 })
 
 test_that("stats_get rejects empty string endpoint", {
+  skip_if_offline()
   skip_if_not(nzchar(Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")))
 
   client <- postmarkr(
@@ -284,6 +286,7 @@ test_that("stats_get rejects empty string endpoint", {
 })
 
 test_that("stats_get rejects non-stats params", {
+  skip_if_offline()
   skip_if_not(nzchar(Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")))
 
   client <- postmarkr(
@@ -298,6 +301,7 @@ test_that("stats_get rejects non-stats params", {
 })
 
 test_that("stats_get works with no endpoint and no params", {
+  skip_if_offline()
   skip_if_not(nzchar(Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")))
 
   client <- postmarkr(
@@ -317,6 +321,7 @@ test_that("stats_get works with no endpoint and no params", {
 })
 
 test_that("stats_get works with specific endpoint", {
+  skip_if_offline()
   skip_if_not(nzchar(Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")))
 
   client <- postmarkr(
@@ -332,10 +337,11 @@ test_that("stats_get works with specific endpoint", {
   expect_true(S7_inherits(result, postmarkr_response))
   expect_equal(result@status, 200)
   expect_true(result@success)
-  expect_type(result@data, "list")
+  expect_s3_class(result@data@Days, "data.frame")
 })
 
 test_that("stats_get works with tag parameter", {
+  skip_if_offline()
   skip_if_not(nzchar(Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")))
 
   client <- postmarkr(
@@ -354,6 +360,7 @@ test_that("stats_get works with tag parameter", {
 })
 
 test_that("stats_get works with date range parameters", {
+  skip_if_offline()
   skip_if_not(nzchar(Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")))
 
   client <- postmarkr(
@@ -375,6 +382,7 @@ test_that("stats_get works with date range parameters", {
 })
 
 test_that("stats_get works with all parameters", {
+  skip_if_offline()
   skip_if_not(nzchar(Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")))
 
   client <- postmarkr(
@@ -397,6 +405,7 @@ test_that("stats_get works with all parameters", {
 })
 
 test_that("stats_get rejects with broadcast message stream", {
+  skip_if_offline()
   skip_if_not(nzchar(Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")))
 
   client <- postmarkr(
@@ -510,9 +519,9 @@ test_that("validate_stats_response handles time series endpoint", {
 
   result <- validate_stats_response(data, "/stats/outbound/sends")
 
-  expect_type(result, "list")
-  expect_true("Days" %in% names(result))
-  expect_true(is.data.frame(result$Days))
+  expect_true(S7_inherits(result), stats_timeseries_response)
+  expect_true("Days" %in% prop_names(result))
+  expect_true(is.data.frame(result@Days))
 })
 
 test_that("validate_stats_response errors on missing Days for time series", {
@@ -533,6 +542,7 @@ test_that("validate_stats_response errors on malformed overview response", {
 })
 
 test_that("stats_get returns validated data in response", {
+  skip_if_offline()
   skip_if_not(nzchar(Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")))
 
   client <- postmarkr(
@@ -551,6 +561,7 @@ test_that("stats_get returns validated data in response", {
 })
 
 test_that("stats_get with endpoint returns validated time series data", {
+  skip_if_offline()
   skip_if_not(nzchar(Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")))
 
   client <- postmarkr(
@@ -563,7 +574,7 @@ test_that("stats_get with endpoint returns validated time series data", {
 
   result <- stats_get(client, params, endpoint = "sends")
 
-  # Should be validated as time series response
-  expect_type(result@data, "list")
-  expect_true("Days" %in% names(result@data))
+  expect_true("Days" %in% prop_names(result@data))
+  expect_true(is.data.frame(result@data@Days))
+  expect_true("Date" %in% colnames(result@data@Days))
 })
