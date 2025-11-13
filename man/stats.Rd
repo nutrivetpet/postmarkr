@@ -4,12 +4,7 @@
 \alias{stats}
 \title{Stats Query Parameters}
 \usage{
-stats(
-  tag = character(0),
-  fromdate = character(0),
-  todate = character(0),
-  messagestream = character(0)
-)
+stats(tag = character(0), fromdate = character(0), todate = character(0))
 }
 \arguments{
 \item{tag}{character. Optional tag to filter statistics by. Tags are used to
@@ -20,10 +15,6 @@ YYYY-MM-DD format (e.g., "2024-01-01").}
 
 \item{todate}{character. Optional end date for the statistics query in
 YYYY-MM-DD format (e.g., "2024-12-31").}
-
-\item{messagestream}{character. Optional message stream to filter by.
-Must be either "outbound" (transactional emails) or "broadcast"
-(bulk/marketing emails).}
 }
 \description{
 An S7 class representing query parameters for retrieving statistics from
@@ -33,6 +24,8 @@ used across various statistics endpoints.
 \details{
 The \code{stats} class provides a structured way to pass query parameters
 to Postmark statistics API endpoints. All properties are optional.
+The message stream is automatically determined from the client object
+and does not need to be specified in the params.
 }
 \examples{
 \dontrun{
@@ -40,8 +33,7 @@ to Postmark statistics API endpoints. All properties are optional.
 params <- stats(
   tag = "welcome-email",
   fromdate = "2024-01-01",
-  todate = "2024-01-31",
-  messagestream = "outbound"
+  todate = "2024-01-31"
 )
 
 # Create stats parameters with only date range
