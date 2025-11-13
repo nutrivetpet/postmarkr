@@ -33,7 +33,7 @@ This class encapsulates the configuration needed to interact with the
 Postmark email service.
 }
 \details{
-The \code{postmark} class provides a structured way to configure and use the
+The \code{postmarkr} class provides a structured way to configure and use the
 Postmark API. Before creating an instance, ensure you have:
 \itemize{
 \item A valid Postmark Server API Token
@@ -46,15 +46,15 @@ either "broadcast" or "outbound".
 }
 \examples{
 \dontrun{
-# Create a postmark client for transactional emails
-client <- postmark(
+# Create a postmarkr client for transactional emails
+client <- postmarkr(
   token = "your-server-token-here",
   message_stream = "outbound",
   timeout = 30
 )
 
 # Create a postmark client for broadcast emails
-broadcast_client <- postmark(
+broadcast_client <- postmarkr(
   token = "your-server-token-here",
   message_stream = "broadcast"
 )
