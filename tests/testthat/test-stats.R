@@ -313,7 +313,7 @@ test_that("stats_get works with no endpoint and no params", {
   expect_true(S7_inherits(result, postmarkr_response))
   expect_equal(result@status, 200)
   expect_true(result@success)
-  expect_type(result@data, "list")
+  expect_true(S7_inherits(result@data, stats_overview_response))
 })
 
 test_that("stats_get works with specific endpoint", {
@@ -408,4 +408,162 @@ test_that("stats_get rejects with broadcast message stream", {
   params <- stats()
 
   expect_error(stats_get(client, params), "404")
+})
+
+# Response validation tests
+
+test_that("stats_overview_response can be created with valid data", {
+  response <- stats_overview_response(
+    Sent = 615L,
+    Bounced = 64L,
+    SMTPApiErrors = 25L,
+    BounceRate = 10.406,
+    SpamComplaints = 10L,
+    SpamComplaintsRate = 1.626,
+    Opens = 166L,
+    UniqueOpens = 26L,
+    Tracked = 111L,
+    WithLinkTracking = 90L,
+    WithOpenTracking = 51L,
+    TotalTrackedLinksSent = 60L,
+    UniqueLinksClicked = 30L,
+    TotalClicks = 72L,
+    WithClientRecorded = 14L,
+    WithPlatformRecorded = 10L,
+    WithReadTimeRecorded = 0L
+  )
+
+  expect_true(S7_inherits(response, stats_overview_response))
+  expect_equal(response@Sent, 615L)
+  expect_equal(response@BounceRate, 10.406)
+})
+
+test_that("stats_timeseries_response can be created with valid Days data.frame", {
+  days <- data.frame(
+    Date = c("2014-01-01", "2014-01-02"),
+    Sent = c(140L, 160L)
+  )
+
+  response <- stats_timeseries_response(Days = days)
+
+  expect_true(S7_inherits(response, stats_timeseries_response))
+  expect_equal(nrow(response@Days), 2)
+})
+
+test_that("stats_timeseries_response validates Days data.frame structure", {
+  invalid_days <- data.frame(
+    NoDate = c("2014-01-01", "2014-01-02"),
+    Sent = c(140L, 160L)
+  )
+
+  expect_error(
+    stats_timeseries_response(Days = invalid_days),
+    class = "postmarkr_error_invalid_stats_response"
+  )
+})
+
+test_that("stats_timeseries_response rejects non-data.frame Days", {
+  invalid_days <- list(
+    list(Date = "2014-01-01", Sent = 140L)
+  )
+
+  expect_error(
+    stats_timeseries_response(Days = invalid_days),
+    class = "postmarkr_error_invalid_stats_response"
+  )
+})
+
+test_that("validate_stats_response handles overview endpoint", {
+  data <- list(
+    Sent = 615L,
+    Bounced = 64L,
+    SMTPApiErrors = 25L,
+    BounceRate = 10.406,
+    SpamComplaints = 10L,
+    SpamComplaintsRate = 1.626,
+    Opens = 166L,
+    UniqueOpens = 26L,
+    Tracked = 111L,
+    WithLinkTracking = 90L,
+    WithOpenTracking = 51L,
+    TotalTrackedLinksSent = 60L,
+    UniqueLinksClicked = 30L,
+    TotalClicks = 72L,
+    WithClientRecorded = 14L,
+    WithPlatformRecorded = 10L,
+    WithReadTimeRecorded = 0L
+  )
+
+  result <- validate_stats_response(data, "/stats/outbound")
+
+  expect_true(S7_inherits(result, stats_overview_response))
+})
+
+test_that("validate_stats_response handles time series endpoint", {
+  data <- list(
+    Days = data.frame(
+      Date = c("2014-01-01", "2014-01-02"),
+      Sent = c(140L, 160L)
+    ),
+    Sent = 615L
+  )
+
+  result <- validate_stats_response(data, "/stats/outbound/sends")
+
+  expect_type(result, "list")
+  expect_true("Days" %in% names(result))
+  expect_true(is.data.frame(result$Days))
+})
+
+test_that("validate_stats_response errors on missing Days for time series", {
+  data <- list(Sent = 615L)
+
+  expect_error(
+    validate_stats_response(data, "/stats/outbound/sends"),
+    class = "postmarkr_error_stats_response_validation"
+  )
+})
+
+test_that("validate_stats_response errors on malformed overview response", {
+  data <- list(Sent = 615L) # Missing required fields
+
+  expect_error(
+    validate_stats_response(data, "/stats/outbound")
+  )
+})
+
+test_that("stats_get returns validated data in response", {
+  skip_if_not(nzchar(Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")))
+
+  client <- postmarkr(
+    token = Sys.getenv("POSTMARK_TEST_SERVER_TOKEN"),
+    message_stream = "outbound",
+    timeout = 30
+  )
+
+  params <- stats()
+
+  result <- stats_get(client, params)
+
+  # Should be validated as overview response
+  expect_true(S7_inherits(result@data, stats_overview_response))
+  expect_true(!is.null(result@data@Sent))
+})
+
+test_that("stats_get with endpoint returns validated time series data", {
+  skip_if_not(nzchar(Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")))
+
+  client <- postmarkr(
+    token = Sys.getenv("POSTMARK_TEST_SERVER_TOKEN"),
+    message_stream = "outbound",
+    timeout = 30
+  )
+
+  params <- stats()
+
+  result <- stats_get(client, params, endpoint = "sends")
+
+  # Should be validated as time series response
+  expect_type(result@data, "list")
+  expect_true("Days" %in% names(result@data))
 })

@@ -165,6 +165,194 @@ stats <- new_class(
 #' @export
 stats_get <- new_generic("stats_get", c("client", "params"))
 
+#' Validate Stats Overview Response
+#'
+#' @description
+#' Validates the response from `/stats/{stream}` endpoint.
+#' @noRd
+#' @keywords internal
+stats_overview_response <- new_class(
+  name = "stats_overview_response",
+  properties = list(
+    Sent = class_integer,
+    Bounced = class_integer,
+    SMTPApiErrors = class_integer,
+    BounceRate = class_numeric,
+    SpamComplaints = class_integer,
+    SpamComplaintsRate = class_numeric,
+    Opens = class_integer,
+    UniqueOpens = class_integer,
+    Tracked = class_integer,
+    WithLinkTracking = class_integer,
+    WithOpenTracking = class_integer,
+    TotalTrackedLinksSent = class_integer,
+    UniqueLinksClicked = class_integer,
+    TotalClicks = class_integer,
+    WithClientRecorded = class_integer,
+    WithPlatformRecorded = class_integer,
+    WithReadTimeRecorded = class_integer
+  ),
+  validator = function(self) {
+    # All fields should be present
+    NULL
+  }
+)
+
+#' Validate Stats Time Series Response
+#'
+#' @description
+#' Validates responses that contain a `Days` array with time series data.
+#' Used for sends, bounces, spam, tracked, opens, and clicks endpoints.
+#'
+#' @noRd
+#' @keywords internal
+stats_timeseries_response <- new_class(
+  name = "stats_timeseries_response",
+  properties = list(
+    Days = new_property(
+      class = class_any,
+      validator = function(value) {
+        # Days should be a data.frame when using simplifyVector = TRUE
+        if (length(value) > 0 && !is.data.frame(value)) {
+          pstmrk_abort(
+            "`Days` must be a data.frame",
+            class = "postmarkr_error_invalid_stats_response"
+          )
+        }
+
+        # Check for Date column
+        if (is.data.frame(value) && nrow(value) > 0) {
+          if (!"Date" %in% names(value)) {
+            pstmrk_abort(
+              "`Days` data.frame must have a `Date` column",
+              class = "postmarkr_error_invalid_stats_response"
+            )
+          }
+        }
+      }
+    )
+    # Additional properties are dynamic based on endpoint
+  )
+)
+
+#' Convert API Response to Stats Class
+#'
+#' @description
+#' Attempts to convert a raw API response to the appropriate stats class.
+#' If the structure doesn't match expected format, provides an informative error.
+#'
+#' @param data The raw response data from the API
+#' @param endpoint The endpoint path that was called
+#'
+#' @return A validated stats response object
+#' @noRd
+#' @keywords internal
+validate_stats_response <- function(data, endpoint) {
+  # Determine expected response type from endpoint
+  if (grepl("/stats/[^/]+$", endpoint)) {
+    # Overview endpoint (e.g., /stats/outbound)
+
+    # Check for required fields
+    required_fields <- c(
+      "Sent",
+      "Bounced",
+      "SMTPApiErrors",
+      "BounceRate",
+      "SpamComplaints",
+      "SpamComplaintsRate",
+      "Opens",
+      "UniqueOpens",
+      "Tracked",
+      "WithLinkTracking",
+      "WithOpenTracking",
+      "TotalTrackedLinksSent",
+      "UniqueLinksClicked",
+      "TotalClicks",
+      "WithClientRecorded",
+      "WithPlatformRecorded",
+      "WithReadTimeRecorded"
+    )
+
+    missing_fields <- setdiff(required_fields, names(data))
+    if (length(missing_fields) > 0) {
+      pstmrk_abort(
+        c(
+          "Unexpected structure in stats overview response.",
+          "i" = "This might indicate a change in the Postmark API.",
+          "i" = "Please report this issue at: https://github.com/nutrivetpet/postmarkr/issues",
+          "x" = paste(
+            "Missing required fields:",
+            paste(missing_fields, collapse = ", ")
+          )
+        ),
+        class = "postmarkr_error_stats_response_validation"
+      )
+    }
+
+    tryCatch(
+      {
+        # Convert to stats_overview_response
+        do.call(
+          stats_overview_response,
+          data
+        )
+      },
+      error = function(e) {
+        pstmrk_abort(
+          c(
+            "Unexpected structure in stats overview response.",
+            "i" = "This might indicate a change in the Postmark API.",
+            "i" = "Please report this issue at: https://github.com/nutrivetpet/postmarkr/issues",
+            "x" = paste("Error:", conditionMessage(e))
+          ),
+          class = "postmarkr_error_stats_response_validation"
+        )
+      }
+    )
+  } else {
+    # Time series endpoint (sends, bounces, opens, clicks, etc.)
+    tryCatch(
+      {
+        # Basic validation - check for Days array
+        if (!"Days" %in% names(data)) {
+          pstmrk_abort(
+            c(
+              "Expected `Days` field in stats response but it was not found.",
+              "i" = "This might indicate a change in the Postmark API.",
+              "i" = "Please report this issue at: https://github.com/nutrivetpet/postmarkr/issues"
+            ),
+            class = "postmarkr_error_stats_response_validation"
+          )
+        }
+
+        # For time series responses, we keep the raw data structure
+        # but validate the Days array exists and has the right structure
+        stats_timeseries_response(Days = data$Days)
+
+        # Return the original data for now
+        # (we can add more specific classes later if needed)
+        data
+      },
+      error = function(e) {
+        # Don't wrap errors that are already postmarkr_error_stats_response_validation
+        if (inherits(e, "postmarkr_error_stats_response_validation")) {
+          stop(e)
+        }
+
+        pstmrk_abort(
+          c(
+            "Unexpected structure in stats time series response.",
+            "i" = "This might indicate a change in the Postmark API.",
+            "i" = "Please report this issue at: https://github.com/nutrivetpet/postmarkr/issues",
+            "x" = paste("Error:", conditionMessage(e))
+          ),
+          class = "postmarkr_error_stats_response_validation"
+        )
+      }
+    )
+  }
+}
+
 method(stats_get, list(postmarkr, stats)) <- function(
   client,
   params,
@@ -215,8 +403,12 @@ method(stats_get, list(postmarkr, stats)) <- function(
 
   resp <- req_perform(req)
 
+  raw_data <- resp_body_json(resp, simplifyVector = TRUE)
+
+  validated_data <- validate_stats_response(raw_data, full_endpoint)
+
   postmarkr_response(
-    data = resp_body_json(resp, simplifyVector = TRUE), # TODO: why does not return a data.frame? Probably bc it would be a one row dataframe
+    data = validated_data,
     status = resp_status(resp),
     request = req,
     response = resp,
