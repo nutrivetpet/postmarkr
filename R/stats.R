@@ -188,12 +188,8 @@ method(stats_get, list(postmarkr, class_character)) <- function(
 
   query_params <- list()
 
-  if (length(client@message_stream) > 0) {
-    query_params$messagestream <- client@message_stream
-  }
-
   if (!is.null(params)) {
-    if (!inherits(params, "stats")) {
+    if (!S7_inherits(params, stats)) {
       pstmrk_abort(
         "`params` must be a stats object or NULL",
         class = "postmarkr_error_invalid_params"
