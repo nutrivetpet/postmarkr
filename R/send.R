@@ -2,7 +2,6 @@
 #' @export
 send <- new_generic("send", c("client", "message"))
 
-#' @export
 method(send, list(postmarkr, email)) <- function(client, message) {
   req <- build_req_s7(
     client = client,

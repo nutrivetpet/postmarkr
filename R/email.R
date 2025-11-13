@@ -136,6 +136,7 @@ email <- new_class(
       class = class_character,
       validator = function(value) {
         if (length(value) > 0) {
+          valid_options <- c("None", "HtmlAndText", "HtmlOnly", "TextOnly")
           if (!value %in% valid_options) {
             email_abort_invalid_track_links(value)
           }
