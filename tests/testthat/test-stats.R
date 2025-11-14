@@ -317,7 +317,7 @@ test_that("stats_get works with no endpoint and no params", {
   expect_true(S7_inherits(result, Response))
   expect_equal(result@status, 200)
   expect_true(result@success)
-  expect_true(S7_inherits(result@data, stats_overview_response))
+  expect_true(S7_inherits(result@data, StatsOverviewResponse))
 })
 
 test_that("stats_get works with specific endpoint", {
@@ -421,8 +421,8 @@ test_that("stats_get rejects with broadcast message stream", {
 
 # Response validation tests
 
-test_that("stats_overview_response can be created with valid data", {
-  response <- stats_overview_response(
+test_that("StatsOverviewResponse can be created with valid data", {
+  response <- StatsOverviewResponse(
     Sent = 615L,
     Bounced = 64L,
     SMTPApiErrors = 25L,
@@ -442,42 +442,42 @@ test_that("stats_overview_response can be created with valid data", {
     WithReadTimeRecorded = 0L
   )
 
-  expect_true(S7_inherits(response, stats_overview_response))
+  expect_true(S7_inherits(response, StatsOverviewResponse))
   expect_equal(response@Sent, 615L)
   expect_equal(response@BounceRate, 10.406)
 })
 
-test_that("stats_timeseries_response can be created with valid Days data.frame", {
+test_that("StatsTsResponse can be created with valid Days data.frame", {
   days <- data.frame(
     Date = c("2014-01-01", "2014-01-02"),
     Sent = c(140L, 160L)
   )
 
-  response <- stats_timeseries_response(Days = days)
+  response <- StatsTsResponse(Days = days)
 
-  expect_true(S7_inherits(response, stats_timeseries_response))
+  expect_true(S7_inherits(response, StatsTsResponse))
   expect_equal(nrow(response@Days), 2)
 })
 
-test_that("stats_timeseries_response validates Days data.frame structure", {
+test_that("StatsTsResponse validates Days data.frame structure", {
   invalid_days <- data.frame(
     NoDate = c("2014-01-01", "2014-01-02"),
     Sent = c(140L, 160L)
   )
 
   expect_error(
-    stats_timeseries_response(Days = invalid_days),
+    StatsTsResponse(Days = invalid_days),
     class = "postmarkr_error_invalid_stats_response"
   )
 })
 
-test_that("stats_timeseries_response rejects non-data.frame Days", {
+test_that("StatsTsResponse rejects non-data.frame Days", {
   invalid_days <- list(
     list(Date = "2014-01-01", Sent = 140L)
   )
 
   expect_error(
-    stats_timeseries_response(Days = invalid_days),
+    StatsTsResponse(Days = invalid_days),
     class = "postmarkr_error_invalid_stats_response"
   )
 })
@@ -505,7 +505,7 @@ test_that("validate_stats_response handles overview endpoint", {
 
   result <- validate_stats_response(data, "/stats/outbound")
 
-  expect_true(S7_inherits(result, stats_overview_response))
+  expect_true(S7_inherits(result, StatsOverviewResponse))
 })
 
 test_that("validate_stats_response handles time series endpoint", {
@@ -519,7 +519,7 @@ test_that("validate_stats_response handles time series endpoint", {
 
   result <- validate_stats_response(data, "/stats/outbound/sends")
 
-  expect_true(S7_inherits(result), stats_timeseries_response)
+  expect_true(S7_inherits(result), StatsTsResponse)
   expect_true("Days" %in% prop_names(result))
   expect_true(is.data.frame(result@Days))
 })
@@ -556,7 +556,7 @@ test_that("stats_get returns validated data in response", {
   result <- stats_get(client, params)
 
   # Should be validated as overview response
-  expect_true(S7_inherits(result@data, stats_overview_response))
+  expect_true(S7_inherits(result@data, StatsOverviewResponse))
   expect_true(!is.null(result@data@Sent))
 })
 

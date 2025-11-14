@@ -170,8 +170,8 @@ stats_get <- new_generic("stats_get", c("client", "params"))
 #' Validates the response from `/stats/{stream}` endpoint.
 #' @noRd
 #' @keywords internal
-stats_overview_response <- new_class(
-  name = "stats_overview_response",
+StatsOverviewResponse <- new_class(
+  name = "StatsOverviewResponse",
   properties = list(
     Sent = class_integer,
     Bounced = class_integer,
@@ -201,8 +201,8 @@ stats_overview_response <- new_class(
 #'
 #' @noRd
 #' @keywords internal
-stats_timeseries_response <- new_class(
-  name = "stats_timeseries_response",
+StatsTsResponse <- new_class(
+  name = "StatsTsResponse",
   properties = list(
     Days = new_property(
       class = class_any,
@@ -287,7 +287,7 @@ validate_stats_response <- function(data, endpoint) {
         )
       }
 
-      dat <- try(exec(stats_overview_response, !!!data))
+      dat <- try(exec(StatsOverviewResponse, !!!data))
 
       if (inherits(dat, "try-error")) {
         pstmrk_abort(
@@ -314,7 +314,7 @@ validate_stats_response <- function(data, endpoint) {
       }
       # For time series responses, we keep the raw data structure
       # but validate the Days array exists and has the right structure
-      dat <- try(stats_timeseries_response(Days = data$Days))
+      dat <- try(StatsTsResponse(Days = data$Days))
 
       if (inherits(dat, "try-error")) {
         pstmrk_abort(
