@@ -61,7 +61,7 @@ Stats <- new_class(
         }
         date_pattern <- "^\\d{4}-\\d{2}-\\d{2}$"
         if (length(value) && !grepl(date_pattern, value)) {
-          stats_abort_invalid_date_format("fromdate", example = "2024-01-01")
+          pstmrk_abort_invalid_date_format("fromdate", example = "2024-01-01")
         }
       }
     ),
@@ -73,7 +73,7 @@ Stats <- new_class(
         }
         date_pattern <- "^\\d{4}-\\d{2}-\\d{2}$"
         if (length(value) && !grepl(date_pattern, value)) {
-          stats_abort_invalid_date_format("todate", example = "2024-12-31")
+          pstmrk_abort_invalid_date_format("todate", example = "2024-12-31")
         }
       }
     )

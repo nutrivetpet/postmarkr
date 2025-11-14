@@ -96,7 +96,7 @@ pstmrk_abort_invalid_scalar_character <- function(
   )
 }
 
-stats_abort_invalid_date_format <- function(
+pstmrk_abort_invalid_date_format <- function(
   param_name,
   example = "2024-01-01",
   call = caller_env()
