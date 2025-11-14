@@ -59,3 +59,55 @@ email_abort_invalid_track_links <- function(
     call = call
   )
 }
+
+stats_abort_api_change <- function(
+  context,
+  additional_info = NULL,
+  call = caller_env()
+) {
+  msg <- c(
+    context,
+    "i" = "This might indicate a change in the Postmark API.",
+    "i" = "Please report this issue at: https://github.com/nutrivetpet/postmarkr/issues"
+  )
+
+  if (!is.null(additional_info)) {
+    msg <- c(msg, "x" = additional_info)
+  }
+
+  pstmrk_abort(
+    msg,
+    class = "postmarkr_error_stats_response_validation",
+    call = call
+  )
+}
+
+stats_abort_invalid_scalar_character <- function(
+  param_name,
+  call = caller_env()
+) {
+  pstmrk_abort(
+    sprintf(
+      "`%s` must be a single non-empty character string if provided",
+      param_name
+    ),
+    class = sprintf("postmarkr_error_invalid_%s", param_name),
+    call = call
+  )
+}
+
+stats_abort_invalid_date_format <- function(
+  param_name,
+  example = "2024-01-01",
+  call = caller_env()
+) {
+  pstmrk_abort(
+    sprintf(
+      "`%s` must be in YYYY-MM-DD format (e.g., '%s') if provided",
+      param_name,
+      example
+    ),
+    class = sprintf("postmarkr_error_invalid_%s", param_name),
+    call = call
+  )
+}

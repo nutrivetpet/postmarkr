@@ -49,10 +49,7 @@ Stats <- new_class(
       class = class_character,
       validator = function(value) {
         if (length(value) && (!is_scalar_character(value) || !nzchar(value))) {
-          pstmrk_abort(
-            "`tag` must be a single non-empty character string if provided",
-            class = "postmarkr_error_invalid_tag"
-          )
+          stats_abort_invalid_scalar_character("tag")
         }
       }
     ),
@@ -60,17 +57,11 @@ Stats <- new_class(
       class = class_character,
       validator = function(value) {
         if (length(value) && (!is_scalar_character(value) || !nzchar(value))) {
-          pstmrk_abort(
-            "`fromdate` must be a single non-empty character string if provided",
-            class = "postmarkr_error_invalid_fromdate"
-          )
+          stats_abort_invalid_scalar_character("fromdate")
         }
         date_pattern <- "^\\d{4}-\\d{2}-\\d{2}$"
         if (length(value) && !grepl(date_pattern, value)) {
-          pstmrk_abort(
-            "`fromdate` must be in YYYY-MM-DD format (e.g., '2024-01-01') if provided",
-            class = "postmarkr_error_invalid_fromdate"
-          )
+          stats_abort_invalid_date_format("fromdate", example = "2024-01-01")
         }
       }
     ),
@@ -78,17 +69,11 @@ Stats <- new_class(
       class = class_character,
       validator = function(value) {
         if (length(value) && (!is_scalar_character(value) || !nzchar(value))) {
-          pstmrk_abort(
-            "`todate` must be a single non-empty character string if provided",
-            class = "postmarkr_error_invalid_todate"
-          )
+          stats_abort_invalid_scalar_character("todate")
         }
         date_pattern <- "^\\d{4}-\\d{2}-\\d{2}$"
         if (length(value) && !grepl(date_pattern, value)) {
-          pstmrk_abort(
-            "`todate` must be in YYYY-MM-DD format (e.g., '2024-12-31') if provided",
-            class = "postmarkr_error_invalid_todate"
-          )
+          stats_abort_invalid_date_format("todate", example = "2024-12-31")
         }
       }
     )
@@ -216,43 +201,28 @@ validate_stats_response <- function(data, endpoint) {
 
       missing_fields <- setdiff(required_fields, names(data))
       if (length(missing_fields)) {
-        pstmrk_abort(
-          c(
-            "Unexpected structure in Stats overview response.",
-            "i" = "This might indicate a change in the Postmark API.",
-            "i" = "Please report this issue at: https://github.com/nutrivetpet/postmarkr/issues",
-            "x" = paste(
-              "Missing required fields:",
-              paste(missing_fields, collapse = ", ")
-            )
-          ),
-          class = "postmarkr_error_stats_response_validation"
+        stats_abort_api_change(
+          context = "Unexpected structure in Stats overview response.",
+          additional_info = paste(
+            "Missing required fields:",
+            paste(missing_fields, collapse = ", ")
+          )
         )
       }
 
       dat <- try(exec(StatsOverviewResponse, !!!data))
 
       if (inherits(dat, "try-error")) {
-        pstmrk_abort(
-          c(
-            "Unexpected structure in Stats overview response.",
-            "i" = "This might indicate a change in the Postmark API.",
-            "i" = "Please report this issue at: https://github.com/nutrivetpet/postmarkr/issues"
-          ),
-          class = "postmarkr_error_stats_response_validation"
+        stats_abort_api_change(
+          context = "Unexpected structure in Stats overview response."
         )
       }
       dat
     },
     yes = {
       if (!"Days" %in% names(data)) {
-        pstmrk_abort(
-          c(
-            "Expected `Days` field in Stats response but it was not found.",
-            "i" = "This might indicate a change in the Postmark API.",
-            "i" = "Please report this issue at: https://github.com/nutrivetpet/postmarkr/issues"
-          ),
-          class = "postmarkr_error_stats_response_validation"
+        stats_abort_api_change(
+          context = "Expected `Days` field in Stats response but it was not found."
         )
       }
       # For time series responses, we keep the raw data structure
@@ -260,13 +230,8 @@ validate_stats_response <- function(data, endpoint) {
       dat <- try(StatsTsResponse(Days = data$Days))
 
       if (inherits(dat, "try-error")) {
-        pstmrk_abort(
-          c(
-            "Unexpected structure in Stats time series response.",
-            "i" = "This might indicate a change in the Postmark API.",
-            "i" = "Please report this issue at: https://github.com/nutrivetpet/postmarkr/issues"
-          ),
-          class = "postmarkr_error_stats_response_validation"
+        stats_abort_api_change(
+          context = "Unexpected structure in Stats time series response."
         )
       }
       dat
