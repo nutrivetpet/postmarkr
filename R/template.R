@@ -286,8 +286,6 @@ Template <- new_class(
 #'   track_opens = TRUE
 #' )
 #' }
-#'
-#' @export
 template_send_email <- function(
   from,
   to,
@@ -386,8 +384,6 @@ template_send_email_impl <- function(
 #'
 #' @return A data frame or tibble (if tibble is installed) containing the
 #'   response details, invisibly.
-#'
-#' @export
 template_send_email_batch <- function(
   from,
   to,
@@ -525,7 +521,6 @@ template_send_email_batch_impl <- function(
 #' # Get all templates with pagination
 #' templates <- template_list(count = 100)
 #' }
-#' @export
 template_list <- function(count, type = "all") {
   template_list_impl(count = count, type = type, env = "live")
 }
