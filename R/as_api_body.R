@@ -1,5 +1,5 @@
 #' @include email.R
-#' 
+
 #' Convert Body Format
 #' Convert S7 objects to Postmark API request body format
 #' @noRd
