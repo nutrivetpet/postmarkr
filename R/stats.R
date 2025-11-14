@@ -362,15 +362,15 @@ method(stats_get, list(Postmarkr, Stats)) <- function(
     )
   }
 
-  if (length(params@tag) > 0) {
+  if (length(params@tag)) {
     query_params$tag <- params@tag
   }
 
-  if (length(params@fromdate) > 0) {
+  if (length(params@fromdate)) {
     query_params$fromdate <- params@fromdate
   }
 
-  if (length(params@todate) > 0) {
+  if (length(params@todate)) {
     query_params$todate <- params@todate
   }
 
