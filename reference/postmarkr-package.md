@@ -7,7 +7,7 @@ package is not created by or affiliated with Postmark.
 
 Useful links:
 
-- <https://andreranza.github.io/postmarkr>
+- <https://nutrivetpet.github.io/postmarkr>
 
 - <https://github.com/nutrivetpet/postmarkr>
 

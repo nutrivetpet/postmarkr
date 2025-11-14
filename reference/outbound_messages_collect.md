@@ -20,7 +20,7 @@ outbound_messages_collect(quiet = TRUE, ...)
 - ...:
 
   Additional arguments passed to
-  [`outbound_messages_fetch()`](https://andreranza.github.io/postmarkr/reference/messages.md).
+  [`outbound_messages_fetch()`](https://nutrivetpet.github.io/postmarkr/reference/messages.md).
 
 ## Value
 
