@@ -138,7 +138,7 @@ Email <- new_class(
         if (length(value)) {
           valid_options <- c("None", "HtmlAndText", "HtmlOnly", "TextOnly")
           if (!value %in% valid_options) {
-            email_abort_invalid_track_links(value)
+            pstmrk_abort_email_invalid_track_links(value)
           }
         }
       }
@@ -150,16 +150,16 @@ Email <- new_class(
     has_text <- length(self@text_body) > 0
 
     if (has_html && has_text) {
-      email_abort_body_conflict()
+      pstmrk_abort_email_body_conflict()
     }
 
     if (!has_html && !has_text) {
-      email_abort_missing_body()
+      pstmrk_abort_email_missing_body()
     }
 
     total_recipients <- length(self@to) + length(self@cc) + length(self@bcc)
     if (total_recipients > POSTMARK_MAX_RECIPIENTS_SINGLE) {
-      email_abort_too_many_recipients(total_recipients)
+      pstmrk_abort_email_too_many_recipients(total_recipients)
     }
   }
 )
