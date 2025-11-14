@@ -1,17 +1,14 @@
 #' @export
 method(print, Postmarkr) <- function(x, ...) {
-  # Temporarily redact the token for printing
-  original_token <- x@token
-  x@token <- paste0(
-    substr(original_token, 1, 8),
+  redacted_token <- paste0(
+    substr(x@token, 1, 8),
     "-****-****-****-************"
   )
 
-  # Use default S7 print method with redacted token
-  print.default(x)
-
-  # Restore original token (just in case, though x is local)
-  x@token <- original_token
-
+  cat("<Postmarkr::postmark>\n")
+  cat("  @ token          : chr ", redacted_token, "\n", sep = "")
+  cat("  @ message_stream : chr ", x@message_stream, "\n", sep = "")
+  cat("  @ base_url       : chr ", x@base_url, "\n", sep = "")
+  cat("  @ timeout        : num ", x@timeout, " seconds\n", sep = "")
   invisible(x)
 }
