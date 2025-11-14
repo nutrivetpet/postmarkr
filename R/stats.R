@@ -21,20 +21,20 @@
 #' @examples
 #' \dontrun{
 #' # Create Stats parameters with all fields
-#' params <- Stats(
+#' stats- Stats(
 #'   tag = "welcome-email",
 #'   fromdate = "2024-01-01",
 #'   todate = "2024-01-31"
 #' )
 #'
 #' # Create Stats parameters with only date range
-#' params <- Stats(
+#' stats <- Stats(
 #'   fromdate = "2024-01-01",
 #'   todate = "2024-01-31"
 #' )
 #'
 #' # Create empty Stats parameters
-#' params <- Stats()
+#' stats <- Stats()
 #' }
 #'
 #' @seealso
