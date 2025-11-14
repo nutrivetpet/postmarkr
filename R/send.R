@@ -94,7 +94,7 @@
 send <- new_generic("send", c("client", "message"))
 
 method(send, list(Postmarkr, Email)) <- function(client, message) {
-  req <- build_req_s7(
+  req <- build_req_S7(
     client = client,
     endpoint = "/email",
     method = "POST"

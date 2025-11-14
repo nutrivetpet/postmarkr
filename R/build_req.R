@@ -36,7 +36,7 @@ build_req <- function(endpoint, method, env, ...) {
 #' @return An httr2 request object.
 #' @noRd
 #' @keywords internal
-build_req_s7 <- function(client, endpoint, method, ...) {
+build_req_S7 <- function(client, endpoint, method, ...) {
   dots <- list2(...)
 
   req <-

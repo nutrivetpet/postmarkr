@@ -374,7 +374,7 @@ method(stats_get, list(Postmarkr, Stats)) <- function(
     query_params$todate <- params@todate
   }
 
-  req <- build_req_s7(
+  req <- build_req_S7(
     client = client,
     endpoint = full_endpoint,
     method = "GET",
