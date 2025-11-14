@@ -76,8 +76,7 @@
 #'   for Postmark email API documentation
 #' * \url{https://postmarkapp.com/developer/api/templates-api#send-email-with-template}
 #'   for Postmark template API documentation
-#'
-#' @name send
+#' 
 #' @export
 send <- new_generic("send", c("client", "message"),
     function(client, message, ...) {
@@ -85,10 +84,10 @@ send <- new_generic("send", c("client", "message"),
   }
 )
 
-method(send, list(Postmarkr, Email)) <- function(client, message, ...) {
+send_message <- function(client, message, endpoint) {
   req <- build_req_S7(
     client = client,
-    endpoint = "/email",
+    endpoint = endpoint,
     method = "POST"
   )
 
@@ -108,32 +107,14 @@ method(send, list(Postmarkr, Email)) <- function(client, message, ...) {
   )
 }
 
-#' @rdname send
-#' @name send
-#' @export
+method(send, list(Postmarkr, Email)) <- function(client, message, ...) {
+  send_message(client, message, "/email")
+}
+
 method(send, list(Postmarkr, Template)) <- function(
   client,
   message,
   ...
 ) {
-  req <- build_req_S7(
-      client = client,
-      endpoint = "/email/withTemplate",
-      method = "POST"
-    )
-
-  bdy <- as_api_body(message)
-  bdy$MessageStream <- client@message_stream
-
-  req <- req_body_json(req, bdy)
-
-  resp <- req_perform(req)
-
-  Response(
-    data = resp_body_json(resp, simplifyVector = TRUE),
-    status = resp_status(resp),
-    request = req,
-    response = resp,
-    success = isFALSE(resp_is_error(resp))
-  )
+  send_message(client, message, "/email/withTemplate")
 }

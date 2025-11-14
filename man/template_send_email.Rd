@@ -48,5 +48,4 @@ template_send_email(
   track_opens = TRUE
 )
 }
-
 }
