@@ -49,7 +49,7 @@ Stats <- new_class(
       class = class_character,
       validator = function(value) {
         if (length(value) && (!is_scalar_character(value) || !nzchar(value))) {
-          stats_abort_invalid_scalar_character("tag")
+          pstmrk_abort_invalid_scalar_character("tag")
         }
       }
     ),
@@ -57,7 +57,7 @@ Stats <- new_class(
       class = class_character,
       validator = function(value) {
         if (length(value) && (!is_scalar_character(value) || !nzchar(value))) {
-          stats_abort_invalid_scalar_character("fromdate")
+          pstmrk_abort_invalid_scalar_character("fromdate")
         }
         date_pattern <- "^\\d{4}-\\d{2}-\\d{2}$"
         if (length(value) && !grepl(date_pattern, value)) {
@@ -69,7 +69,7 @@ Stats <- new_class(
       class = class_character,
       validator = function(value) {
         if (length(value) && (!is_scalar_character(value) || !nzchar(value))) {
-          stats_abort_invalid_scalar_character("todate")
+          pstmrk_abort_invalid_scalar_character("todate")
         }
         date_pattern <- "^\\d{4}-\\d{2}-\\d{2}$"
         if (length(value) && !grepl(date_pattern, value)) {

@@ -82,7 +82,7 @@ pstmrk_abort_api_change <- function(
   )
 }
 
-stats_abort_invalid_scalar_character <- function(
+pstmrk_abort_invalid_scalar_character <- function(
   param_name,
   call = caller_env()
 ) {
