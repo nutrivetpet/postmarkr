@@ -1,3 +1,5 @@
+#' @include constants.R
+
 #' Postmark API Client
 #'
 #' @description

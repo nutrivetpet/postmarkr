@@ -27,19 +27,19 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 Collate: 
+    'constants.R'
+    'postmarkr.R'
+    'template.R'
     'email.R'
     'as_api_body.R'
     'build_req.R'
     'cond.R'
-    'constants.R'
     'messages.R'
     'ply.R'
     'postmarkr-package.R'
-    'postmarkr.R'
     'print.R'
     'response.R'
     'send.R'
     'stats.R'
-    'template.R'
     'utils.R'
     'zzz.R'

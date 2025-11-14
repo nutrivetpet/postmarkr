@@ -1,4 +1,4 @@
-#' @include email.R
+#' @include email.R template.R
 
 #' Convert Body Format
 #' Convert S7 objects to Postmark API request body format
@@ -58,6 +58,62 @@ method(as_api_body, Email) <- function(x) {
 
   if (length(x@attachments)) {
     body$Attachments <- x@attachments
+  }
+
+  body
+}
+
+method(as_api_body, Template) <- function(x) {
+  body <- list(
+    From = x@from,
+    To = paste0(x@to, collapse = ", "),
+    TemplateModel = as.list(x@template_model)
+  )
+
+  if (length(x@id)) {
+    body$TemplateId <- x@id
+  } else {
+    body$TemplateAlias <- x@alias
+  }
+
+  if (length(x@cc)) {
+    body$Cc <- paste0(x@cc, collapse = ", ")
+  }
+
+  if (length(x@bcc)) {
+    body$Bcc <- paste0(x@bcc, collapse = ", ")
+  }
+
+  if (length(x@inline_css)) {
+    body$InlineCss <- x@inline_css
+  }
+
+  if (length(x@tag)) {
+    body$Tag <- x@tag
+  }
+
+  if (length(x@reply_to)) {
+    body$ReplyTo <- x@reply_to
+  }
+
+  if (length(x@headers)) {
+    body$Headers <- x@headers
+  }
+
+  if (length(x@track_opens)) {
+    body$TrackOpens <- x@track_opens
+  }
+
+  if (length(x@track_links)) {
+    body$TrackLinks <- x@track_links
+  }
+
+  if (length(x@attachments)) {
+    body$Attachments <- x@attachments
+  }
+
+  if (length(x@metadata)) {
+    body$Metadata <- x@metadata
   }
 
   body

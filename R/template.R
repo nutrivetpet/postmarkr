@@ -1,3 +1,5 @@
+#' @include postmarkr.R as_api_body.R
+
 #' Template - Email with template
 #'
 #' @description
@@ -303,71 +305,10 @@ method(template_send, list(Postmarkr, Template)) <- function(
   template,
   ...
 ) {
-  # Build the request body from the Template object
-  bdy <- list(
-    From = template@from,
-    To = paste0(template@to, collapse = ", "),
-    TemplateModel = as.list(template@template_model)
-  )
+  # Build the request body from the Template object using as_api_body generic
+  bdy <- as_api_body(template)
 
-  # Add either TemplateId or TemplateAlias
-  if (length(template@id)) {
-    bdy$TemplateId <- template@id
-  } else {
-    bdy$TemplateAlias <- template@alias
-  }
-
-  # Add optional Cc
-  if (length(template@cc)) {
-    bdy$Cc <- paste0(template@cc, collapse = ", ")
-  }
-
-  # Add optional Bcc
-  if (length(template@bcc)) {
-    bdy$Bcc <- paste0(template@bcc, collapse = ", ")
-  }
-
-  # Add optional InlineCss
-  if (length(template@inline_css)) {
-    bdy$InlineCss <- template@inline_css
-  }
-
-  # Add optional Tag
-  if (length(template@tag)) {
-    bdy$Tag <- template@tag
-  }
-
-  # Add optional ReplyTo
-  if (length(template@reply_to)) {
-    bdy$ReplyTo <- template@reply_to
-  }
-
-  # Add optional Headers
-  if (length(template@headers)) {
-    bdy$Headers <- template@headers
-  }
-
-  # Add optional TrackOpens
-  if (length(template@track_opens)) {
-    bdy$TrackOpens <- template@track_opens
-  }
-
-  # Add optional TrackLinks
-  if (length(template@track_links)) {
-    bdy$TrackLinks <- template@track_links
-  }
-
-  # Add optional Attachments
-  if (length(template@attachments)) {
-    bdy$Attachments <- template@attachments
-  }
-
-  # Add optional Metadata
-  if (length(template@metadata)) {
-    bdy$Metadata <- template@metadata
-  }
-
-  # Add MessageStream
+  # Add MessageStream from client
   bdy$MessageStream <- client@message_stream
 
   # Build and send the request
