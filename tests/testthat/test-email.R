@@ -24,7 +24,7 @@ test_that("Email class rejects both html_body and text_body", {
       html_body = "<h1>Hello</h1>",
       text_body = "Hello world"
     ),
-    class = "postmarkr_email_body_conflict"
+    class = "postmarkr_error_email_body_conflict"
   )
 })
 
@@ -34,7 +34,7 @@ test_that("Email class rejects neither html_body nor text_body", {
       from = "sender@example.com",
       to = "recipient@example.com"
     ),
-    class = "postmarkr_email_missing_body"
+    class = "postmarkr_error_email_missing_body"
   )
 })
 
@@ -58,7 +58,7 @@ test_that("Email class rejects over 50 total recipients", {
       bcc = rep("bcc@example.com", 6),
       html_body = "<h1>Hello</h1>"
     ),
-    class = "postmarkr_email_too_many_recipients"
+    class = "postmarkr_error_email_too_many_recipients"
   )
 })
 
@@ -131,7 +131,7 @@ test_that("Email class with 51 recipients in to field only fails", {
       to = rep("user@example.com", 51),
       html_body = "<h1>Hello</h1>"
     ),
-    class = "postmarkr_email_too_many_recipients"
+    class = "postmarkr_error_email_too_many_recipients"
   )
 })
 

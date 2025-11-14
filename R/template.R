@@ -146,7 +146,7 @@ Template <- new_class(
         if (!length(value)) {
           pstmrk_abort(
             "`from` is required",
-            class = "postmarkr_template_missing_from"
+            class = "postmarkr_error_template_missing_from"
           )
         }
       }
@@ -157,7 +157,7 @@ Template <- new_class(
         if (!length(value)) {
           pstmrk_abort(
             "`to` is required",
-            class = "postmarkr_template_missing_to"
+            class = "postmarkr_error_template_missing_to"
           )
         }
       }
@@ -184,7 +184,7 @@ Template <- new_class(
         if (!length(value)) {
           pstmrk_abort(
             "`template_model` is required",
-            class = "postmarkr_template_missing_model"
+            class = "postmarkr_error_template_missing_model"
           )
         }
         if (!is_named(value)) {
@@ -234,14 +234,14 @@ Template <- new_class(
     if (!has_id && !has_alias) {
       pstmrk_abort(
         "Either `id` or `alias` must be provided",
-        class = "postmarkr_template_missing_identifier"
+        class = "postmarkr_error_template_missing_identifier"
       )
     }
 
     if (has_id && has_alias) {
       pstmrk_abort(
         "Cannot provide both `id` and `alias`. Use one or the other.",
-        class = "postmarkr_template_conflicting_identifiers"
+        class = "postmarkr_error_template_conflicting_identifiers"
       )
     }
 

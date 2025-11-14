@@ -7,7 +7,7 @@ test_that("Template requires either id or alias", {
       to = "recipient@example.com",
       template_model = list(name = "test")
     ),
-    class = "postmarkr_template_missing_identifier"
+    class = "postmarkr_error_template_missing_identifier"
   )
 })
 
@@ -20,7 +20,7 @@ test_that("Template rejects both id and alias together", {
       alias = "welcome-email",
       template_model = list(name = "test")
     ),
-    class = "postmarkr_template_conflicting_identifiers"
+    class = "postmarkr_error_template_conflicting_identifiers"
   )
 })
 
@@ -111,7 +111,7 @@ test_that("Template requires template_model", {
       to = "recipient@example.com",
       id = 12345L
     ),
-    class = "postmarkr_template_missing_model"
+    class = "postmarkr_error_template_missing_model"
   )
 })
 
@@ -201,7 +201,7 @@ test_that("Template rejects invalid track_links value", {
       template_model = list(name = "test"),
       track_links = "Invalid"
     ),
-    class = "postmarkr_email_invalid_track_links"
+    class = "postmarkr_error_email_invalid_track_links"
   )
 })
 
@@ -232,7 +232,7 @@ test_that("Template rejects too many recipients", {
       id = 12345L,
       template_model = list(name = "test")
     ),
-    class = "postmarkr_template_too_many_recipients"
+    class = "postmarkr_error_template_too_many_recipients"
   )
 })
 
@@ -246,7 +246,7 @@ test_that("Template rejects too many recipients across to/cc/bcc", {
       id = 12345L,
       template_model = list(name = "test")
     ),
-    class = "postmarkr_template_too_many_recipients"
+    class = "postmarkr_error_template_too_many_recipients"
   )
 })
 

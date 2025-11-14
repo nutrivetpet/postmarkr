@@ -67,7 +67,7 @@ pstmrk_abort_invalid_date_format <- function(
 pstmrk_abort_email_body_conflict <- function(call = caller_env()) {
   pstmrk_abort(
     "Cannot provide both `html_body` and `text_body` simultaneously",
-    class = "postmarkr_email_body_conflict",
+    class = "postmarkr_error_email_body_conflict",
     call = call
   )
 }
@@ -75,7 +75,7 @@ pstmrk_abort_email_body_conflict <- function(call = caller_env()) {
 pstmrk_abort_email_missing_body <- function(call = caller_env()) {
   pstmrk_abort(
     "Must provide either `html_body` or `text_body`",
-    class = "postmarkr_email_missing_body",
+    class = "postmarkr_error_email_missing_body",
     call = call
   )
 }
@@ -91,7 +91,7 @@ pstmrk_abort_email_too_many_recipients <- function(
       max,
       total
     ),
-    class = "postmarkr_email_too_many_recipients",
+    class = "postmarkr_error_email_too_many_recipients",
     call = call
   )
 }
@@ -107,7 +107,7 @@ pstmrk_abort_email_invalid_track_links <- function(
       paste(valid_options, collapse = ", "),
       value
     ),
-    class = "postmarkr_email_invalid_track_links",
+    class = "postmarkr_error_email_invalid_track_links",
     call = call
   )
 }
@@ -139,7 +139,7 @@ pstmrk_abort_template_too_many_recipients <- function(
       max,
       total
     ),
-    class = "postmarkr_template_too_many_recipients",
+    class = "postmarkr_error_template_too_many_recipients",
     call = call
   )
 }

@@ -125,7 +125,7 @@ outbound_messages_collect_impl <- function(
   if (is.null(sent)) {
     abort(
       "Cannot get number of emails sent.",
-      class = "wrong_email_number"
+      class = "postmarkr_error_wrong_email_number"
     )
   }
 
@@ -151,7 +151,7 @@ outbound_messages_collect_impl <- function(
   if (!length(out)) {
     abort(
       "Cannot retrieve messages.",
-      class = "wrong_api_call"
+      class = "postmarkr_error_wrong_api_call"
     )
   }
 

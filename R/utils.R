@@ -15,7 +15,7 @@ get_token <- function(env = c("live", "test")) {
           envar
         )
       ),
-      class = "missing_token"
+      class = "postmarkr_error_missing_token"
     )
   }
   token

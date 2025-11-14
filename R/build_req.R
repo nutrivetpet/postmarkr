@@ -14,7 +14,7 @@ build_req <- function(endpoint, method, env, ...) {
     if (!all(args %in% supported_args())) {
       abort(
         "Some arguments are not supported.",
-        class = "not_supported_args"
+        class = "postmarkr_error_not_supported_args"
       )
     }
 
