@@ -1,6 +1,7 @@
 #' @include postmarkr.R as_api_body.R
+NULL
 
-#' Template - Email with template
+#' Template
 #'
 #' @description
 #' An S7 class representing a template-based email message to be sent via the

@@ -1,6 +1,7 @@
 #' @include constants.R
+NULL
 
-#' Postmark API Client
+#' Postmark Client
 #'
 #' @description
 #' An S7 class representing a Postmark API client for sending emails.
