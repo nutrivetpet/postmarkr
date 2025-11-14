@@ -16,7 +16,7 @@
 #'   **You should not need to change this.** Only modify for testing/mocking
 #'   purposes (e.g., pointing to a local mock server during development).
 #' @param timeout numeric. Request timeout in seconds for API calls.
-#' @param verbose logical. Whether to pass [req_verbose()] to the request.
+#' @param verbose logical. Whether to pass [httr2::req_verbose()] to the request.
 #'
 #' @details
 #' The `Postmarkr` class provides a structured way to configure and use the
