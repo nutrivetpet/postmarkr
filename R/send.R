@@ -1,11 +1,12 @@
-#' Send Email
+#' Send Email or Template
 #'
 #' @description
 #' Generic function to send emails through the Postmark API. This function
-#' dispatches to the appropriate method based on the client and message types.
+#' dispatches to the appropriate method based on the message type ([Email] or
+#' [Template]).
 #'
 #' @param client A [Postmarkr] client object.
-#' @param message An [Email] object.
+#' @param message An [Email] or [Template] object to send.
 #' @param ... Additional arguments passed to methods.
 #'
 #' @return A `Response` S7 object with the following properties:
@@ -26,7 +27,7 @@
 #'   message_stream = "outbound"
 #' )
 #'
-#' # Create an email
+#' # Send a regular email
 #' email <- Email(
 #'   from = "sender@example.com",
 #'   to = "recipient@example.com",
@@ -34,7 +35,6 @@
 #'   text_body = "This is a test email sent via R."
 #' )
 #'
-#' # Send the email
 #' response <- send(client, email)
 #'
 #' # Check if successful
@@ -56,29 +56,43 @@
 #' )
 #'
 #' response <- send(client, html_email)
+#'
+#' # Send a template email
+#' template <- Template(
+#'   from = "sender@example.com",
+#'   to = "recipient@example.com",
+#'   id = 12345678L,
+#'   template_model = list(name = "John", order_id = "ORD-123")
+#' )
+#'
+#' response <- send(client, template)
 #' }
 #'
 #' @seealso
 #' * [Postmarkr] for creating an API client
 #' * [Email] for creating email objects
+#' * [Template] for creating template objects
 #' * \url{https://postmarkapp.com/developer/api/email-api#send-a-single-email}
-#'   for Postmark API documentation
+#'   for Postmark email API documentation
+#' * \url{https://postmarkapp.com/developer/api/templates-api#send-email-with-template}
+#'   for Postmark template API documentation
 #'
+#' @name send
 #' @export
-send <- new_generic("send", c("client", "email"), 
-    function(client, template, ...) {
+send <- new_generic("send", c("client", "message"),
+    function(client, message, ...) {
     S7_dispatch()
   }
 )
 
-method(send, list(Postmarkr, Email)) <- function(client, email, ...) {
+method(send, list(Postmarkr, Email)) <- function(client, message, ...) {
   req <- build_req_S7(
     client = client,
     endpoint = "/email",
     method = "POST"
   )
 
-  bdy <- as_api_body(email)
+  bdy <- as_api_body(message)
   bdy$MessageStream <- client@message_stream
 
   req <- req_body_json(req, bdy)
@@ -94,55 +108,12 @@ method(send, list(Postmarkr, Email)) <- function(client, email, ...) {
   )
 }
 
-#' Send Template
-#'
-#' @description
-#' Generic function to send template-based emails via the Postmark API.
-#' This provides a structured way to send emails using predefined templates.
-#'
-#' @inheritParams send
-#' @param template A [Template] object
-#'
-#' @return A `Response` S7 object with the following properties:
-#' \describe{
-#'   \item{data}{List containing API response data including `MessageID`,
-#'     `SubmittedAt`, `To`, `ErrorCode`, and `Message` fields}
-#'   \item{status}{HTTP status code (200 for success)}
-#'   \item{request}{The httr2 request object used for the API call}
-#'   \item{response}{The httr2 response object from the API}
-#'   \item{success}{Logical indicating if the email was sent successfully}
-#' }
-#'
-#' @examples
-#' \dontrun{
-#' # Create client
-#' client <- Postmarkr(
-#'   token = "your-server-token",
-#'   message_stream = "outbound"
-#' )
-#'
-#' # Create a template
-#' template <- Template(
-#'   from = "sender@example.com",
-#'   to = "recipient@example.com",
-#'   id = 12345678L,
-#'   template_model = list(name = "John", order_id = "ORD-123")
-#' )
-#'
-#' # Send the template email
-#' response <- send(client, template)
-#' }
-#'
-#' @seealso
-#' * [Postmarkr] for creating an API client
-#' * [Template] for creating template objects
-#' \url{https://postmarkapp.com/developer/api/templates-api#send-email-with-template}
-#' for Postmark template API documentation
-#'
+#' @rdname send
+#' @name send
 #' @export
 method(send, list(Postmarkr, Template)) <- function(
   client,
-  template,
+  message,
   ...
 ) {
   req <- build_req_S7(
@@ -150,11 +121,11 @@ method(send, list(Postmarkr, Template)) <- function(
       endpoint = "/email/withTemplate",
       method = "POST"
     )
-  
-  bdy <- as_api_body(template)
+
+  bdy <- as_api_body(message)
   bdy$MessageStream <- client@message_stream
-  
-  req <- req_body_json(bdy)
+
+  req <- req_body_json(req, bdy)
 
   resp <- req_perform(req)
 

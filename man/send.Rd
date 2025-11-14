@@ -2,16 +2,14 @@
 % Please edit documentation in R/send.R
 \name{send}
 \alias{send}
-\title{Send an email via Postmark}
+\title{Send Email or Template}
 \usage{
 send(client, message, ...)
 }
 \arguments{
-\item{client}{A \link{Postmarkr} client object configured with API token and
-message stream.}
+\item{client}{A \link{Postmarkr} client object.}
 
-\item{message}{An \link{Email} object containing the email content and
-configuration to be sent.}
+\item{message}{An \link{Email} or \link{Template} object to send.}
 
 \item{...}{Additional arguments passed to methods.}
 }
@@ -28,42 +26,18 @@ A \code{Response} S7 object with the following properties:
 }
 \description{
 Generic function to send emails through the Postmark API. This function
-dispatches to the appropriate method based on the client and message types.
-}
-\details{
-This generic function provides a clean interface for sending emails through
-Postmark. The function:
-\itemize{
-\item Converts the Email object to the Postmark API JSON format
-\item Adds the message stream from the client configuration
-\item Performs the HTTP POST request to the Postmark API
-\item Returns a structured response object with detailed information
-}
-
-The \code{MessageID} in the response can be used to track the email status
-via webhooks or the bounce API.
-
-\strong{Error Handling:}
-If the API request fails, the function will throw an error with details
-from the Postmark API response. Common error codes include:
-\itemize{
-\item 300: Invalid email address
-\item 401: Unauthorized (invalid API token)
-\item 406: Inactive recipient (hard bounce)
-\item 422: Unprocessable entity (validation error)
-\item 429: Too many requests (rate limited)
-\item 500: Internal server error
-}
+dispatches to the appropriate method based on the message type (\link{Email} or
+\link{Template}).
 }
 \examples{
 \dontrun{
-# Create a Postmark client
+# Create client
 client <- Postmarkr(
   token = "your-server-token",
   message_stream = "outbound"
 )
 
-# Create an email
+# Send a regular email
 email <- Email(
   from = "sender@example.com",
   to = "recipient@example.com",
@@ -71,7 +45,6 @@ email <- Email(
   text_body = "This is a test email sent via R."
 )
 
-# Send the email
 response <- send(client, email)
 
 # Check if successful
@@ -93,6 +66,16 @@ html_email <- Email(
 )
 
 response <- send(client, html_email)
+
+# Send a template email
+template <- Template(
+  from = "sender@example.com",
+  to = "recipient@example.com",
+  id = 12345678L,
+  template_model = list(name = "John", order_id = "ORD-123")
+)
+
+response <- send(client, template)
 }
 
 }
@@ -100,7 +83,10 @@ response <- send(client, html_email)
 \itemize{
 \item \link{Postmarkr} for creating an API client
 \item \link{Email} for creating email objects
+\item \link{Template} for creating template objects
 \item \url{https://postmarkapp.com/developer/api/email-api#send-a-single-email}
-for Postmark API documentation
+for Postmark email API documentation
+\item \url{https://postmarkapp.com/developer/api/templates-api#send-email-with-template}
+for Postmark template API documentation
 }
 }
