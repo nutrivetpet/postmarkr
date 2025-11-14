@@ -60,7 +60,7 @@ email_abort_invalid_track_links <- function(
   )
 }
 
-stats_abort_api_change <- function(
+pstmrk_abort_api_change <- function(
   context,
   additional_info = NULL,
   call = caller_env()

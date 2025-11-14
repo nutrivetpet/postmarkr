@@ -201,7 +201,7 @@ validate_stats_response <- function(data, endpoint) {
 
       missing_fields <- setdiff(required_fields, names(data))
       if (length(missing_fields)) {
-        stats_abort_api_change(
+        pstmrk_abort_api_change(
           context = "Unexpected structure in Stats overview response.",
           additional_info = paste(
             "Missing required fields:",
@@ -213,7 +213,7 @@ validate_stats_response <- function(data, endpoint) {
       dat <- try(exec(StatsOverviewResponse, !!!data))
 
       if (inherits(dat, "try-error")) {
-        stats_abort_api_change(
+        pstmrk_abort_api_change(
           context = "Unexpected structure in Stats overview response."
         )
       }
@@ -221,7 +221,7 @@ validate_stats_response <- function(data, endpoint) {
     },
     yes = {
       if (!"Days" %in% names(data)) {
-        stats_abort_api_change(
+        pstmrk_abort_api_change(
           context = "Expected `Days` field in Stats response but it was not found."
         )
       }
@@ -230,7 +230,7 @@ validate_stats_response <- function(data, endpoint) {
       dat <- try(StatsTsResponse(Days = data$Days))
 
       if (inherits(dat, "try-error")) {
-        stats_abort_api_change(
+        pstmrk_abort_api_change(
           context = "Unexpected structure in Stats time series response."
         )
       }
