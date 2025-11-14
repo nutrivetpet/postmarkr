@@ -49,7 +49,7 @@ Stats <- new_class(
       class = class_character,
       validator = function(value) {
         if (
-          length(value) > 0 && (!is_scalar_character(value) || !nzchar(value))
+          length(value) && (!is_scalar_character(value) || !nzchar(value))
         ) {
           pstmrk_abort(
             "`tag` must be a single non-empty character string if provided",
@@ -62,7 +62,7 @@ Stats <- new_class(
       class = class_character,
       validator = function(value) {
         if (
-          length(value) > 0 && (!is_scalar_character(value) || !nzchar(value))
+          length(value) && (!is_scalar_character(value) || !nzchar(value))
         ) {
           pstmrk_abort(
             "`fromdate` must be a single non-empty character string if provided",
@@ -70,7 +70,7 @@ Stats <- new_class(
           )
         }
         date_pattern <- "^\\d{4}-\\d{2}-\\d{2}$"
-        if (length(value) > 0 && !grepl(date_pattern, value)) {
+        if (length(value) && !grepl(date_pattern, value)) {
           pstmrk_abort(
             "`fromdate` must be in YYYY-MM-DD format (e.g., '2024-01-01') if provided",
             class = "postmarkr_error_invalid_fromdate"
@@ -82,7 +82,7 @@ Stats <- new_class(
       class = class_character,
       validator = function(value) {
         if (
-          length(value) > 0 && (!is_scalar_character(value) || !nzchar(value))
+          length(value) && (!is_scalar_character(value) || !nzchar(value))
         ) {
           pstmrk_abort(
             "`todate` must be a single non-empty character string if provided",
@@ -90,7 +90,7 @@ Stats <- new_class(
           )
         }
         date_pattern <- "^\\d{4}-\\d{2}-\\d{2}$"
-        if (length(value) > 0 && !grepl(date_pattern, value)) {
+        if (length(value) && !grepl(date_pattern, value)) {
           pstmrk_abort(
             "`todate` must be in YYYY-MM-DD format (e.g., '2024-12-31') if provided",
             class = "postmarkr_error_invalid_todate"
@@ -100,7 +100,7 @@ Stats <- new_class(
     )
   ),
   validator = function(self) {
-    if (length(self@fromdate) > 0 && length(self@todate) > 0) {
+    if (length(self@fromdate) && length(self@todate)) {
       from <- as.Date(self@fromdate, format = "%Y-%m-%d")
       to <- as.Date(self@todate, format = "%Y-%m-%d")
       if (from > to) {
@@ -208,7 +208,7 @@ StatsTsResponse <- new_class(
       class = class_any,
       validator = function(value) {
         # Days should be a data.frame when using simplifyVector = TRUE
-        if (length(value) > 0 && !is.data.frame(value)) {
+        if (length(value) && !is.data.frame(value)) {
           pstmrk_abort(
             "`Days` must be a data.frame",
             class = "postmarkr_error_invalid_stats_response"
@@ -272,7 +272,7 @@ validate_stats_response <- function(data, endpoint) {
       )
 
       missing_fields <- setdiff(required_fields, names(data))
-      if (length(missing_fields) > 0) {
+      if (length(missing_fields)) {
         pstmrk_abort(
           c(
             "Unexpected structure in Stats overview response.",
