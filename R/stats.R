@@ -48,9 +48,7 @@ Stats <- new_class(
     tag = new_property(
       class = class_character,
       validator = function(value) {
-        if (
-          length(value) && (!is_scalar_character(value) || !nzchar(value))
-        ) {
+        if (length(value) && (!is_scalar_character(value) || !nzchar(value))) {
           pstmrk_abort(
             "`tag` must be a single non-empty character string if provided",
             class = "postmarkr_error_invalid_tag"
@@ -61,9 +59,7 @@ Stats <- new_class(
     fromdate = new_property(
       class = class_character,
       validator = function(value) {
-        if (
-          length(value) && (!is_scalar_character(value) || !nzchar(value))
-        ) {
+        if (length(value) && (!is_scalar_character(value) || !nzchar(value))) {
           pstmrk_abort(
             "`fromdate` must be a single non-empty character string if provided",
             class = "postmarkr_error_invalid_fromdate"
@@ -81,9 +77,7 @@ Stats <- new_class(
     todate = new_property(
       class = class_character,
       validator = function(value) {
-        if (
-          length(value) && (!is_scalar_character(value) || !nzchar(value))
-        ) {
+        if (length(value) && (!is_scalar_character(value) || !nzchar(value))) {
           pstmrk_abort(
             "`todate` must be a single non-empty character string if provided",
             class = "postmarkr_error_invalid_todate"
