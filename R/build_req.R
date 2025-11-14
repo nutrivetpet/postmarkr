@@ -59,7 +59,7 @@ build_req_S7 <- function(client, endpoint, method, ...) {
     if (!all(args %in% supported_args())) {
       pstmrk_abort(
         "Some arguments are not supported.",
-        class = "not_supported_args"
+        class = "postmarkr_error_not_supported_args"
       )
     }
 
