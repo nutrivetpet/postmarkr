@@ -9,7 +9,7 @@ as_api_body <- new_generic("as_api_body", "x")
 method(as_api_body, Email) <- function(x) {
   body <- list(
     From = x@from,
-    To = paste0(x@to, collapse = ", ")
+    To = collapse_comma(x@to)
   )
 
   if (length(x@subject)) {
@@ -17,11 +17,11 @@ method(as_api_body, Email) <- function(x) {
   }
 
   if (length(x@cc)) {
-    body$Cc <- paste0(x@cc, collapse = ", ")
+    body$Cc <- collapse_comma(x@cc)
   }
 
   if (length(x@bcc)) {
-    body$Bcc <- paste0(x@bcc, collapse = ", ")
+    body$Bcc <- collapse_comma(x@bcc)
   }
 
   if (length(x@reply_to)) {
@@ -66,7 +66,7 @@ method(as_api_body, Email) <- function(x) {
 method(as_api_body, Template) <- function(x) {
   body <- list(
     From = x@from,
-    To = paste0(x@to, collapse = ", "),
+    To = collapse_comma(x@to),
     TemplateModel = as.list(x@template_model)
   )
 
@@ -77,11 +77,11 @@ method(as_api_body, Template) <- function(x) {
   }
 
   if (length(x@cc)) {
-    body$Cc <- paste0(x@cc, collapse = ", ")
+    body$Cc <- collapse_comma(x@cc)
   }
 
   if (length(x@bcc)) {
-    body$Bcc <- paste0(x@bcc, collapse = ", ")
+    body$Bcc <- collapse_comma(x@bcc)
   }
 
   if (length(x@inline_css)) {

@@ -432,7 +432,7 @@ template_send_email_impl <- function(
 
   msg_stream <- arg_match(msg_stream, c("outbound", "broadcast"))
 
-  to <- paste0(to, collapse = ", ")
+  to <- collapse_comma(to)
 
   bdy <- list(
     From = from,

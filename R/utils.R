@@ -111,3 +111,8 @@ rep_list <- function(x, n) {
 
   exec("Map", !!!args)
 }
+
+collapse_comma <- function(x) {
+  stopifnot("`x` must be a character vector" = is_character(x))
+  paste0(x, collapse = ", ")
+}
