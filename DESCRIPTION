@@ -9,7 +9,7 @@ Authors@R: c(
 Description: Provides functions for interacting with the Postmark API from
     R.  This package is not created by or affiliated with Postmark.
 License: MIT + file LICENSE
-URL: https://andreranza.github.io/postmarkr,
+URL: https://nutrivetpet.github.io/postmarkr,
     https://github.com/nutrivetpet/postmarkr
 BugReports: https://github.com/nutrivetpet/postmarkr/issues
 Depends: 

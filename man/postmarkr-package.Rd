@@ -13,7 +13,7 @@ Provides functions for interacting with the Postmark API from R. This package is
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://andreranza.github.io/postmarkr}
+  \item \url{https://nutrivetpet.github.io/postmarkr}
   \item \url{https://github.com/nutrivetpet/postmarkr}
   \item Report bugs at \url{https://github.com/nutrivetpet/postmarkr/issues}
 }
