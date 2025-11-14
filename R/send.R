@@ -8,6 +8,7 @@
 #'   message stream.
 #' @param message An [Email] object containing the email content and
 #'   configuration to be sent.
+#' @param ... Additional arguments passed to methods.
 #'
 #' @return A `Response` S7 object with the following properties:
 #' \describe{

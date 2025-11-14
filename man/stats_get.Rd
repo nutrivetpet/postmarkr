@@ -4,7 +4,7 @@
 \alias{stats_get}
 \title{Get Statistics from Postmark}
 \usage{
-stats_get(client, params, ...)
+stats_get(client, params, ..., endpoint = NULL)
 }
 \arguments{
 \item{client}{A Postmarkr client object created with \code{\link[=Postmarkr]{Postmarkr()}}.}
@@ -12,8 +12,10 @@ stats_get(client, params, ...)
 \item{params}{Optional Stats parameters object created with \code{\link[=Stats]{Stats()}}.
 If not provided, no query parameters will be sent.}
 
-\item{endpoint}{character. The Stats endpoint path (e.g., "overview",
-"sends", "bounces", "opens/emailclients", "clicks",
+\item{...}{Additional arguments passed to methods.}
+
+\item{endpoint}{A character argument specifying the Stats endpoint path
+(e.g., "overview", "sends", "bounces", "opens/emailclients", "clicks",
 "clicks/browserfamilies"). The "/stats/" prefix and message stream
 will be added automatically.}
 }

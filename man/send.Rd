@@ -12,6 +12,8 @@ message stream.}
 
 \item{message}{An \link{Email} object containing the email content and
 configuration to be sent.}
+
+\item{...}{Additional arguments passed to methods.}
 }
 \value{
 A \code{Response} S7 object with the following properties:

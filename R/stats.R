@@ -113,57 +113,6 @@ Stats <- new_class(
   }
 )
 
-#' Get Statistics from Postmark
-#'
-#' @description
-#' Generic function to retrieve statistics from various Postmark API endpoints.
-#' This provides a flexible way to query different types of statistics using
-#' the same interface.
-#'
-#' @param client A Postmarkr client object created with [Postmarkr()].
-#' @param endpoint character. The Stats endpoint path (e.g., "overview",
-#'   "sends", "bounces", "opens/emailclients", "clicks",
-#'   "clicks/browserfamilies"). The "/stats/" prefix and message stream
-#'   will be added automatically.
-#' @param params Optional Stats parameters object created with [Stats()].
-#'   If not provided, no query parameters will be sent.
-#'
-#' @return A Response object containing the statistics data.
-#'
-#' @examples
-#' \dontrun{
-#' # Create a client
-#' client <- Postmarkr(
-#'   token = "your-server-token",
-#'   message_stream = "outbound"
-#' )
-#'
-#' # Get sent counts with date range
-#' params <- Stats(
-#'   fromdate = "2024-01-01",
-#'   todate = "2024-01-31"
-#' )
-#' stats_get(client, params)
-#'
-#' # Get open counts filtered by tag
-#' params <- Stats(
-#'   tag = "welcome-email",
-#'   fromdate = "2024-01-01",
-#'   todate = "2024-01-31"
-#' )
-#' stats_get(client, params, "opens")
-#'
-#' # Get click statistics by browser family
-#' stats_get(client, params, "clicks/browserfamilies")
-#' }
-#'
-#' @seealso
-#' \url{https://postmarkapp.com/developer/api/stats-api} for Postmark Stats API
-#' documentation
-#'
-#' @export
-stats_get <- new_generic("stats_get", c("client", "params"))
-
 #' Validate Stats Overview Response
 #'
 #' @description
@@ -333,9 +282,68 @@ validate_stats_response <- function(data, endpoint) {
   dat
 }
 
+#' Get Statistics from Postmark
+#'
+#' @description
+#' Generic function to retrieve statistics from various Postmark API endpoints.
+#' This provides a flexible way to query different types of statistics using
+#' the same interface.
+#'
+#' @param client A Postmarkr client object created with [Postmarkr()].
+#' @param params Optional Stats parameters object created with [Stats()].
+#'   If not provided, no query parameters will be sent.
+#' @param endpoint A character argument specifying the Stats endpoint path
+#'   (e.g., "overview", "sends", "bounces", "opens/emailclients", "clicks",
+#'   "clicks/browserfamilies"). The "/stats/" prefix and message stream
+#'   will be added automatically.
+#' @param ... Additional arguments passed to methods.
+#'
+#' @return A Response object containing the statistics data.
+#'
+#' @examples
+#' \dontrun{
+#' # Create a client
+#' client <- Postmarkr(
+#'   token = "your-server-token",
+#'   message_stream = "outbound"
+#' )
+#'
+#' # Get sent counts with date range
+#' params <- Stats(
+#'   fromdate = "2024-01-01",
+#'   todate = "2024-01-31"
+#' )
+#' stats_get(client, params)
+#'
+#' # Get open counts filtered by tag
+#' params <- Stats(
+#'   tag = "welcome-email",
+#'   fromdate = "2024-01-01",
+#'   todate = "2024-01-31"
+#' )
+#' stats_get(client, params, "opens")
+#'
+#' # Get click statistics by browser family
+#' stats_get(client, params, "clicks/browserfamilies")
+#' }
+#'
+#' @seealso
+#' \url{https://postmarkapp.com/developer/api/stats-api} for Postmark Stats API
+#' documentation
+#'
+#' @export
+stats_get <- new_generic(
+  "stats_get",
+  c("client", "params"),
+  function(client, params, ..., endpoint = NULL) {
+    S7_dispatch()
+  }
+)
+
 method(stats_get, list(Postmarkr, Stats)) <- function(
   client,
   params,
+  ...,
   endpoint = NULL
 ) {
   if (!is.null(endpoint)) {
