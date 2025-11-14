@@ -357,7 +357,7 @@ method(stats_get, list(Postmarkr, Stats)) <- function(
 
   if (!S7_inherits(params, Stats)) {
     pstmrk_abort(
-      "`params` must be a Stats object or NULL",
+      "`params` must be a Stats object",
       class = "postmarkr_error_invalid_params"
     )
   }
