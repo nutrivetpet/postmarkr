@@ -14,7 +14,7 @@ message stream.}
 configuration to be sent.}
 }
 \value{
-A \code{postmarkr_response} S7 object with the following properties:
+A \code{Response} S7 object with the following properties:
 \describe{
 \item{data}{List containing API response data including \code{MessageID},
 \code{SubmittedAt}, \code{To}, \code{ErrorCode}, and \code{Message} fields}

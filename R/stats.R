@@ -128,7 +128,7 @@ Stats <- new_class(
 #' @param params Optional Stats parameters object created with [Stats()].
 #'   If not provided, no query parameters will be sent.
 #'
-#' @return A postmarkr_response object containing the statistics data.
+#' @return A Response object containing the statistics data.
 #'
 #' @examples
 #' \dontrun{
@@ -387,7 +387,7 @@ method(stats_get, list(Postmarkr, Stats)) <- function(
 
   validated_data <- validate_stats_response(raw_data, full_endpoint)
 
-  postmarkr_response(
+  Response(
     data = validated_data,
     status = resp_status(resp),
     request = req,

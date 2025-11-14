@@ -314,7 +314,7 @@ test_that("stats_get works with no endpoint and no params", {
 
   result <- stats_get(client, params)
 
-  expect_true(S7_inherits(result, postmarkr_response))
+  expect_true(S7_inherits(result, Response))
   expect_equal(result@status, 200)
   expect_true(result@success)
   expect_true(S7_inherits(result@data, stats_overview_response))
@@ -334,7 +334,7 @@ test_that("stats_get works with specific endpoint", {
 
   result <- stats_get(client, params, endpoint = "sends")
 
-  expect_true(S7_inherits(result, postmarkr_response))
+  expect_true(S7_inherits(result, Response))
   expect_equal(result@status, 200)
   expect_true(result@success)
   expect_s3_class(result@data@Days, "data.frame")
@@ -354,7 +354,7 @@ test_that("stats_get works with tag parameter", {
 
   result <- stats_get(client, params)
 
-  expect_true(S7_inherits(result, postmarkr_response))
+  expect_true(S7_inherits(result, Response))
   expect_equal(result@status, 200)
   expect_true(result@success)
 })
@@ -376,7 +376,7 @@ test_that("stats_get works with date range parameters", {
 
   result <- stats_get(client, params)
 
-  expect_true(S7_inherits(result, postmarkr_response))
+  expect_true(S7_inherits(result, Response))
   expect_equal(result@status, 200)
   expect_true(result@success)
 })
@@ -399,7 +399,7 @@ test_that("stats_get works with all parameters", {
 
   result <- stats_get(client, params, endpoint = "sends")
 
-  expect_true(S7_inherits(result, postmarkr_response))
+  expect_true(S7_inherits(result, Response))
   expect_equal(result@status, 200)
   expect_true(result@success)
 })

@@ -18,7 +18,7 @@ If not provided, no query parameters will be sent.}
 will be added automatically.}
 }
 \value{
-A postmarkr_response object containing the statistics data.
+A Response object containing the statistics data.
 }
 \description{
 Generic function to retrieve statistics from various Postmark API endpoints.

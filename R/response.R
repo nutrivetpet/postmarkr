@@ -2,8 +2,8 @@
 #' Structured response object
 #' @noRd
 #' @keywords internals
-postmarkr_response <- new_class(
-  "postmarkr_response",
+Response <- new_class(
+  "Response",
   properties = list(
     data = class_any,
     status = class_integer,

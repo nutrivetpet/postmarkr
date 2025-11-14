@@ -9,7 +9,7 @@
 #' @param message An [Email] object containing the email content and
 #'   configuration to be sent.
 #'
-#' @return A `postmarkr_response` S7 object with the following properties:
+#' @return A `Response` S7 object with the following properties:
 #' \describe{
 #'   \item{data}{List containing API response data including `MessageID`,
 #'     `SubmittedAt`, `To`, `ErrorCode`, and `Message` fields}
@@ -107,7 +107,7 @@ method(send, list(Postmarkr, Email)) <- function(client, message) {
 
   resp <- req_perform(req)
 
-  postmarkr_response(
+  Response(
     data = resp_body_json(resp, simplifyVector = TRUE),
     status = resp_status(resp),
     request = req,
