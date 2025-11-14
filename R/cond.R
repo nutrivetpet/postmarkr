@@ -111,3 +111,43 @@ pstmrk_abort_email_invalid_track_links <- function(
     call = call
   )
 }
+
+pstmrk_abort_template_invalid_tag <- function(call = caller_env()) {
+  pstmrk_abort(
+    "`tag` must be a single non-empty character string with 1000 characters or fewer",
+    class = "postmarkr_error_invalid_tag",
+    call = call
+  )
+}
+
+pstmrk_abort_template_invalid_id <- function(call = caller_env()) {
+  pstmrk_abort(
+    "`id` must be a single positive integer",
+    class = "postmarkr_error_invalid_template_id",
+    call = call
+  )
+}
+
+pstmrk_abort_template_too_many_recipients <- function(
+  total,
+  max = POSTMARK_MAX_RECIPIENTS_SINGLE,
+  call = caller_env()
+) {
+  pstmrk_abort(
+    sprintf(
+      "Total recipients (To, Cc, Bcc combined) must not exceed %d (got %d)",
+      max,
+      total
+    ),
+    class = "postmarkr_template_too_many_recipients",
+    call = call
+  )
+}
+
+pstmrk_abort_template_params_invalid_count <- function(call = caller_env()) {
+  pstmrk_abort(
+    "`count` must be a single positive integer",
+    class = "postmarkr_error_invalid_count",
+    call = call
+  )
+}

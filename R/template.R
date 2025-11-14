@@ -1,3 +1,406 @@
+#' Template - Email with template
+#'
+#' @description
+#' An S7 class representing a template-based email message to be sent via the
+#' Postmark API. This class encapsulates all the properties needed to send
+#' an email using a Postmark template.
+#'
+#' @details
+#' The `Template` class provides a structured way to send emails using
+#' predefined Postmark templates. It supports:
+#' \itemize{
+#'   \item Template variable substitution via `template_model`
+#'   \item Multiple recipients via To, Cc, and Bcc fields (max 50 combined)
+#'   \item Inline CSS processing for better email client compatibility
+#'   \item Open and click tracking configuration
+#'   \item Email categorization via tags
+#'   \item File attachments and custom headers
+#'   \item Metadata for internal tracking
+#' }
+#'
+#' **Important Limitations:**
+#' \itemize{
+#'   \item Maximum 50 total recipients (To, Cc, Bcc combined)
+#'   \item Template must exist in your Postmark account
+#'   \item Template ID must be a positive integer (typically 8 digits)
+#'   \item One tag per message, maximum 1000 characters
+#'   \item Maximum 10 MB total message size (including attachments)
+#' }
+#'
+#' @param from Character scalar. **Required.** Sender email address (must be
+#'   verified in Postmark). Supports name formatting: `"John Doe <email@@example.com>"`
+#' @param to Character vector. **Required.** Recipient email addresses. Multiple
+#'   recipients allowed (max 50 total across To, Cc, Bcc)
+#' @param id Integer scalar. The template ID in Postmark. Must be a positive
+#'   integer corresponding to an existing template in your account. Typically
+#'   an 8-digit number (e.g., 12345678). **Either `id` or `alias` must be
+#'   provided, but not both.**
+#' @param alias Character scalar. The template alias in Postmark. A named
+#'   identifier for your template (e.g., "welcome-email", "password-reset").
+#'   **Either `id` or `alias` must be provided, but not both.**
+#' @param template_model List. **Required.** Named list of variables to populate
+#'   in the template. Keys must match template variable names. Can include nested
+#'   lists for complex data structures. Example:
+#'   `list(user_name = "John", company = list(name = "ACME"))`.
+#' @param cc Character vector. Carbon copy recipients. Visible to all recipients.
+#' @param bcc Character vector. Blind carbon copy recipients. Hidden from
+#'   other recipients.
+#' @param inline_css Logical scalar. Whether to process CSS in `<style>` tags
+#'   into inline style attributes. Improves compatibility with email clients.
+#'   Default is TRUE for better rendering.
+#' @param tag Character scalar. Category tag for statistics and filtering.
+#'   One tag per message, maximum 1000 characters. Examples: "welcome-email",
+#'   "password-reset", "invoice".
+#' @param reply_to Character scalar. Reply-To address for responses.
+#' @param headers List of lists. Custom email headers. Each element should
+#'   have `Name` and `Value` keys. Example: `list(list(Name = "X-Priority",
+#'   Value = "High"))`.
+#' @param track_opens Logical scalar. Enable open tracking using invisible
+#'   pixel. Provides insights on when and where emails are opened.
+#' @param track_links Character scalar. Link tracking mode. Options:
+#'   `"None"` (no tracking), `"HtmlAndText"` (track all links),
+#'   `"HtmlOnly"` (HTML links only), `"TextOnly"` (text links only).
+#' @param attachments List of lists. File attachments. Each attachment should
+#'   have `Name`, `Content` (base64-encoded), and `ContentType` keys.
+#'   Total message size including attachments limited to 10 MB.
+#' @param metadata List. Key-value pairs for internal tracking. Does not
+#'   affect email delivery. Example: `list(customer_id = "12345",
+#'   campaign = "onboarding")`.
+#'
+#' @examples
+#' \dontrun{
+#' # Simple template email using template ID
+#' simple_template <- Template(
+#'   from = "sender@example.com",
+#'   to = "recipient@example.com",
+#'   id = 12345678L,
+#'   template_model = list(name = "John", message = "Welcome!")
+#' )
+#'
+#' # Template email using template alias
+#' alias_template <- Template(
+#'   from = "sender@example.com",
+#'   to = "recipient@example.com",
+#'   alias = "welcome-email",
+#'   template_model = list(name = "John", message = "Welcome!")
+#' )
+#'
+#' # Template with nested model and inline CSS
+#' complex_template <- Template(
+#'   from = "sender@example.com",
+#'   to = "recipient@example.com",
+#'   id = 12345678L,
+#'   template_model = list(
+#'     user_name = "Jane Smith",
+#'     company = list(name = "ACME Corp")
+#'   ),
+#'   inline_css = TRUE,
+#'   track_opens = TRUE,
+#'   tag = "onboarding"
+#' )
+#'
+#' # Template with tracking, attachments, and metadata
+#' full_template <- Template(
+#'   from = "notifications@example.com",
+#'   to = c("user1@example.com", "user2@example.com"),
+#'   cc = "manager@example.com",
+#'   id = 67890123L,
+#'   template_model = list(
+#'     order_id = "ORD-789",
+#'     status = "Completed"
+#'   ),
+#'   inline_css = TRUE,
+#'   tag = "order-confirmation",
+#'   reply_to = "support@example.com",
+#'   headers = list(
+#'     list(Name = "X-Priority", Value = "High")
+#'   ),
+#'   track_opens = TRUE,
+#'   track_links = "HtmlOnly",
+#'   attachments = list(
+#'     list(
+#'       Name = "invoice.pdf",
+#'       Content = "base64content",
+#'       ContentType = "application/pdf"
+#'     )
+#'   ),
+#'   metadata = list(
+#'     customer_id = "12345",
+#'     order_type = "subscription"
+#'   )
+#' )
+#' }
+#'
+#' @seealso
+#' \url{https://postmarkapp.com/developer/api/templates-api#send-email-with-template}
+#' for complete Postmark template API documentation
+#'
+#' @export
+Template <- new_class(
+  "Template",
+  properties = list(
+    # Required properties
+    from = new_property(
+      class = class_character,
+      validator = function(value) {
+        if (!length(value)) {
+          pstmrk_abort(
+            "`from` is required",
+            class = "postmarkr_template_missing_from"
+          )
+        }
+      }
+    ),
+    to = new_property(
+      class = class_character,
+      validator = function(value) {
+        if (!length(value)) {
+          pstmrk_abort(
+            "`to` is required",
+            class = "postmarkr_template_missing_to"
+          )
+        }
+      }
+    ),
+    id = new_property(
+      class = class_integer,
+      validator = function(value) {
+        if (length(value) && (!is_scalar_integer(value) || value <= 0)) {
+          pstmrk_abort_template_invalid_id()
+        }
+      }
+    ),
+    alias = new_property(
+      class = class_character,
+      validator = function(value) {
+        if (length(value) && (!is_scalar_character(value) || !nzchar(value))) {
+          pstmrk_abort_invalid_scalar_character("alias")
+        }
+      }
+    ),
+    template_model = new_property(
+      class = class_list,
+      validator = function(value) {
+        if (!length(value)) {
+          pstmrk_abort(
+            "`template_model` is required",
+            class = "postmarkr_template_missing_model"
+          )
+        }
+        if (!is_named(value)) {
+          pstmrk_abort(
+            "`template_model` must be a named list",
+            class = "postmarkr_error_invalid_template_model"
+          )
+        }
+      }
+    ),
+    # Optional properties
+    cc = class_character,
+    bcc = class_character,
+    inline_css = class_logical,
+    tag = new_property(
+      class = class_character,
+      validator = function(value) {
+        if (length(value)) {
+          if (!is_scalar_character(value) || !nzchar(value) || nchar(value) > 1000) {
+            pstmrk_abort_template_invalid_tag()
+          }
+        }
+      }
+    ),
+    reply_to = class_character,
+    headers = class_list,
+    track_opens = class_logical,
+    track_links = new_property(
+      class = class_character,
+      validator = function(value) {
+        if (length(value)) {
+          valid_options <- c("None", "HtmlAndText", "HtmlOnly", "TextOnly")
+          if (!value %in% valid_options) {
+            pstmrk_abort_email_invalid_track_links(value)
+          }
+        }
+      }
+    ),
+    attachments = class_list,
+    metadata = class_list
+  ),
+  validator = function(self) {
+    # Validate that either id OR alias is provided (mutually exclusive)
+    has_id <- length(self@id) > 0
+    has_alias <- length(self@alias) > 0
+
+    if (!has_id && !has_alias) {
+      pstmrk_abort(
+        "Either `id` or `alias` must be provided",
+        class = "postmarkr_template_missing_identifier"
+      )
+    }
+
+    if (has_id && has_alias) {
+      pstmrk_abort(
+        "Cannot provide both `id` and `alias`. Use one or the other.",
+        class = "postmarkr_template_conflicting_identifiers"
+      )
+    }
+
+    # Validate recipient count
+    total_recipients <- length(self@to) + length(self@cc) + length(self@bcc)
+    if (total_recipients > POSTMARK_MAX_RECIPIENTS_SINGLE) {
+      pstmrk_abort_template_too_many_recipients(total_recipients)
+    }
+  }
+)
+
+#' Send Template Email
+#'
+#' @description
+#' Generic function to send template-based emails via the Postmark API.
+#' This provides a structured way to send emails using predefined templates.
+#'
+#' @param client A Postmarkr client object created with [Postmarkr()].
+#' @param template A Template object created with [Template()].
+#' @param ... Additional arguments passed to methods.
+#'
+#' @return A Response object containing the email sending results.
+#'
+#' @examples
+#' \dontrun{
+#' # Create a client
+#' client <- Postmarkr(
+#'   token = "your-server-token",
+#'   message_stream = "outbound"
+#' )
+#'
+#' # Create a template email
+#' template <- Template(
+#'   from = "sender@example.com",
+#'   to = "recipient@example.com",
+#'   id = 12345678L,
+#'   template_model = list(name = "John", order_id = "ORD-123")
+#' )
+#'
+#' # Send the template email
+#' response <- template_send(client, template)
+#' }
+#'
+#' @seealso
+#' \url{https://postmarkapp.com/developer/api/templates-api#send-email-with-template}
+#' for Postmark template API documentation
+#'
+#' @export
+template_send <- new_generic(
+  "template_send",
+  c("client", "template"),
+  function(client, template, ...) {
+    S7_dispatch()
+  }
+)
+
+method(template_send, list(Postmarkr, Template)) <- function(
+  client,
+  template,
+  ...
+) {
+  # Build the request body from the Template object
+  bdy <- list(
+    From = template@from,
+    To = paste0(template@to, collapse = ", "),
+    TemplateModel = as.list(template@template_model)
+  )
+
+  # Add either TemplateId or TemplateAlias
+  if (length(template@id)) {
+    bdy$TemplateId <- template@id
+  } else {
+    bdy$TemplateAlias <- template@alias
+  }
+
+  # Add optional Cc
+  if (length(template@cc)) {
+    bdy$Cc <- paste0(template@cc, collapse = ", ")
+  }
+
+  # Add optional Bcc
+  if (length(template@bcc)) {
+    bdy$Bcc <- paste0(template@bcc, collapse = ", ")
+  }
+
+  # Add optional InlineCss
+  if (length(template@inline_css)) {
+    bdy$InlineCss <- template@inline_css
+  }
+
+  # Add optional Tag
+  if (length(template@tag)) {
+    bdy$Tag <- template@tag
+  }
+
+  # Add optional ReplyTo
+  if (length(template@reply_to)) {
+    bdy$ReplyTo <- template@reply_to
+  }
+
+  # Add optional Headers
+  if (length(template@headers)) {
+    bdy$Headers <- template@headers
+  }
+
+  # Add optional TrackOpens
+  if (length(template@track_opens)) {
+    bdy$TrackOpens <- template@track_opens
+  }
+
+  # Add optional TrackLinks
+  if (length(template@track_links)) {
+    bdy$TrackLinks <- template@track_links
+  }
+
+  # Add optional Attachments
+  if (length(template@attachments)) {
+    bdy$Attachments <- template@attachments
+  }
+
+  # Add optional Metadata
+  if (length(template@metadata)) {
+    bdy$Metadata <- template@metadata
+  }
+
+  # Add MessageStream
+  bdy$MessageStream <- client@message_stream
+
+  # Build and send the request
+  req <-
+    build_req_S7(
+      client = client,
+      endpoint = "/email/withTemplate",
+      method = "POST"
+    ) |>
+    req_headers("Content-Type" = "application/json") |>
+    req_body_json(bdy)
+
+  resp <- req_perform(req)
+
+  if (resp_is_error(resp)) {
+    resp_check_status(resp)
+  }
+
+  dat <- resp_body_json(resp, simplifyVector = TRUE)
+
+  if (is_installed("tibble")) {
+    dat <- tibble::as_tibble(dat)
+  }
+
+  Response(
+    data = dat,
+    status = resp_status(resp),
+    request = req,
+    response = resp,
+    success = isFALSE(resp_is_error(resp))
+  )
+}
+
 #' Send an Email Using a Template
 #'
 #' Sends an email using a predefined template.
