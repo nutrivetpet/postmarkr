@@ -142,7 +142,6 @@ NULL
 Template <- new_class(
   "Template",
   properties = list(
-    # Required properties
     from = new_property(
       class = class_character,
       validator = function(value) {
@@ -198,7 +197,6 @@ Template <- new_class(
         }
       }
     ),
-    # Optional properties
     cc = class_character,
     bcc = class_character,
     inline_css = class_logical,
@@ -230,7 +228,6 @@ Template <- new_class(
     metadata = class_list
   ),
   validator = function(self) {
-    # Validate that either id OR alias is provided (mutually exclusive)
     has_id <- length(self@id) > 0
     has_alias <- length(self@alias) > 0
 
@@ -248,7 +245,6 @@ Template <- new_class(
       )
     }
 
-    # Validate recipient count
     total_recipients <- length(self@to) + length(self@cc) + length(self@bcc)
     if (total_recipients > POSTMARK_MAX_RECIPIENTS_SINGLE) {
       pstmrk_abort_template_too_many_recipients(total_recipients)
