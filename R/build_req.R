@@ -53,6 +53,10 @@ build_req_S7 <- function(client, endpoint, method, ...) {
     req <- req_timeout(req, client@timeout)
   }
 
+  if (client@verbose) {
+    req <- req_verbose(req)
+  }
+
   if (length(dots)) {
     args <- names2(dots)
 

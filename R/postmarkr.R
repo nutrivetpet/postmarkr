@@ -16,6 +16,7 @@
 #'   **You should not need to change this.** Only modify for testing/mocking
 #'   purposes (e.g., pointing to a local mock server during development).
 #' @param timeout numeric. Request timeout in seconds for API calls.
+#' @param verbose logical. Whether to pass [req_verbose()] to the request.
 #'
 #' @details
 #' The `Postmarkr` class provides a structured way to configure and use the
@@ -107,6 +108,10 @@ Postmarkr <- new_class(
           )
         }
       }
+    ),
+    verbose = new_property(
+      class = class_logical,
+      default = FALSE
     )
   )
 )

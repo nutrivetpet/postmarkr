@@ -8,7 +8,8 @@ Postmarkr(
   token = character(0),
   message_stream = character(0),
   base_url = "https://api.postmarkapp.com",
-  timeout = 1
+  timeout = 1,
+  verbose = FALSE
 )
 }
 \arguments{
@@ -26,6 +27,8 @@ the standard Postmark API endpoint (\verb{https://api.postmarkapp.com}).
 purposes (e.g., pointing to a local mock server during development).}
 
 \item{timeout}{numeric. Request timeout in seconds for API calls.}
+
+\item{verbose}{logical. Whether to pass \code{\link[=req_verbose]{req_verbose()}} to the request.}
 }
 \description{
 An S7 class representing a Postmark API client for sending emails.
