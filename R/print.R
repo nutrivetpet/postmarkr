@@ -22,6 +22,7 @@
 #' print(client)
 #' }
 #' 
+#' @name print
 #' @export
 method(print, Postmarkr) <- function(x, ...) {
   cat("<postmarkr::Postmarkr>\n")
