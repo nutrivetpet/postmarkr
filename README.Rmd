@@ -13,12 +13,12 @@ knitr::opts_chunk$set(
 )
 ```
 
-# postmarkr <img src="man/figures/logo.png" align="right" height="138" />
+# postmarkr <img src="man/figures/logo.png" align="right" height="138"/>
 
 <!-- badges: start -->
-[![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
-[![R-CMD-check](https://github.com/nutrivetpet/postmarkr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/nutrivetpet/postmarkr/actions/workflows/R-CMD-check.yaml)
-[![Codecov test coverage](https://codecov.io/gh/nutrivetpet/postmarkr/graph/badge.svg)](https://app.codecov.io/gh/nutrivetpet/postmarkr)
+
+[![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip) [![R-CMD-check](https://github.com/nutrivetpet/postmarkr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/nutrivetpet/postmarkr/actions/workflows/R-CMD-check.yaml) [![Codecov test coverage](https://codecov.io/gh/nutrivetpet/postmarkr/graph/badge.svg)](https://app.codecov.io/gh/nutrivetpet/postmarkr)
+
 <!-- badges: end -->
 
 The goal of postmarkr is to interact with the [Postmark API](https://postmarkapp.com/developer), from R.
@@ -37,10 +37,10 @@ pak::pak("nutrivetpet/postmarkr")
 
 postmarkr provides a clean, object-oriented API for sending emails through Postmark. The package supports two message types (`Email` and `Template`) and two delivery modes (individual and batch):
 
-|                    | `Email()` - Custom Content | `Template()` - Predefined Template |
-|--------------------|----------------------------|-----------------------------------|
-| **Individual**     | One email with HTML/text body | One email using template ID |
-| **Batch**          | Multiple custom emails (500+) | Multiple template emails (500+) |
+|   | `Email()` - Custom Content | `Template()` - Predefined Template |
+|------------------|------------------------|------------------------------|
+| **Individual** | One email with HTML/text body | One email using template ID |
+| **Batch** | Multiple custom emails (500+) | Multiple template emails (500+) |
 
 ### Individual Email (Custom Content)
 
@@ -101,11 +101,6 @@ emails <- lapply(recipients, function(recipient) {
 # Wrap in batch and send
 batch <- Batch(messages = emails)
 result <- send(client, batch)
-
-# Check batch metadata
-cat(sprintf("Sent %d emails in %d API calls\n",
-            batch_size(batch),
-            batch_chunk_count(batch)))
 ```
 
 ### Batch Template Emails
@@ -133,12 +128,12 @@ result <- send(client, batch)
 
 ## Features
 
-- **Custom Emails**: Compose emails with HTML or text using `Email()`
-- **Template Emails**: Use Postmark templates with variable substitution via `Template()`
-- **Batch Sending**: Efficiently send 500+ emails with `Batch()` (automatic chunking)
-- **Tracking**: Built-in support for open and click tracking
-- **Email Templates**: List available templates with `template_list()`
-- **Message Logs**: Retrieve sent messages with `outbound_messages_collect()`
-- **Delivery Statistics**: Track performance with `stats_outbound_overview()`
+-   **Custom Emails**: Compose emails with HTML or text using `Email()`
+-   **Template Emails**: Use Postmark templates with variable substitution via `Template()`
+-   **Batch Sending**: Efficiently send 500+ emails with `Batch()` (automatic chunking)
+-   **Tracking**: Built-in support for open and click tracking
+-   **Email Templates**: List available templates with `template_list()`
+-   **Message Logs**: Retrieve sent messages with `outbound_messages_collect()`
+-   **Delivery Statistics**: Track performance with `stats_outbound_overview()`
 
 **Note:** API coverage is still growing. See the [documentation](https://nutrivetpet.github.io/postmarkr/) for all available features.
