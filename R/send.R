@@ -120,3 +120,19 @@ method(send, list(Postmarkr, Template)) <- function(
 ) {
   send_message(client, message, "/email/withTemplate")
 }
+
+method(send, list(Postmarkr, Batch)) <- function(
+  client,
+  message,
+  ...
+) {
+  send_message(client, message, "/email/batch")
+}
+
+method(send, list(Postmarkr, Batch)) <- function(
+  client,
+  message,
+  ...
+) {
+  send_message(client, message, "/email/batchWithTemplates")
+}
