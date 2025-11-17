@@ -120,15 +120,50 @@
 Email <- new_class(
   "Email",
   properties = list(
-    from = class_character,
-    to = class_character,
-    cc = class_character,
-    bcc = class_character,
+    from = new_property(
+      class = class_character,
+      validator = function(value) {
+        if (length(value)) {
+          validate_email(value, arg_name = "from")
+        }
+      }
+    ),
+    to = new_property(
+      class = class_character,
+      validator = function(value) {
+        if (length(value)) {
+          validate_email(value, arg_name = "to")
+        }
+      }
+    ),
+    cc = new_property(
+      class = class_character,
+      validator = function(value) {
+        if (length(value)) {
+          validate_email(value, arg_name = "cc")
+        }
+      }
+    ),
+    bcc = new_property(
+      class = class_character,
+      validator = function(value) {
+        if (length(value)) {
+          validate_email(value, arg_name = "bcc")
+        }
+      }
+    ),
     subject = class_character,
     tag = class_character,
     html_body = class_character,
     text_body = class_character,
-    reply_to = class_character,
+    reply_to = new_property(
+      class = class_character,
+      validator = function(value) {
+        if (length(value)) {
+          validate_email(value, arg_name = "reply_to")
+        }
+      }
+    ),
     metadata = class_list,
     headers = class_list,
     track_opens = class_logical,

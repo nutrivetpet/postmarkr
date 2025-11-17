@@ -145,3 +145,81 @@ test_that("Email class with mixed recipient distribution", {
   )
   expect_true(S7_inherits(result, Email))
 })
+
+test_that("Email class accepts name-formatted email addresses", {
+  result <- Email(
+    from = "John Doe <sender@example.com>",
+    to = "Jane Smith <recipient@example.com>",
+    html_body = "<h1>Hello</h1>"
+  )
+  expect_true(S7_inherits(result, Email))
+})
+
+test_that("Email class rejects invalid from email", {
+  expect_error(
+    Email(
+      from = "not-an-email",
+      to = "recipient@example.com",
+      html_body = "<h1>Hello</h1>"
+    ),
+    class = "postmarkr_error_invalid_email"
+  )
+})
+
+test_that("Email class rejects invalid to email", {
+  expect_error(
+    Email(
+      from = "sender@example.com",
+      to = "invalid-email",
+      html_body = "<h1>Hello</h1>"
+    ),
+    class = "postmarkr_error_invalid_email"
+  )
+})
+
+test_that("Email class rejects invalid cc email", {
+  expect_error(
+    Email(
+      from = "sender@example.com",
+      to = "recipient@example.com",
+      cc = "bad@",
+      html_body = "<h1>Hello</h1>"
+    ),
+    class = "postmarkr_error_invalid_email"
+  )
+})
+
+test_that("Email class rejects invalid bcc email", {
+  expect_error(
+    Email(
+      from = "sender@example.com",
+      to = "recipient@example.com",
+      bcc = "@example.com",
+      html_body = "<h1>Hello</h1>"
+    ),
+    class = "postmarkr_error_invalid_email"
+  )
+})
+
+test_that("Email class rejects invalid reply_to email", {
+  expect_error(
+    Email(
+      from = "sender@example.com",
+      to = "recipient@example.com",
+      reply_to = "missing-domain@",
+      html_body = "<h1>Hello</h1>"
+    ),
+    class = "postmarkr_error_invalid_email"
+  )
+})
+
+test_that("Email class rejects mixed valid and invalid emails in to", {
+  expect_error(
+    Email(
+      from = "sender@example.com",
+      to = c("valid@example.com", "invalid"),
+      html_body = "<h1>Hello</h1>"
+    ),
+    class = "postmarkr_error_invalid_email"
+  )
+})

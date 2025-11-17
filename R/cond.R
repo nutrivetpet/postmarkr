@@ -151,3 +151,15 @@ pstmrk_abort_template_params_invalid_count <- function(call = caller_env()) {
     call = call
   )
 }
+
+pstmrk_abort_invalid_email <- function(
+  email,
+  arg_name = "email",
+  call = caller_env()
+) {
+  pstmrk_abort(
+    sprintf("Invalid email format in `%s`: %s", arg_name, email),
+    class = "postmarkr_error_invalid_email",
+    call = call
+  )
+}

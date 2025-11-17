@@ -151,6 +151,7 @@ Template <- new_class(
             class = "postmarkr_error_template_missing_from"
           )
         }
+        validate_email(value, arg_name = "from")
       }
     ),
     to = new_property(
@@ -162,6 +163,7 @@ Template <- new_class(
             class = "postmarkr_error_template_missing_to"
           )
         }
+        validate_email(value, arg_name = "to")
       }
     ),
     id = new_property(
@@ -197,8 +199,22 @@ Template <- new_class(
         }
       }
     ),
-    cc = class_character,
-    bcc = class_character,
+    cc = new_property(
+      class = class_character,
+      validator = function(value) {
+        if (length(value)) {
+          validate_email(value, arg_name = "cc")
+        }
+      }
+    ),
+    bcc = new_property(
+      class = class_character,
+      validator = function(value) {
+        if (length(value)) {
+          validate_email(value, arg_name = "bcc")
+        }
+      }
+    ),
     inline_css = class_logical,
     tag = new_property(
       class = class_character,
@@ -210,7 +226,14 @@ Template <- new_class(
         }
       }
     ),
-    reply_to = class_character,
+    reply_to = new_property(
+      class = class_character,
+      validator = function(value) {
+        if (length(value)) {
+          validate_email(value, arg_name = "reply_to")
+        }
+      }
+    ),
     headers = class_list,
     track_opens = class_logical,
     track_links = new_property(

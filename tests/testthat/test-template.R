@@ -272,7 +272,91 @@ test_that("Template accepts 50 recipients split across to/cc/bcc", {
   )
 })
 
-# Integration Tests -------------------------------------------------------
+test_that("Template accepts name-formatted email addresses", {
+  expect_no_error(
+    Template(
+      from = "John Doe <sender@example.com>",
+      to = "Jane Smith <recipient@example.com>",
+      id = 12345L,
+      template_model = list(name = "test")
+    )
+  )
+})
+
+test_that("Template rejects invalid from email", {
+  expect_error(
+    Template(
+      from = "not-an-email",
+      to = "recipient@example.com",
+      id = 12345L,
+      template_model = list(name = "test")
+    ),
+    class = "postmarkr_error_invalid_email"
+  )
+})
+
+test_that("Template rejects invalid to email", {
+  expect_error(
+    Template(
+      from = "sender@example.com",
+      to = "invalid-email",
+      id = 12345L,
+      template_model = list(name = "test")
+    ),
+    class = "postmarkr_error_invalid_email"
+  )
+})
+
+test_that("Template rejects invalid cc email", {
+  expect_error(
+    Template(
+      from = "sender@example.com",
+      to = "recipient@example.com",
+      cc = "bad@",
+      id = 12345L,
+      template_model = list(name = "test")
+    ),
+    class = "postmarkr_error_invalid_email"
+  )
+})
+
+test_that("Template rejects invalid bcc email", {
+  expect_error(
+    Template(
+      from = "sender@example.com",
+      to = "recipient@example.com",
+      bcc = "@example.com",
+      id = 12345L,
+      template_model = list(name = "test")
+    ),
+    class = "postmarkr_error_invalid_email"
+  )
+})
+
+test_that("Template rejects invalid reply_to email", {
+  expect_error(
+    Template(
+      from = "sender@example.com",
+      to = "recipient@example.com",
+      reply_to = "missing-domain@",
+      id = 12345L,
+      template_model = list(name = "test")
+    ),
+    class = "postmarkr_error_invalid_email"
+  )
+})
+
+test_that("Template rejects mixed valid and invalid emails in to", {
+  expect_error(
+    Template(
+      from = "sender@example.com",
+      to = c("valid@example.com", "invalid"),
+      id = 12345L,
+      template_model = list(name = "test")
+    ),
+    class = "postmarkr_error_invalid_email"
+  )
+})
 
 test_that("template_send_email_impl() works", {
   skip_if_offline()
