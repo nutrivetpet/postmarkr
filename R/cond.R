@@ -163,3 +163,72 @@ pstmrk_abort_invalid_email <- function(
     call = call
   )
 }
+
+pstmrk_abort_batch_empty <- function(call = caller_env()) {
+  pstmrk_abort(
+    "`messages` must contain at least one message",
+    class = "postmarkr_error_batch_empty",
+    call = call
+  )
+}
+
+pstmrk_abort_batch_invalid_message_type <- function(
+  invalid_types,
+  positions,
+  call = caller_env()
+) {
+  pstmrk_abort(
+    sprintf(
+      paste(
+        "`messages` must only contain Email or Template objects.",
+        "Found invalid type(s): %s at position(s): %s"
+      ),
+      paste(invalid_types, collapse = ", "),
+      paste(positions, collapse = ", ")
+    ),
+    class = "postmarkr_error_batch_invalid_message_type",
+    call = call
+  )
+}
+
+pstmrk_abort_batch_mixed_types <- function(
+  types,
+  call = caller_env()
+) {
+  pstmrk_abort(
+    sprintf(
+      paste(
+        "`messages` must all be the same type.",
+        "Found: %s.",
+        "Create separate batches for Email and Template objects."
+      ),
+      paste(types, collapse = " and ")
+    ),
+    class = "postmarkr_error_batch_mixed_types",
+    call = call
+  )
+}
+
+pstmrk_abort_batch_invalid_chunk_size <- function(call = caller_env()) {
+  pstmrk_abort(
+    "`chunk_size` must be a single positive integer",
+    class = "postmarkr_error_batch_invalid_chunk_size",
+    call = call
+  )
+}
+
+pstmrk_abort_batch_chunk_size_too_large <- function(
+  value,
+  max = POSTMARK_MAX_BATCH_SIZE,
+  call = caller_env()
+) {
+  pstmrk_abort(
+    sprintf(
+      "`chunk_size` cannot exceed Postmark's limit of %d (got %d)",
+      max,
+      value
+    ),
+    class = "postmarkr_error_batch_chunk_size_too_large",
+    call = call
+  )
+}
