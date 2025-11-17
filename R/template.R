@@ -220,7 +220,9 @@ Template <- new_class(
       class = class_character,
       validator = function(value) {
         if (length(value)) {
-          if (!is_scalar_character(value) || !nzchar(value) || nchar(value) > 1000) {
+          if (
+            !is_scalar_character(value) || !nzchar(value) || nchar(value) > 1000
+          ) {
             pstmrk_abort_template_invalid_tag()
           }
         }
@@ -488,7 +490,10 @@ template_send_email_batch_impl <- function(
     )
   }
 
-  bdy_lst <- unname(split(bdy, (seq_along(bdy) - 1) %/% POSTMARK_MAX_BATCH_SIZE))
+  bdy_lst <- unname(split(
+    bdy,
+    (seq_along(bdy) - 1) %/% POSTMARK_MAX_BATCH_SIZE
+  ))
 
   bdy <- lapply(bdy_lst, \(x) list("Messages" = x))
 
