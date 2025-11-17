@@ -76,10 +76,12 @@
 #'   for Postmark email API documentation
 #' * \url{https://postmarkapp.com/developer/api/templates-api#send-email-with-template}
 #'   for Postmark template API documentation
-#' 
+#'
 #' @export
-send <- new_generic("send", c("client", "message"),
-    function(client, message, ...) {
+send <- new_generic(
+  "send",
+  c("client", "message"),
+  function(client, message, ...) {
     S7_dispatch()
   }
 )

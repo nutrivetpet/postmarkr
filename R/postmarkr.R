@@ -61,9 +61,7 @@ Postmarkr <- new_class(
       class = class_character,
       validator = function(value) {
         uuid_pattern <- "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
-        if (
-          !length(value) || !grepl(uuid_pattern, value, ignore.case = TRUE)
-        ) {
+        if (!length(value) || !grepl(uuid_pattern, value, ignore.case = TRUE)) {
           pstmrk_abort(
             "`token` must be a valid UUID format (e.g., '6777be1f-2a8f-4419-a8b4-fe6ff4490za0')",
             class = "postmarkr_error_invalid_token"
