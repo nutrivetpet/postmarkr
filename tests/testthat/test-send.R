@@ -517,7 +517,7 @@ test_that("send() works with Template with all optional fields", {
   expect_true(response@success)
   expect_equal(response@status, 200L)
   expect_type(response@data, "list")
-  expect_type(length(response@data) > 0)
+  expect_true(length(response@data) > 0)
 })
 
 test_that("send() works with Template with nested template_model", {
@@ -566,7 +566,7 @@ test_that("send() works with Template with nested template_model", {
   expect_true(response@success)
   expect_equal(response@status, 200L)
   expect_type(response@data, "list")
-  expect_type(length(response@data) > 0)
+  expect_true(length(response@data) > 0)
 })
 
 test_that("send() includes message_stream from client in Template request", {
