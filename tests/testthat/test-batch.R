@@ -42,7 +42,7 @@ test_that("Batch can be created with Template messages", {
 
   expect_true(S7_inherits(batch, Batch))
   expect_equal(batch_size(batch), 2)
-  expect_equal(batch_message_type(batch), "postmarkr::Email")
+  expect_equal(batch_message_type(batch), "postmarkr::Template")
 })
 
 test_that("Batch can be created with custom chunk_size", {

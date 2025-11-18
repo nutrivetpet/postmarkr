@@ -186,7 +186,12 @@ Batch <- new_class(
 #' @noRd
 #' @keywords internal
 batch_size <- function(batch) {
-  stopifnot("`batch` must be a Batch object" = is_batch(batch))
+   if (!is_batch(batch)) {
+    pstmrk_abort(
+      "`batch` must be a Batch object", 
+      class = "postmarkr_error_not_batch_object"
+    )
+  }
   length(batch@messages)
 }
 
@@ -215,7 +220,7 @@ batch_chunk_count <- function(batch) {
    if (!is_batch(batch)) {
     pstmrk_abort(
       "`batch` must be a Batch object", 
-      class = "postmarkr_error_not_batch_object",
+      class = "postmarkr_error_not_batch_object"
     )
   }
   ceiling(length(batch@messages) / batch@chunk_size)
@@ -245,7 +250,7 @@ batch_message_type <- function(batch) {
    if (!is_batch(batch)) {
     pstmrk_abort(
       "`batch` must be a Batch object", 
-      class = "postmarkr_error_not_batch_object",
+      class = "postmarkr_error_not_batch_object"
     )
   }
 
@@ -304,7 +309,7 @@ batch_get_chunks <- function(batch) {
   if (!is_batch(batch)) {
     pstmrk_abort(
       "`batch` must be a Batch object", 
-      class = "postmarkr_error_not_batch_object",
+      class = "postmarkr_error_not_batch_object"
     )
   }
 
