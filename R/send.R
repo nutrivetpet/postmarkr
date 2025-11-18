@@ -1,4 +1,4 @@
-#' @include batch.R email.R, template.R
+#' @include batch.R email.R template.R
 NULL
 
 #' Send Email or Template
