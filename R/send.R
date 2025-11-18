@@ -151,19 +151,20 @@ send_message_batch <- function(client, message, endpoint) {
   bdy <- lapply(
     chunks,
     function(ck) {
-      lapply(ck, function(msg) as_api_body(msg))
+      lapply(ck, function(msg) {
+        api_body <- as_api_body(msg)
+        api_body$MessageStream <- client@message_stream
+        api_body
+      })
     }
   )
 
-  req_lst <- Map(
-    function(body, client, endpoint, method = "POST") {
-      build_req_S7(client, endpoint, method) |>
-        req_body_json(body)
-    },
+  req_lst <- lapply(
     bdy,
-    lapply(seq_len(batch_chunk_count(message)), function(x) client),
-    rep(endpoint, batch_chunk_count(message)),
-    USE.NAMES = FALSE
+    function(body) {
+      build_req_S7(client, endpoint, "POST") |>
+        req_body_json(body)
+    }
   )
 
   resp_lst <- req_perform_sequential(
@@ -174,7 +175,7 @@ send_message_batch <- function(client, message, endpoint) {
 
   Response(
     data = lapply(resp, function(x) resp_body_json(x, simplifyVector = TRUE)),
-    status = lapply(resp_lst, function(x) resp_status(x)),
+    status = int_ply(resp_lst, function(x) resp_status(x)),
     request = req_lst,
     response = resp_lst,
     success = lapply(resp_lst, function(x) isFALSE(resp_is_error(x)))
