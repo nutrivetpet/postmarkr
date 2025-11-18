@@ -48,7 +48,10 @@ Send a single email with custom HTML or text content:
 library(postmarkr)
 
 # Create client
-client <- PostmarkClient(env = "live")
+client <- Postmarkr(
+  token = Sys.getenv("POSTMARK_SERVER_TOKEN"), 
+  message_stream = "outbound"
+)
 
 # Create and send email
 email <- Email(
@@ -81,7 +84,7 @@ template <- Template(
 result <- send(client, template)
 ```
 
-### Batch Emails (Custom Content)
+### Batch Emails
 
 Send multiple custom emails efficiently (automatically chunks into
 groups of 500):
@@ -91,9 +94,8 @@ groups of 500):
 emails <- lapply(recipients, function(recipient) {
   Email(
     from = "sender@example.com",
-    to = recipient$email,
-    subject = sprintf("Hello %s", recipient$name),
-    html_body = sprintf("<p>Hi %s, welcome aboard!</p>", recipient$name)
+    to = recipient,
+    html_body = "<p>Hi %s, welcome aboard!</p>"
   )
 })
 
@@ -102,7 +104,7 @@ batch <- Batch(messages = emails)
 result <- send(client, batch)
 ```
 
-### Batch Template Emails
+### Batch Templates
 
 Send multiple template emails (e.g., newsletters, notifications):
 
@@ -111,11 +113,11 @@ Send multiple template emails (e.g., newsletters, notifications):
 templates <- lapply(recipients, function(recipient) {
   Template(
     from = "newsletter@example.com",
-    to = recipient$email,
+    to = recipient,
     id = 36620093L,
     template_model = list(
-      user_name = recipient$name,
-      subscription_tier = recipient$tier
+      user_name = "Alice",
+      company_name = "ACME Corp"
     )
   )
 })
@@ -133,12 +135,7 @@ result <- send(client, batch)
 - **Batch Sending**: Efficiently send 500+ emails with `Batch()`
   (automatic chunking)
 - **Tracking**: Built-in support for open and click tracking
-- **Email Templates**: List available templates with `template_list()`
-- **Message Logs**: Retrieve sent messages with
-  `outbound_messages_collect()`
-- **Delivery Statistics**: Track performance with
-  `stats_outbound_overview()`
 
-**Note:** API coverage is still growing. See the
+**Note:** Postmark API coverage is limited. See the
 [documentation](https://nutrivetpet.github.io/postmarkr/) for all
 available features.
