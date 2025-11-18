@@ -94,13 +94,6 @@ NULL
 #' }
 #'
 #' @export
-batch <- function(messages, chunk_size = POSTMARK_MAX_BATCH_SIZE) {
-  Batch(
-    messages = messages,
-    chunk_size = chunk_size
-  )
-}
-
 Batch <- new_class(
   "Batch",
   properties = list(
@@ -181,6 +174,25 @@ Batch <- new_class(
     )
   )
 )
+
+#' Batch Constructor
+#'
+#' @description
+#' Creates a Batch object for sending multiple emails or templates via the
+#' Postmark batch API. This is a user-friendly wrapper around the `Batch` S7
+#' class.
+#'
+#' @inheritParams Batch
+#'
+#' @seealso [Batch()] for the S7 class documentation
+#'
+#' @export
+batch <- function(messages, chunk_size = POSTMARK_MAX_BATCH_SIZE) {
+  Batch(
+    messages = messages,
+    chunk_size = chunk_size
+  )
+}
 
 #' Get Number of Messages in Batch
 #'

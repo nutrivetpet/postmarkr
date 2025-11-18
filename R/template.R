@@ -125,59 +125,6 @@ NULL
 #' for complete Postmark template API documentation
 #'
 #' @export
-template <- function(
-  from,
-  to,
-  template_model,
-  id = NULL,
-  alias = NULL,
-  cc = character(),
-  bcc = character(),
-  inline_css = NULL,
-  tag = character(),
-  reply_to = character(),
-  headers = list(),
-  track_opens = NULL,
-  track_links = character(),
-  attachments = list(),
-  metadata = list()
-) {
-  args <- list(
-    from = from,
-    to = to,
-    template_model = template_model,
-    cc = cc,
-    bcc = bcc,
-    tag = tag,
-    reply_to = reply_to,
-    headers = headers,
-    attachments = attachments,
-    metadata = metadata
-  )
-
-  if (!is.null(id)) {
-    args$id <- as.integer(id)
-  }
-
-  if (!is.null(alias)) {
-    args$alias <- alias
-  }
-
-  if (!is.null(inline_css)) {
-    args$inline_css <- inline_css
-  }
-
-  if (!is.null(track_opens)) {
-    args$track_opens <- track_opens
-  }
-
-  if (length(track_links)) {
-    args$track_links <- track_links
-  }
-
-  exec(Template, !!!args)
-}
-
 Template <- new_class(
   "Template",
   properties = list(
@@ -315,3 +262,68 @@ Template <- new_class(
     }
   }
 )
+
+#' Template Constructor
+#'
+#' @description
+#' Creates a Template object for sending template-based emails via the Postmark
+#' API. This is a user-friendly wrapper around the `Template` S7 class with
+#' sensible defaults.
+#'
+#' @inheritParams Template
+#'
+#' @seealso [Template()] for the S7 class documentation
+#'
+#' @export
+template <- function(
+  from,
+  to,
+  template_model,
+  id = NULL,
+  alias = NULL,
+  cc = character(),
+  bcc = character(),
+  inline_css = NULL,
+  tag = character(),
+  reply_to = character(),
+  headers = list(),
+  track_opens = NULL,
+  track_links = character(),
+  attachments = list(),
+  metadata = list()
+) {
+  args <- list(
+    from = from,
+    to = to,
+    template_model = template_model,
+    cc = cc,
+    bcc = bcc,
+    tag = tag,
+    reply_to = reply_to,
+    headers = headers,
+    attachments = attachments,
+    metadata = metadata
+  )
+
+  if (!is.null(id)) {
+    args$id <- as.integer(id)
+  }
+
+  if (!is.null(alias)) {
+    args$alias <- alias
+  }
+
+  if (!is.null(inline_css)) {
+    args$inline_css <- inline_css
+  }
+
+  if (!is.null(track_opens)) {
+    args$track_opens <- track_opens
+  }
+
+  if (length(track_links)) {
+    args$track_links <- track_links
+  }
+
+  exec(Template, !!!args)
+}

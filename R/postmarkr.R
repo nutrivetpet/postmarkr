@@ -48,22 +48,6 @@ NULL
 #' documentation
 #'
 #' @export
-postmarkr <- function(
-  token,
-  message_stream,
-  base_url = POSTMARK_BASE_URL,
-  timeout = 1,
-  verbose = FALSE
-) {
-  Postmarkr(
-    token = token,
-    message_stream = message_stream,
-    base_url = base_url,
-    timeout = timeout,
-    verbose = verbose
-  )
-}
-
 Postmarkr <- new_class(
   name = "Postmarkr",
   properties = list(
@@ -126,3 +110,29 @@ Postmarkr <- new_class(
     )
   )
 )
+
+#' Client Constructor
+#'
+#' @description
+#' Creates a Postmarkr client for interacting with the Postmark API. This is a
+#' user-friendly wrapper around the `Postmarkr` S7 class with sensible defaults.
+#'
+#' @inheritParams Postmarkr
+#'
+#' @seealso [Postmarkr()] for the S7 class documentation
+#'
+#' @export
+postmarkr <- function(
+  token,
+  message_stream,
+  timeout = 1,
+  verbose = FALSE
+) {
+  Postmarkr(
+    token = token,
+    message_stream = message_stream,
+    base_url = POSTMARK_BASE_URL,
+    timeout = timeout,
+    verbose = verbose
+  )
+}
