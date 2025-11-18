@@ -148,19 +148,31 @@ method(send, list(Postmarkr, Batch)) <- function(
 send_message_batch <- function(client, message, endpoint) {
   chunks <- batch_get_chunks(message)
 
-  bdy <- lapply(
+  bdy_lst <- lapply(
     chunks,
     function(ck) {
-      lapply(ck, function(msg) {
-        api_body <- as_api_body(msg)
-        api_body$MessageStream <- client@message_stream
-        api_body
-      })
+      out <- lapply(
+        ck,
+        function(msg) {
+          api_body <- as_api_body(msg)
+          api_body$MessageStream <- client@message_stream
+          api_body
+        }
+      )
+      switch(
+        endpoint,
+        "/email/batchWithTemplates" = {
+          list("Messages" = out)
+        },
+        "/email/batch" = {
+          out
+        }
+      )
     }
   )
 
   req_lst <- lapply(
-    bdy,
+    bdy_lst,
     function(body) {
       build_req_S7(client, endpoint, "POST") |>
         req_body_json(body)
@@ -174,10 +186,10 @@ send_message_batch <- function(client, message, endpoint) {
   )
 
   Response(
-    data = lapply(resp, function(x) resp_body_json(x, simplifyVector = TRUE)),
+    data = Reduce(rbind, lapply(resp_lst, function(x) resp_body_json(x, simplifyVector = TRUE))),
     status = int_ply(resp_lst, function(x) resp_status(x)),
     request = req_lst,
     response = resp_lst,
-    success = lapply(resp_lst, function(x) isFALSE(resp_is_error(x)))
+    success = lgl_ply(resp_lst, function(x) isFALSE(resp_is_error(x)))
   )
 }
