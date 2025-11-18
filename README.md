@@ -35,7 +35,7 @@ postmarkr provides a clean, object-oriented API for sending emails
 through Postmark. The package supports two message types (`Email` and
 `Template`) and two delivery modes (individual and batch):
 
-|  | `Email()` - Custom Content | `Template()` - Predefined Template |
+|  | `Email()` | `Template()` |
 |----|----|----|
 | **Individual** | One email with HTML/text body | One email using template ID |
 | **Batch** | Multiple custom emails (500+) | Multiple template emails (500+) |

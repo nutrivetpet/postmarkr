@@ -3,32 +3,48 @@ template:
   bootstrap: 5
 
 reference:
+- title: Client
+  desc: >
+    Create Client Objects
+  contents:
+  - Postmarkr
+
 - title: Email
   desc: >
-    Send emails
+    Create Email Objects
   contents:
-  - email_send_single
+  - Email
 
 - title: Templates
   desc: >
-    Manage templates
+    Create Template Objects
   contents:
-  - template_list
-  - template_send_email
-  - template_send_email_batch
+  - Template
+
+- title: Batches
+  desc: >
+    Create Batch Objects
+  contents:
+  - Batch
 
 - title: Stats
   desc: >
-    Statistics for outbound emails
+    Create Stats query object
   contents:
-  - stats_outbound_overview
+  - Stats
+  - stats_get
 
-- title: Messages
+- title: Send
   desc: >
-    Outbound messages
+    Send messages
   contents:
-  - outbound_messages_fetch
-  - outbound_messages_collect
+  - send
+
+- title: Print
+  desc: >
+    Print client objects
+  contents:
+  - print
 
 authors:
   Andrea Ranzato:
