@@ -32,6 +32,7 @@ Collate:
     'template.R'
     'email.R'
     'as_api_body.R'
+    'batch.R'
     'build_req.R'
     'cond.R'
     'messages.R'

@@ -1,3 +1,6 @@
+#' @include batch.R email.R, template.R
+NULL
+
 #' Send Email or Template
 #'
 #' @description
@@ -86,7 +89,19 @@ send <- new_generic(
   }
 )
 
-send_message <- function(client, message, endpoint) {
+method(send, list(Postmarkr, Email)) <- function(client, message, ...) {
+  send_message_individual(client, message, "/email")
+}
+
+method(send, list(Postmarkr, Template)) <- function(
+  client,
+  message,
+  ...
+) {
+  send_message_individual(client, message, "/email/withTemplate")
+}
+
+send_message_individual <- function(client, message, endpoint) {
   req <- build_req_S7(
     client = client,
     endpoint = endpoint,
@@ -109,30 +124,59 @@ send_message <- function(client, message, endpoint) {
   )
 }
 
-method(send, list(Postmarkr, Email)) <- function(client, message, ...) {
-  send_message(client, message, "/email")
-}
-
-method(send, list(Postmarkr, Template)) <- function(
-  client,
-  message,
-  ...
-) {
-  send_message(client, message, "/email/withTemplate")
-}
-
 method(send, list(Postmarkr, Batch)) <- function(
   client,
   message,
   ...
 ) {
-  send_message(client, message, "/email/batch")
+  typ <- tolower(batch_message_type(message))
+  switch(
+    typ,
+    "postmarkr::email" = send_message_batch(
+      client,
+      message,
+      "/email/batch"
+    ),
+    "postmarkr::template" = send_message_batch(
+      client,
+      message,
+      "/email/batchWithTemplates"
+    )
+  )
 }
 
-method(send, list(Postmarkr, Batch)) <- function(
-  client,
-  message,
-  ...
-) {
-  send_message(client, message, "/email/batchWithTemplates")
+send_message_batch <- function(client, message, endpoint) {
+  chunks <- batch_get_chunks(message)
+
+  bdy <- lapply(
+    chunks,
+    function(ck) {
+      lapply(ck, function(msg) as_api_body(msg))
+    }
+  )
+
+  req_lst <- Map(
+    function(body, client, endpoint, method = "POST") {
+      build_req_S7(client, endpoint, method) |>
+        req_body_json(body)
+    },
+    bdy,
+    lapply(seq_len(batch_chunk_count(message)), function(x) client),
+    rep(endpoint, batch_chunk_count(message)),
+    USE.NAMES = FALSE
+  )
+
+  resp <- req_perform_sequential(
+    req_lst,
+    on_error = "continue",
+    progress = TRUE
+  )
+
+  Response(
+    data = resp_body_json(resp, simplifyVector = TRUE),
+    status = resp_status(resp),
+    request = req,
+    response = resp,
+    success = isFALSE(resp_is_error(resp))
+  )
 }
