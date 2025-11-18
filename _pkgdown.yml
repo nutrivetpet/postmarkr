@@ -6,7 +6,7 @@ reference:
 
 - title: Client
   desc: >
-    Create Client Objects
+    Create Client Object
   contents:
   - Postmarkr
 
