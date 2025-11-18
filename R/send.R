@@ -166,17 +166,17 @@ send_message_batch <- function(client, message, endpoint) {
     USE.NAMES = FALSE
   )
 
-  resp <- req_perform_sequential(
+  resp_lst <- req_perform_sequential(
     req_lst,
     on_error = "continue",
     progress = TRUE
   )
 
   Response(
-    data = resp_body_json(resp, simplifyVector = TRUE),
-    status = resp_status(resp),
-    request = req,
-    response = resp,
-    success = isFALSE(resp_is_error(resp))
+    data = lapply(resp, function(x) resp_body_json(x, simplifyVector = TRUE)),
+    status = lapply(resp_lst, function(x) resp_status(x)),
+    request = req_lst,
+    response = resp_lst,
+    success = lapply(resp_lst, function(x) isFALSE(resp_is_error(x)))
   )
 }
