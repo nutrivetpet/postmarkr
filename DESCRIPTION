@@ -14,8 +14,7 @@ URL: https://nutrivetpet.github.io/postmarkr,
 BugReports: https://github.com/nutrivetpet/postmarkr/issues
 Depends: 
     R (>= 4.1.0)
-Imports: 
-    dplyr,
+Imports:
     httr2,
     rlang,
     S7
