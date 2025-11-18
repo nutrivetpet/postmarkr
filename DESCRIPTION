@@ -36,7 +36,6 @@ Collate:
     'batch.R'
     'build_req.R'
     'cond.R'
-    'messages.R'
     'ply.R'
     'postmarkr-package.R'
     'print.R'
