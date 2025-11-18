@@ -2,14 +2,14 @@
 % Please edit documentation in R/send.R
 \name{send}
 \alias{send}
-\title{Send Email or Template}
+\title{Send Email, Template and Batch Objects}
 \usage{
 send(client, message, ...)
 }
 \arguments{
 \item{client}{A \link{Postmarkr} client object.}
 
-\item{message}{An \link{Email} or \link{Template} object to send.}
+\item{message}{An \link{Email}, \link{Template} or \link{Batch} object to send.}
 
 \item{...}{Additional arguments passed to methods.}
 }
@@ -26,8 +26,8 @@ A \code{Response} S7 object with the following properties:
 }
 \description{
 Generic function to send emails through the Postmark API. This function
-dispatches to the appropriate method based on the message type (\link{Email} or
-\link{Template}).
+dispatches to the appropriate method based on the message type (\link{Email},
+\link{Template}, \link{Batch}).
 }
 \examples{
 \dontrun{

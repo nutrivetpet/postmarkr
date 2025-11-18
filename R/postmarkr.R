@@ -1,23 +1,21 @@
 #' @include constants.R
 NULL
 
-#' Postmark Client
+#' Client Object
 #'
 #' @description
 #' An S7 class representing a Postmark API client for sending emails.
 #' This class encapsulates the configuration needed to interact with the
 #' Postmark email service.
 #'
-#' @param token character. Your Postmark Server API Token in UUID format
-#'   (e.g., '6777be1f-2a8f-4419-a8b4-fe6ff4490za0'). This token authenticates
+#' @param token character. Your Postmark Server API Token. This token authenticates
 #'   your requests to the Postmark API.
 #' @param message_stream character. The message stream to use for sending emails.
-#'   Must be either "broadcast" (for newsletters and marketing emails) or
-#'   "outbound" (for transactional one-to-one triggered emails).
+#'   Must be either `"broadcast"` (for newsletters and marketing emails) or
+#'   `"outbound"` (for transactional one-to-one triggered emails).
 #' @param base_url character. The base URL for the Postmark API. Defaults to
 #'   the standard Postmark API endpoint (`https://api.postmarkapp.com`).
-#'   **You should not need to change this.** Only modify for testing/mocking
-#'   purposes (e.g., pointing to a local mock server during development).
+#'   **You should not need to change this.**
 #' @param timeout numeric. Request timeout in seconds for API calls.
 #' @param verbose logical. Whether to pass [httr2::req_verbose()] to the request.
 #'
@@ -28,10 +26,6 @@ NULL
 #'   \item A valid Postmark Server API Token
 #'   \item Verified sender signatures or domains in your Postmark account
 #' }
-#'
-#' The `token` property is validated to ensure it matches the UUID format
-#' required by Postmark. The `message_stream` property is validated to be
-#' either "broadcast" or "outbound".
 #'
 #' @examples
 #' \dontrun{
@@ -54,6 +48,10 @@ NULL
 #' documentation
 #'
 #' @export
+postmarkr <- function(token, message_stream, timeout) {
+  Postmarkr()
+}
+
 Postmarkr <- new_class(
   name = "Postmarkr",
   properties = list(

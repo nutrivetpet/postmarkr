@@ -1,15 +1,15 @@
 #' @include batch.R email.R template.R
 NULL
 
-#' Send Email or Template
+#' Send Email, Template and Batch Objects
 #'
 #' @description
 #' Generic function to send emails through the Postmark API. This function
-#' dispatches to the appropriate method based on the message type ([Email] or
-#' [Template]).
+#' dispatches to the appropriate method based on the message type ([Email],
+#' [Template], [Batch]).
 #'
 #' @param client A [Postmarkr] client object.
-#' @param message An [Email] or [Template] object to send.
+#' @param message An [Email], [Template] or [Batch] object to send.
 #' @param ... Additional arguments passed to methods.
 #'
 #' @return A `Response` S7 object with the following properties:
@@ -186,7 +186,10 @@ send_message_batch <- function(client, message, endpoint) {
   )
 
   Response(
-    data = Reduce(rbind, lapply(resp_lst, function(x) resp_body_json(x, simplifyVector = TRUE))),
+    data = Reduce(
+      rbind,
+      lapply(resp_lst, function(x) resp_body_json(x, simplifyVector = TRUE))
+    ),
     status = int_ply(resp_lst, function(x) resp_status(x)),
     request = req_lst,
     response = resp_lst,

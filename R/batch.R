@@ -1,12 +1,12 @@
 #' @include postmarkr.R
 NULL
 
-#' Batch - Collection of Email or Template Messages
+#' Batch Object - Collection of Email or Template Objects
 #'
 #' @description
 #' An S7 class representing a batch of email or template messages to be sent
-#' via Postmark's batch API. This class handles chunking, validation, and
-#' efficient sending of multiple messages in a single operation.
+#' via Postmark's batch API. This class handles chunking and validation
+#' of multiple messages in a single operation.
 #'
 #' @details
 #' The `Batch` class wraps a collection of messages (either `Email` or
@@ -63,7 +63,7 @@ NULL
 #' ))
 #'
 #' # Send batch
-#' client <- PostmarkClient(token = "<token>")
+#' client <- Postmarkr(token = "<token>", message_stream = "outbound")
 #' result <- send(client, batch)
 #'
 #' # Batch of template emails
@@ -74,8 +74,7 @@ NULL
 #'     to = email,
 #'     id = 12345678L,
 #'     template_model = list(
-#'       name = strsplit(email, "@")[[1]][1],  # Extract name from email
-#'       link = sprintf("https://app.example.com/user/%s", email)
+#'       company_name = "ACME Corp"
 #'     )
 #'   )
 #' })
@@ -186,9 +185,9 @@ Batch <- new_class(
 #' @noRd
 #' @keywords internal
 batch_size <- function(batch) {
-   if (!is_batch(batch)) {
+  if (!is_batch(batch)) {
     pstmrk_abort(
-      "`batch` must be a Batch object", 
+      "`batch` must be a Batch object",
       class = "postmarkr_error_not_batch_object"
     )
   }
@@ -217,9 +216,9 @@ batch_size <- function(batch) {
 #' @noRd
 #' @keywords internal
 batch_chunk_count <- function(batch) {
-   if (!is_batch(batch)) {
+  if (!is_batch(batch)) {
     pstmrk_abort(
-      "`batch` must be a Batch object", 
+      "`batch` must be a Batch object",
       class = "postmarkr_error_not_batch_object"
     )
   }
@@ -247,9 +246,9 @@ batch_chunk_count <- function(batch) {
 #' @noRd
 #' @keywords internal
 batch_message_type <- function(batch) {
-   if (!is_batch(batch)) {
+  if (!is_batch(batch)) {
     pstmrk_abort(
-      "`batch` must be a Batch object", 
+      "`batch` must be a Batch object",
       class = "postmarkr_error_not_batch_object"
     )
   }
@@ -308,7 +307,7 @@ batch_message_type <- function(batch) {
 batch_get_chunks <- function(batch) {
   if (!is_batch(batch)) {
     pstmrk_abort(
-      "`batch` must be a Batch object", 
+      "`batch` must be a Batch object",
       class = "postmarkr_error_not_batch_object"
     )
   }

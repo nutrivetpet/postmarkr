@@ -32,8 +32,8 @@ pak::pak("nutrivetpet/postmarkr")
 ## Usage Patterns
 
 postmarkr provides a clean, object-oriented API for sending emails
-through Postmark. The package supports two message types (`Email` and
-`Template`) and two delivery modes (individual and batch):
+through Postmark. The package supports two message types (email and
+template) and two delivery modes (individual and batch):
 
 |  | `Email()` | `Template()` |
 |----|----|----|

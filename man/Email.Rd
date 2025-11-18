@@ -2,7 +2,7 @@
 % Please edit documentation in R/email.R
 \name{Email}
 \alias{Email}
-\title{Email - Single email message}
+\title{Email Object}
 \usage{
 Email(
   from = character(0),
@@ -71,7 +71,7 @@ Each attachment should have \code{Name}, \code{Content} (base64-encoded),
 Total message size including attachments limited to 10 MB.}
 }
 \description{
-An S7 class representing a single email message to be sent via the Postmark
+An S7 class representing an email message to be sent via the Postmark
 API. This class encapsulates all the properties needed to compose and send
 an email, including content, recipients, tracking settings, and attachments.
 }

@@ -1,7 +1,7 @@
 #' @include postmarkr.R as_api_body.R
 NULL
 
-#' Template
+#' Template Object
 #'
 #' @description
 #' An S7 class representing a template-based email message to be sent via the
@@ -86,20 +86,6 @@ NULL
 #'   to = "recipient@example.com",
 #'   alias = "welcome-email",
 #'   template_model = list(name = "John", message = "Welcome!")
-#' )
-#'
-#' # Template with nested model and inline CSS
-#' complex_template <- Template(
-#'   from = "sender@example.com",
-#'   to = "recipient@example.com",
-#'   id = 12345678L,
-#'   template_model = list(
-#'     user_name = "Jane Smith",
-#'     company = list(name = "ACME Corp")
-#'   ),
-#'   inline_css = TRUE,
-#'   track_opens = TRUE,
-#'   tag = "onboarding"
 #' )
 #'
 #' # Template with tracking, attachments, and metadata

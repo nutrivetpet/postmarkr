@@ -2,7 +2,7 @@
 % Please edit documentation in R/batch.R
 \name{Batch}
 \alias{Batch}
-\title{Batch - Collection of Email or Template Messages}
+\title{Batch Object - Collection of Email or Template Objects}
 \usage{
 Batch(messages = list(), chunk_size = 500L)
 }
@@ -16,8 +16,8 @@ rate limiting (e.g., 100). Must be positive and not exceed 500.}
 }
 \description{
 An S7 class representing a batch of email or template messages to be sent
-via Postmark's batch API. This class handles chunking, validation, and
-efficient sending of multiple messages in a single operation.
+via Postmark's batch API. This class handles chunking and validation
+of multiple messages in a single operation.
 }
 \details{
 The \code{Batch} class wraps a collection of messages (either \code{Email} or
@@ -68,7 +68,7 @@ cat(sprintf(
 ))
 
 # Send batch
-client <- PostmarkClient(token = "<token>")
+client <- Postmarkr(token = "<token>", message_stream = "outbound")
 result <- send(client, batch)
 
 # Batch of template emails
@@ -79,8 +79,7 @@ templates <- lapply(recipients, function(email) {
     to = email,
     id = 12345678L,
     template_model = list(
-      name = strsplit(email, "@")[[1]][1],  # Extract name from email
-      link = sprintf("https://app.example.com/user/\%s", email)
+      company_name = "ACME Corp"
     )
   )
 })

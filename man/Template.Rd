@@ -2,7 +2,7 @@
 % Please edit documentation in R/template.R
 \name{Template}
 \alias{Template}
-\title{Template}
+\title{Template Object}
 \usage{
 Template(
   from = character(0),
@@ -118,20 +118,6 @@ alias_template <- Template(
   to = "recipient@example.com",
   alias = "welcome-email",
   template_model = list(name = "John", message = "Welcome!")
-)
-
-# Template with nested model and inline CSS
-complex_template <- Template(
-  from = "sender@example.com",
-  to = "recipient@example.com",
-  id = 12345678L,
-  template_model = list(
-    user_name = "Jane Smith",
-    company = list(name = "ACME Corp")
-  ),
-  inline_css = TRUE,
-  track_opens = TRUE,
-  tag = "onboarding"
 )
 
 # Template with tracking, attachments, and metadata

@@ -4,35 +4,20 @@ template:
 
 reference:
 
-- title: Client
+- title: Objects
   desc: >
-    Create Client Object
+    Create Objects
   contents:
   - Postmarkr
-
-- title: Email
-  desc: >
-    Create Email Objects
-  contents:
   - Email
-
-- title: Templates
-  desc: >
-    Create Template Objects
-  contents:
   - Template
-
-- title: Batches
-  desc: >
-    Create Batch Objects
-  contents:
   - Batch
+  - Stats
 
 - title: Stats
   desc: >
-    Create Stats query object
+    Get Stats
   contents:
-  - Stats
   - stats_get
 
 - title: Send

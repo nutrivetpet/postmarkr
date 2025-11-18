@@ -2,7 +2,7 @@
 % Please edit documentation in R/postmarkr.R
 \name{Postmarkr}
 \alias{Postmarkr}
-\title{Postmark Client}
+\title{Client Object}
 \usage{
 Postmarkr(
   token = character(0),
@@ -13,18 +13,16 @@ Postmarkr(
 )
 }
 \arguments{
-\item{token}{character. Your Postmark Server API Token in UUID format
-(e.g., '6777be1f-2a8f-4419-a8b4-fe6ff4490za0'). This token authenticates
+\item{token}{character. Your Postmark Server API Token. This token authenticates
 your requests to the Postmark API.}
 
 \item{message_stream}{character. The message stream to use for sending emails.
-Must be either "broadcast" (for newsletters and marketing emails) or
-"outbound" (for transactional one-to-one triggered emails).}
+Must be either \code{"broadcast"} (for newsletters and marketing emails) or
+\code{"outbound"} (for transactional one-to-one triggered emails).}
 
 \item{base_url}{character. The base URL for the Postmark API. Defaults to
 the standard Postmark API endpoint (\verb{https://api.postmarkapp.com}).
-\strong{You should not need to change this.} Only modify for testing/mocking
-purposes (e.g., pointing to a local mock server during development).}
+\strong{You should not need to change this.}}
 
 \item{timeout}{numeric. Request timeout in seconds for API calls.}
 
@@ -42,10 +40,6 @@ Postmark API. Before creating an instance, ensure you have:
 \item A valid Postmark Server API Token
 \item Verified sender signatures or domains in your Postmark account
 }
-
-The \code{token} property is validated to ensure it matches the UUID format
-required by Postmark. The \code{message_stream} property is validated to be
-either "broadcast" or "outbound".
 }
 \examples{
 \dontrun{

@@ -1,7 +1,7 @@
-#' Email - Single email message
+#' Email Object
 #'
 #' @description
-#' An S7 class representing a single email message to be sent via the Postmark
+#' An S7 class representing an email message to be sent via the Postmark
 #' API. This class encapsulates all the properties needed to compose and send
 #' an email, including content, recipients, tracking settings, and attachments.
 #'
@@ -110,7 +110,7 @@
 #'     list(Name = "Importance", Value = "high")
 #'   )
 #' )
-#' 
+#'
 #' }
 #'
 #' @seealso
