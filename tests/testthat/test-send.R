@@ -138,6 +138,7 @@ test_that("send() works with Email with cc and bcc", {
 test_that("send() works with Email with all optional fields", {
   skip_if_offline()
   skip_on_cran()
+  skip_if_not_installed("base64enc")
   skip_if_not(
     nzchar(Sys.getenv("POSTMARK_TEST_FROM_EMAIL")),
     "Env. var. `POSTMARK_TEST_FROM_EMAIL` is missing"
