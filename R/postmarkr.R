@@ -48,8 +48,20 @@ NULL
 #' documentation
 #'
 #' @export
-postmarkr <- function(token, message_stream, timeout) {
-  Postmarkr()
+postmarkr <- function(
+  token,
+  message_stream,
+  base_url = POSTMARK_BASE_URL,
+  timeout = 1,
+  verbose = FALSE
+) {
+  Postmarkr(
+    token = token,
+    message_stream = message_stream,
+    base_url = base_url,
+    timeout = timeout,
+    verbose = verbose
+  )
 }
 
 Postmarkr <- new_class(

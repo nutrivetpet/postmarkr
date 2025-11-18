@@ -118,6 +118,48 @@
 #' for complete Postmark email API documentation
 #'
 #' @export
+email <- function(
+  from = character(),
+  to = character(),
+  subject = character(),
+  html_body = character(),
+  text_body = character(),
+  cc = character(),
+  bcc = character(),
+  tag = character(),
+  reply_to = character(),
+  metadata = list(),
+  headers = list(),
+  track_opens = NULL,
+  track_links = character(),
+  attachments = list()
+) {
+  args <- list(
+    from = from,
+    to = to,
+    subject = subject,
+    html_body = html_body,
+    text_body = text_body,
+    cc = cc,
+    bcc = bcc,
+    tag = tag,
+    reply_to = reply_to,
+    metadata = metadata,
+    headers = headers,
+    attachments = attachments
+  )
+
+  if (!is.null(track_opens)) {
+    args$track_opens <- track_opens
+  }
+
+  if (length(track_links)) {
+    args$track_links <- track_links
+  }
+
+  exec(Email, !!!args)
+}
+
 Email <- new_class(
   "Email",
   properties = list(

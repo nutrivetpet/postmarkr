@@ -94,6 +94,13 @@ NULL
 #' }
 #'
 #' @export
+batch <- function(messages, chunk_size = POSTMARK_MAX_BATCH_SIZE) {
+  Batch(
+    messages = messages,
+    chunk_size = chunk_size
+  )
+}
+
 Batch <- new_class(
   "Batch",
   properties = list(
