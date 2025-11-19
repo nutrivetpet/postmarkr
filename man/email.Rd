@@ -6,19 +6,19 @@
 \title{Email Object}
 \usage{
 email(
-  from = character(),
-  to = character(),
-  subject = character(),
-  html_body = character(),
-  text_body = character(),
-  cc = character(),
-  bcc = character(),
-  tag = character(),
-  reply_to = character(),
+  from = character(0),
+  to = character(0),
+  subject = character(0),
+  html_body = character(0),
+  text_body = character(0),
+  cc = character(0),
+  bcc = character(0),
+  tag = character(0),
+  reply_to = character(0),
   metadata = list(),
   headers = list(),
-  track_opens = logical(),
-  track_links = character(),
+  track_opens = logical(0),
+  track_links = character(0),
   attachments = list()
 )
 
