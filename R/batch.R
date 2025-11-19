@@ -233,7 +233,7 @@ batch_chunk_count <- function(batch) {
 #'
 #' @examples
 #' \dontrun{
-#' email_batch <- Batch(messages = list(Email(...), Email(...)))
+#' email_batch <- Batch(messages = list(email(...), email(...)))
 #' batch_message_type(email_batch)  # Returns: "Email"
 #'
 #' template_batch <- Batch(messages = list(Template(...), Template(...)))

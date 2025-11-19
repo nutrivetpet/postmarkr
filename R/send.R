@@ -31,7 +31,7 @@ NULL
 #' )
 #'
 #' # Send a regular email
-#' email <- Email(
+#' email <- email(
 #'   from = "sender@example.com",
 #'   to = "recipient@example.com",
 #'   subject = "Hello from postmarkr",
@@ -48,7 +48,7 @@ NULL
 #' }
 #'
 #' # Send HTML email with tracking
-#' html_email <- Email(
+#' html_email <- email(
 #'   from = "notifications@example.com",
 #'   to = "user@example.com",
 #'   subject = "Welcome to our service",
