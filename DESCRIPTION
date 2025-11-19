@@ -41,5 +41,6 @@ Collate:
     'response.R'
     'send.R'
     'stats.R'
+    'token.R'
     'utils.R'
     'zzz.R'
