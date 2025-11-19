@@ -13,7 +13,6 @@ NULL
 #'     (either all `Email` or all `Template`)
 #'   \item **Automatic chunking**: Splits large batches into API-compliant
 #'     chunks of 500 messages (Postmark's limit)
-#'   \item **Type-agnostic design**: Works seamlessly with both message types
 #'   \item **Configurable chunk size**: Allows smaller chunks for testing or
 #'     rate limiting
 #' }
@@ -29,7 +28,6 @@ NULL
 #'   \item Maximum 500 messages per API call (handled automatically via chunking)
 #'   \item Maximum 50 MB total payload size per chunk
 #'   \item Each message still subject to individual limits (50 recipients, 10 MB)
-#'   \item All messages in batch must be same type (Email or Template)
 #' }
 #'
 #' @param messages List of `Email` or `Template` objects. All must be the same
