@@ -26,16 +26,6 @@ reference:
   contents:
   - send
 
-- title: Objects
-  desc: >
-    S7 object classes
-  contents:
-  - Client
-  - Email
-  - Template
-  - Batch
-  - Stats
-
 - title: Print
   desc: >
     Print client objects
