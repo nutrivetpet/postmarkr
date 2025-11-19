@@ -4,12 +4,8 @@ NULL
 #' Batch Object - Collection of Email or Template Objects
 #'
 #' @description
-#' An S7 class representing a batch of email or template messages to be sent
-#' via Postmark's batch API. This class handles chunking and validation
-#' of multiple messages in a single operation.
-#'
-#' @details
-#' The `Batch` class wraps a collection of messages (either `Email` or
+#' Creates a Batch object for sending multiple emails or templates via the
+#' Postmark batch API. This wraps a collection of messages (either `Email` or
 #' `Template` objects) and manages the complexities of Postmark's batch API:
 #'
 #' \itemize{
@@ -46,30 +42,23 @@ NULL
 #' \dontrun{
 #' # Batch of regular emails (e.g., 1000 personalized emails)
 #' emails <- lapply(1:1000, function(i) {
-#'   Email(
+#'   email(
 #'     from = "sender@example.com",
 #'     to = sprintf("user%d@example.com", i),
 #'     subject = sprintf("Welcome User %d", i),
 #'     html_body = sprintf("<p>Hello User %d!</p>", i)
 #'   )
 #' })
-#' batch <- Batch(messages = emails)
-#'
-#' # Check batch metadata
-#' cat(sprintf(
-#'   "Batch contains %d emails in %d chunks\n",
-#'   batch_size(batch),
-#'   batch_chunk_count(batch)
-#' ))
+#' my_batch <- batch(messages = emails)
 #'
 #' # Send batch
-#' client <- Postmarkr(token = "<token>", message_stream = "outbound")
-#' result <- send(client, batch)
+#' client <- postmarkr(token = "<token>", message_stream = "outbound")
+#' result <- send(client, my_batch)
 #'
 #' # Batch of template emails
 #' recipients <- c("alice@example.com", "bob@example.com", "charlie@example.com")
 #' templates <- lapply(recipients, function(email) {
-#'   Template(
+#'   template(
 #'     from = "notifications@example.com",
 #'     to = email,
 #'     id = 12345678L,
@@ -78,8 +67,8 @@ NULL
 #'     )
 #'   )
 #' })
-#' batch <- Batch(messages = templates)
-#' send(client, batch)
+#' my_batch <- batch(messages = templates)
+#' send(client, my_batch)
 #' }
 #'
 #' @seealso
@@ -88,11 +77,21 @@ NULL
 #'     for Email batch API
 #'   \item \url{https://postmarkapp.com/developer/api/templates-api#send-batch-with-templates}
 #'     for Template batch API
-#'   \item [Email()] for single email messages
-#'   \item [Template()] for template-based messages
+#'   \item [email()] for single email messages
+#'   \item [template()] for template-based messages
 #'   \item [send()] for sending batches
 #' }
 #'
+#' @rdname batch
+#' @export
+batch <- function(messages, chunk_size = POSTMARK_MAX_BATCH_SIZE) {
+  Batch(
+    messages = messages,
+    chunk_size = chunk_size
+  )
+}
+
+#' @rdname batch
 #' @export
 Batch <- new_class(
   "Batch",
@@ -174,25 +173,6 @@ Batch <- new_class(
     )
   )
 )
-
-#' Batch Constructor
-#'
-#' @description
-#' Creates a Batch object for sending multiple emails or templates via the
-#' Postmark batch API. This is a user-friendly wrapper around the `Batch` S7
-#' class.
-#'
-#' @inheritParams Batch
-#'
-#' @seealso [Batch()] for the S7 class documentation
-#'
-#' @export
-batch <- function(messages, chunk_size = POSTMARK_MAX_BATCH_SIZE) {
-  Batch(
-    messages = messages,
-    chunk_size = chunk_size
-  )
-}
 
 #' Get Number of Messages in Batch
 #'
