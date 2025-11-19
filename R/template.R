@@ -17,9 +17,9 @@ NULL
 #'   \item Metadata for internal tracking
 #' }
 #'
-#' @inheritSection Email Limitations
+#' @inheritSection email Limitations
 #'
-#' @inheritParams Email
+#' @inheritParams email
 #' @param id Integer scalar. The template ID in Postmark. Must be a positive
 #'   integer corresponding to an existing template in your account. Typically
 #'   an 8-digit number (e.g., 12345678). **Either `id` or `alias` must be
