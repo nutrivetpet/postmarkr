@@ -104,7 +104,7 @@ Postmarkr <- new_class(
       class = class_numeric,
       default = 1, # TODO: is this a good default?
       validator = function(value) {
-        if (!is_integerish(value, n = 1L)) {
+        if (!is_scalar_integerish(value)) {
           pstmrk_abort(
             "`timeout` must be an integerish",
             class = "postmarkr_error_invalid_timeout"

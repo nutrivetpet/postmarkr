@@ -156,9 +156,9 @@ Template <- new_class(
       }
     ),
     id = new_property(
-      class = class_integer,
+      class = class_numeric,
       validator = function(value) {
-        if (length(value) && (!is_scalar_integer(value) || value <= 0)) {
+        if (length(value) && (!is_scalar_integerish(value) || value <= 0)) {
           pstmrk_abort_template_invalid_id()
         }
       }
