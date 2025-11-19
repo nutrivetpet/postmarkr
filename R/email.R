@@ -27,9 +27,9 @@
 #'   \item One tag per message, maximum 1000 characters
 #' }
 #'
-#' @param from Character scalar. Sender email address (must be verified in
+#' @param from Character scalar. **Required.** Sender email address (must be verified in
 #'   Postmark). Supports name formatting: `"John Doe <email@@example.com>"`
-#' @param to Character vector. Recipient email addresses. Multiple recipients
+#' @param to Character vector. **Required.** Recipient email addresses. Multiple recipients
 #'   allowed (max 50 total across To, Cc, Bcc)
 #' @param cc Character vector. Carbon copy recipients. Visible to all recipients.
 #' @param bcc Character vector. Blind carbon copy recipients. Hidden from
@@ -38,10 +38,10 @@
 #' @param tag Character scalar. Category tag for statistics and filtering.
 #'   One tag per message, maximum 1000 characters. Examples: "welcome-email",
 #'   "password-reset", "invoice".
-#' @param html_body Character scalar. HTML content of the email. Use for
+#' @param html_body Character scalar. **Required.** HTML content of the email. Use for
 #'   rich formatting, images, and styling. Mutually exclusive with
 #'   `text_body`. Maximum 5 MB.
-#' @param text_body Character scalar. Plain text content of the email.
+#' @param text_body Character scalar. **Required.** Plain text content of the email.
 #'   Use for simple text-only emails. Mutually exclusive with `html_body`.
 #'   Maximum 5 MB.
 #' @param reply_to Character scalar. Reply-To address for responses.
