@@ -1,13 +1,9 @@
 #' Email Object
 #'
 #' @description
-#' An S7 class representing an email message to be sent via the Postmark
-#' API. This class encapsulates all the properties needed to compose and send
-#' an email, including content, recipients, tracking settings, and attachments.
-#'
-#' @details
-#' The `Email` class provides a structured way to compose emails for sending
-#' through Postmark. It supports:
+#' Creates an Email object for sending emails via the Postmark API. This
+#' provides a structured way to compose emails for sending through Postmark.
+#' It supports:
 #' \itemize{
 #'   \item HTML and plain text content (mutually exclusive)
 #'   \item Multiple recipients via To, Cc, and Bcc fields (max 50 combined)
@@ -65,7 +61,7 @@
 #' @examples
 #' \dontrun{
 #' # Simple text Email
-#' simple_email <- Email(
+#' simple_email <- email(
 #'   from = "sender@example.com",
 #'   to = "recipient@example.com",
 #'   subject = "Hello from R",
@@ -73,7 +69,7 @@
 #' )
 #'
 #' # HTML Email with tracking
-#' html_email <- Email(
+#' html_email <- email(
 #'   from = "sender@example.com",
 #'   to = "recipient@example.com",
 #'   subject = "Welcome!",
@@ -84,7 +80,7 @@
 #' )
 #'
 #' # Email with multiple recipients and metadata
-#' multi_email <- Email(
+#' multi_email <- email(
 #'   from = "notifications@example.com",
 #'   to = c("user1@example.com", "user2@example.com"),
 #'   cc = "manager@example.com",
@@ -98,7 +94,7 @@
 #' )
 #'
 #' # Email with custom headers
-#' priority_email <- Email(
+#' priority_email <- email(
 #'   from = "urgent@example.com",
 #'   to = "support@example.com",
 #'   subject = "Urgent Issue",
@@ -115,6 +111,43 @@
 #' \url{https://postmarkapp.com/developer/api/email-api#send-a-single-email}
 #' for complete Postmark email API documentation
 #'
+#' @rdname email
+#' @export
+email <- function(
+  from = character(),
+  to = character(),
+  subject = character(),
+  html_body = character(),
+  text_body = character(),
+  cc = character(),
+  bcc = character(),
+  tag = character(),
+  reply_to = character(),
+  metadata = list(),
+  headers = list(),
+  track_opens = logical(),
+  track_links = character(),
+  attachments = list()
+) {
+  Email(
+    from = from,
+    to = to,
+    subject = subject,
+    html_body = html_body,
+    text_body = text_body,
+    cc = cc,
+    bcc = bcc,
+    tag = tag,
+    reply_to = reply_to,
+    metadata = metadata,
+    headers = headers,
+    track_opens = track_opens,
+    track_links = track_links,
+    attachments = attachments
+  )
+}
+
+#' @rdname email
 #' @export
 Email <- new_class(
   "Email",
@@ -205,48 +238,3 @@ Email <- new_class(
     }
   }
 )
-
-#' Email Constructor
-#'
-#' @description
-#' Creates an Email object for sending emails via the Postmark API. This is a
-#' user-friendly wrapper around the `Email` S7 class with sensible defaults.
-#'
-#' @inheritParams Email
-#'
-#' @seealso [Email()] for the S7 class documentation
-#'
-#' @export
-email <- function(
-  from = character(),
-  to = character(),
-  subject = character(),
-  html_body = character(),
-  text_body = character(),
-  cc = character(),
-  bcc = character(),
-  tag = character(),
-  reply_to = character(),
-  metadata = list(),
-  headers = list(),
-  track_opens = logical(),
-  track_links = character(),
-  attachments = list()
-) {
-  Email(
-    from = from,
-    to = to,
-    subject = subject,
-    html_body = html_body,
-    text_body = text_body,
-    cc = cc,
-    bcc = bcc,
-    tag = tag,
-    reply_to = reply_to,
-    metadata = metadata,
-    headers = headers,
-    track_opens = track_opens,
-    track_links = track_links,
-    attachments = attachments
-  )
-}

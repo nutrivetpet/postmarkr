@@ -2,7 +2,8 @@
 % Please edit documentation in R/template.R
 \name{template}
 \alias{template}
-\title{Template Constructor}
+\alias{Template}
+\title{Template Object}
 \usage{
 template(
   from,
@@ -18,6 +19,24 @@ template(
   headers = list(),
   track_opens = NULL,
   track_links = character(),
+  attachments = list(),
+  metadata = list()
+)
+
+Template(
+  from = character(0),
+  to = character(0),
+  id = integer(0),
+  alias = character(0),
+  template_model = list(),
+  cc = character(0),
+  bcc = character(0),
+  inline_css = logical(0),
+  tag = character(0),
+  reply_to = character(0),
+  headers = list(),
+  track_opens = logical(0),
+  track_links = character(0),
   attachments = list(),
   metadata = list()
 )
@@ -81,9 +100,79 @@ affect email delivery. Example: \code{list(customer_id = "12345", campaign = "on
 }
 \description{
 Creates a Template object for sending template-based emails via the Postmark
-API. This is a user-friendly wrapper around the \code{Template} S7 class with
-sensible defaults.
+API. This provides a structured way to send emails using predefined Postmark
+templates. It supports:
+\itemize{
+\item Template variable substitution via \code{template_model}
+\item Multiple recipients via To, Cc, and Bcc fields (max 50 combined)
+\item Inline CSS processing for better email client compatibility
+\item Open and click tracking configuration
+\item Email categorization via tags
+\item File attachments and custom headers
+\item Metadata for internal tracking
+}
+}
+\section{Limitations}{
+
+\itemize{
+\item Maximum 50 total recipients (To, Cc, Bcc combined)
+\item Maximum 10 MB total message size (including attachments)
+\item One tag per message, maximum 1000 characters
+}
+}
+
+\examples{
+\dontrun{
+# Simple template email using template ID
+simple_template <- template(
+  from = "sender@example.com",
+  to = "recipient@example.com",
+  id = 12345678L,
+  template_model = list(name = "John", message = "Welcome!")
+)
+
+# Template email using template alias
+alias_template <- template(
+  from = "sender@example.com",
+  to = "recipient@example.com",
+  alias = "welcome-email",
+  template_model = list(name = "John", message = "Welcome!")
+)
+
+# Template with tracking, attachments, and metadata
+full_template <- template(
+  from = "notifications@example.com",
+  to = c("user1@example.com", "user2@example.com"),
+  cc = "manager@example.com",
+  id = 67890123L,
+  template_model = list(
+    order_id = "ORD-789",
+    status = "Completed"
+  ),
+  inline_css = TRUE,
+  tag = "order-confirmation",
+  reply_to = "support@example.com",
+  headers = list(
+    list(Name = "X-Priority", Value = "High")
+  ),
+  track_opens = TRUE,
+  track_links = "HtmlOnly",
+  attachments = list(
+    list(
+      Name = "invoice.pdf",
+      Content = "base64content",
+      ContentType = "application/pdf"
+    )
+  ),
+  metadata = list(
+    customer_id = "12345",
+    order_type = "subscription"
+  )
+)
+}
+
 }
 \seealso{
-\code{\link[=Template]{Template()}} for the S7 class documentation
+\url{https://postmarkapp.com/developer/api/templates-api#send-email-with-template}
+for complete Postmark template API documentation
 }

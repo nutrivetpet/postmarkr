@@ -4,13 +4,9 @@ NULL
 #' Template Object
 #'
 #' @description
-#' An S7 class representing a template-based email message to be sent via the
-#' Postmark API. This class encapsulates all the properties needed to send
-#' an email using a Postmark template.
-#'
-#' @details
-#' The `Template` class provides a structured way to send emails using
-#' predefined Postmark templates. It supports:
+#' Creates a Template object for sending template-based emails via the Postmark
+#' API. This provides a structured way to send emails using predefined Postmark
+#' templates. It supports:
 #' \itemize{
 #'   \item Template variable substitution via `template_model`
 #'   \item Multiple recipients via To, Cc, and Bcc fields (max 50 combined)
@@ -42,7 +38,7 @@ NULL
 #' @examples
 #' \dontrun{
 #' # Simple template email using template ID
-#' simple_template <- Template(
+#' simple_template <- template(
 #'   from = "sender@example.com",
 #'   to = "recipient@example.com",
 #'   id = 12345678L,
@@ -50,7 +46,7 @@ NULL
 #' )
 #'
 #' # Template email using template alias
-#' alias_template <- Template(
+#' alias_template <- template(
 #'   from = "sender@example.com",
 #'   to = "recipient@example.com",
 #'   alias = "welcome-email",
@@ -58,7 +54,7 @@ NULL
 #' )
 #'
 #' # Template with tracking, attachments, and metadata
-#' full_template <- Template(
+#' full_template <- template(
 #'   from = "notifications@example.com",
 #'   to = c("user1@example.com", "user2@example.com"),
 #'   cc = "manager@example.com",
@@ -93,6 +89,62 @@ NULL
 #' \url{https://postmarkapp.com/developer/api/templates-api#send-email-with-template}
 #' for complete Postmark template API documentation
 #'
+#' @rdname template
+#' @export
+template <- function(
+  from,
+  to,
+  template_model,
+  id = NULL,
+  alias = NULL,
+  cc = character(),
+  bcc = character(),
+  inline_css = NULL,
+  tag = character(),
+  reply_to = character(),
+  headers = list(),
+  track_opens = NULL,
+  track_links = character(),
+  attachments = list(),
+  metadata = list()
+) {
+  args <- list(
+    from = from,
+    to = to,
+    template_model = template_model,
+    cc = cc,
+    bcc = bcc,
+    tag = tag,
+    reply_to = reply_to,
+    headers = headers,
+    attachments = attachments,
+    metadata = metadata
+  )
+
+  if (!is.null(id)) {
+    args$id <- as.integer(id)
+  }
+
+  if (!is.null(alias)) {
+    args$alias <- alias
+  }
+
+  if (!is.null(inline_css)) {
+    args$inline_css <- inline_css
+  }
+
+  if (!is.null(track_opens)) {
+    args$track_opens <- track_opens
+  }
+
+  if (length(track_links)) {
+    args$track_links <- track_links
+  }
+
+  exec(Template, !!!args)
+}
+
+#' @rdname template
 #' @export
 Template <- new_class(
   "Template",
@@ -231,68 +283,3 @@ Template <- new_class(
     }
   }
 )
-
-#' Template Constructor
-#'
-#' @description
-#' Creates a Template object for sending template-based emails via the Postmark
-#' API. This is a user-friendly wrapper around the `Template` S7 class with
-#' sensible defaults.
-#'
-#' @inheritParams Template
-#'
-#' @seealso [Template()] for the S7 class documentation
-#'
-#' @export
-template <- function(
-  from,
-  to,
-  template_model,
-  id = NULL,
-  alias = NULL,
-  cc = character(),
-  bcc = character(),
-  inline_css = NULL,
-  tag = character(),
-  reply_to = character(),
-  headers = list(),
-  track_opens = NULL,
-  track_links = character(),
-  attachments = list(),
-  metadata = list()
-) {
-  args <- list(
-    from = from,
-    to = to,
-    template_model = template_model,
-    cc = cc,
-    bcc = bcc,
-    tag = tag,
-    reply_to = reply_to,
-    headers = headers,
-    attachments = attachments,
-    metadata = metadata
-  )
-
-  if (!is.null(id)) {
-    args$id <- as.integer(id)
-  }
-
-  if (!is.null(alias)) {
-    args$alias <- alias
-  }
-
-  if (!is.null(inline_css)) {
-    args$inline_css <- inline_css
-  }
-
-  if (!is.null(track_opens)) {
-    args$track_opens <- track_opens
-  }
-
-  if (length(track_links)) {
-    args$track_links <- track_links
-  }
-
-  exec(Template, !!!args)
-}

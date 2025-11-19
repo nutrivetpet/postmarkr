@@ -2,9 +2,18 @@
 % Please edit documentation in R/postmarkr.R
 \name{postmarkr}
 \alias{postmarkr}
-\title{Client Constructor}
+\alias{Postmarkr}
+\title{Client Object}
 \usage{
 postmarkr(token, message_stream, timeout = 1, verbose = FALSE)
+
+Postmarkr(
+  token = character(0),
+  message_stream = character(0),
+  base_url = "https://api.postmarkapp.com",
+  timeout = 1,
+  verbose = FALSE
+)
 }
 \arguments{
 \item{token}{character. Your Postmark Server API Token. This token authenticates
@@ -17,11 +26,38 @@ Must be either \code{"broadcast"} (for newsletters and marketing emails) or
 \item{timeout}{numeric. Request timeout in seconds for API calls.}
 
 \item{verbose}{logical. Whether to pass \code{\link[httr2:req_verbose]{httr2::req_verbose()}} to the request.}
+
+\item{base_url}{character. The base URL for the Postmark API. Defaults to
+the standard Postmark API endpoint (\verb{https://api.postmarkapp.com}).
+\strong{You should not need to change this.}}
 }
 \description{
-Creates a Postmarkr client for interacting with the Postmark API. This is a
-user-friendly wrapper around the \code{Postmarkr} S7 class with sensible defaults.
+Creates a Postmarkr client for interacting with the Postmark API. This
+provides a structured way to configure and use the Postmark API. Before
+creating an instance, ensure you have:
+\itemize{
+\item A valid Postmark Server API Token
+\item Verified sender signatures or domains in your Postmark account
+}
+}
+\examples{
+\dontrun{
+# Create a Postmarkr client for transactional emails
+client <- postmarkr(
+  token = "your-server-token-here",
+  message_stream = "outbound",
+  timeout = 30
+)
+
+# Create a postmark client for broadcast emails
+broadcast_client <- postmarkr(
+  token = "your-server-token-here",
+  message_stream = "broadcast"
+)
+}
+
 }
 \seealso{
-\code{\link[=Postmarkr]{Postmarkr()}} for the S7 class documentation
+\url{https://postmarkapp.com/developer/api/overview} for Postmark API
+documentation
 }

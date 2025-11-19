@@ -2,7 +2,8 @@
 % Please edit documentation in R/email.R
 \name{email}
 \alias{email}
-\title{Email Constructor}
+\alias{Email}
+\title{Email Object}
 \usage{
 email(
   from = character(),
@@ -18,6 +19,23 @@ email(
   headers = list(),
   track_opens = logical(),
   track_links = character(),
+  attachments = list()
+)
+
+Email(
+  from = character(0),
+  to = character(0),
+  cc = character(0),
+  bcc = character(0),
+  subject = character(0),
+  tag = character(0),
+  html_body = character(0),
+  text_body = character(0),
+  reply_to = character(0),
+  metadata = list(),
+  headers = list(),
+  track_opens = logical(0),
+  track_links = character(0),
   attachments = list()
 )
 }
@@ -71,9 +89,79 @@ Each attachment should have \code{Name}, \code{Content} (base64-encoded),
 Total message size including attachments limited to 10 MB.}
 }
 \description{
-Creates an Email object for sending emails via the Postmark API. This is a
-user-friendly wrapper around the \code{Email} S7 class with sensible defaults.
+Creates an Email object for sending emails via the Postmark API. This
+provides a structured way to compose emails for sending through Postmark.
+It supports:
+\itemize{
+\item HTML and plain text content (mutually exclusive)
+\item Multiple recipients via To, Cc, and Bcc fields (max 50 combined)
+\item Custom email headers for routing and priority
+\item Metadata for internal tracking
+\item File attachments and inline images
+\item Open and click tracking configuration
+\item Email categorization via tags
+}
+}
+\section{Limitations}{
+
+\itemize{
+\item Maximum 50 total recipients (To, Cc, Bcc combined)
+\item Maximum 10 MB total message size (including attachments)
+\item One tag per message, maximum 1000 characters
+}
+}
+
+\examples{
+\dontrun{
+# Simple text Email
+simple_email <- email(
+  from = "sender@example.com",
+  to = "recipient@example.com",
+  subject = "Hello from R",
+  text_body = "This is a plain text email."
+)
+
+# HTML Email with tracking
+html_email <- email(
+  from = "sender@example.com",
+  to = "recipient@example.com",
+  subject = "Welcome!",
+  html_body = "<h1>Welcome!</h1><p>Thanks for signing up.</p>",
+  track_opens = TRUE,
+  track_links = "HtmlOnly",
+  tag = "welcome-email"
+)
+
+# Email with multiple recipients and metadata
+multi_email <- email(
+  from = "notifications@example.com",
+  to = c("user1@example.com", "user2@example.com"),
+  cc = "manager@example.com",
+  subject = "Project Update",
+  html_body = "<p>Project status update attached.</p>",
+  metadata = list(
+    project_id = "ABC123",
+    department = "Engineering"
+  ),
+  tag = "project-updates"
+)
+
+# Email with custom headers
+priority_email <- email(
+  from = "urgent@example.com",
+  to = "support@example.com",
+  subject = "Urgent Issue",
+  text_body = "This requires immediate attention.",
+  headers = list(
+    list(Name = "X-Priority", Value = "1"),
+    list(Name = "Importance", Value = "high")
+  )
+)
+
+}
+
 }
 \seealso{
-\code{\link[=Email]{Email()}} for the S7 class documentation
+\url{https://postmarkapp.com/developer/api/email-api#send-a-single-email}
+for complete Postmark email API documentation
 }

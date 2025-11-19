@@ -1,9 +1,11 @@
 #' Stats Query Parameters
 #'
 #' @description
-#' An S7 class representing query parameters for retrieving statistics from
-#' the Postmark API. This class encapsulates the common filtering parameters
-#' used across various statistics endpoints.
+#' Creates a Stats object for querying statistics from the Postmark API. This
+#' provides a structured way to pass query parameters to Postmark statistics
+#' API endpoints. All properties are optional. The message stream is
+#' automatically determined from the client object and does not need to be
+#' specified in the params.
 #'
 #' @param tag character. Optional tag to filter statistics by. Tags are used to
 #'   categorize emails for detailed tracking and reporting.
@@ -12,35 +14,44 @@
 #' @param todate character. Optional end date for the statistics query in
 #'   YYYY-MM-DD format (e.g., "2024-12-31").
 #'
-#' @details
-#' The `Stats` class provides a structured way to pass query parameters
-#' to Postmark statistics API endpoints. All properties are optional.
-#' The message stream is automatically determined from the client object
-#' and does not need to be specified in the params.
-#'
 #' @examples
 #' \dontrun{
 #' # Create Stats parameters with all fields
-#' stats- Stats(
+#' stats <- stats(
 #'   tag = "welcome-email",
 #'   fromdate = "2024-01-01",
 #'   todate = "2024-01-31"
 #' )
 #'
 #' # Create Stats parameters with only date range
-#' stats <- Stats(
+#' stats <- stats(
 #'   fromdate = "2024-01-01",
 #'   todate = "2024-01-31"
 #' )
 #'
 #' # Create empty Stats parameters
-#' stats <- Stats()
+#' stats <- stats()
 #' }
 #'
 #' @seealso
 #' \url{https://postmarkapp.com/developer/api/stats-api} for Postmark Stats API
 #' documentation
 #'
+#' @rdname stats
+#' @export
+stats <- function(
+  tag = character(),
+  fromdate = character(),
+  todate = character()
+) {
+  Stats(
+    tag = tag,
+    fromdate = fromdate,
+    todate = todate
+  )
+}
+
+#' @rdname stats
 #' @export
 Stats <- new_class(
   name = "Stats",
@@ -91,29 +102,6 @@ Stats <- new_class(
     }
   }
 )
-
-#' Stats Constructor
-#'
-#' @description
-#' Creates a Stats object for querying statistics from the Postmark API. This is a
-#' user-friendly wrapper around the `Stats` S7 class with sensible defaults.
-#'
-#' @inheritParams Stats
-#'
-#' @seealso [Stats()] for the S7 class documentation
-#'
-#' @export
-stats <- function(
-  tag = character(),
-  fromdate = character(),
-  todate = character()
-) {
-  Stats(
-    tag = tag,
-    fromdate = fromdate,
-    todate = todate
-  )
-}
 
 #' Validate Stats Overview Response
 #'

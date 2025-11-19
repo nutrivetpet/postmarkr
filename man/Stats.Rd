@@ -2,9 +2,12 @@
 % Please edit documentation in R/stats.R
 \name{stats}
 \alias{stats}
-\title{Stats Constructor}
+\alias{Stats}
+\title{Stats Query Parameters}
 \usage{
 stats(tag = character(), fromdate = character(), todate = character())
+
+Stats(tag = character(0), fromdate = character(0), todate = character(0))
 }
 \arguments{
 \item{tag}{character. Optional tag to filter statistics by. Tags are used to
@@ -17,9 +20,33 @@ YYYY-MM-DD format (e.g., "2024-01-01").}
 YYYY-MM-DD format (e.g., "2024-12-31").}
 }
 \description{
-Creates a Stats object for querying statistics from the Postmark API. This is a
-user-friendly wrapper around the \code{Stats} S7 class with sensible defaults.
+Creates a Stats object for querying statistics from the Postmark API. This
+provides a structured way to pass query parameters to Postmark statistics
+API endpoints. All properties are optional. The message stream is
+automatically determined from the client object and does not need to be
+specified in the params.
+}
+\examples{
+\dontrun{
+# Create Stats parameters with all fields
+stats <- stats(
+  tag = "welcome-email",
+  fromdate = "2024-01-01",
+  todate = "2024-01-31"
+)
+
+# Create Stats parameters with only date range
+stats <- stats(
+  fromdate = "2024-01-01",
+  todate = "2024-01-31"
+)
+
+# Create empty Stats parameters
+stats <- stats()
+}
+
 }
 \seealso{
-\code{\link[=Stats]{Stats()}} for the S7 class documentation
+\url{https://postmarkapp.com/developer/api/stats-api} for Postmark Stats API
+documentation
 }
