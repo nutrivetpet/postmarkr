@@ -48,12 +48,12 @@ allowed (max 50 total across To, Cc, Bcc)}
 
 \item{subject}{Character scalar. Email subject line.}
 
-\item{html_body}{Character scalar. \strong{Required.} HTML content of the email. Use for
-rich formatting, images, and styling. Mutually exclusive with
-\code{text_body}. Maximum 5 MB.}
+\item{html_body}{Character scalar. HTML content of the email. Use for
+rich formatting, images, and styling. \strong{Mutually exclusive with \code{text_body}.}
+Maximum 5 MB.}
 
-\item{text_body}{Character scalar. \strong{Required.} Plain text content of the email.
-Use for simple text-only emails. Mutually exclusive with \code{html_body}.
+\item{text_body}{Character scalar. Plain text content of the email.
+Use for simple text-only emails. \strong{Mutually exclusive with \code{html_body}.}
 Maximum 5 MB.}
 
 \item{cc}{Character vector. Carbon copy recipients. Visible to all recipients.}

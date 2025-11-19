@@ -22,11 +22,10 @@ NULL
 #' @inheritParams email
 #' @param id Integer scalar. The template ID in Postmark. Must be a positive
 #'   integer corresponding to an existing template in your account. Typically
-#'   an 8-digit number (e.g., 12345678). **Either `id` or `alias` must be
-#'   provided, but not both.**
+#'   an 8-digit number (e.g., 12345678). **Mutually exclusive with `alias`**.
 #' @param alias Character scalar. The template alias in Postmark. A named
 #'   identifier for your template (e.g., "welcome-email", "password-reset").
-#'   **Either `id` or `alias` must be provided, but not both.**
+#'   **Mutually exclusive with `id`**.
 #' @param template_model List. **Required.** Named list of variables to populate
 #'   in the template. Keys must match template variable names. Can include nested
 #'   lists for complex data structures. Example:

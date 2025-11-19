@@ -55,12 +55,11 @@ lists for complex data structures. Example:
 
 \item{id}{Integer scalar. The template ID in Postmark. Must be a positive
 integer corresponding to an existing template in your account. Typically
-an 8-digit number (e.g., 12345678). \strong{Either \code{id} or \code{alias} must be
-provided, but not both.}}
+an 8-digit number (e.g., 12345678). \strong{Mutually exclusive with \code{alias}}.}
 
 \item{alias}{Character scalar. The template alias in Postmark. A named
 identifier for your template (e.g., "welcome-email", "password-reset").
-\strong{Either \code{id} or \code{alias} must be provided, but not both.}}
+\strong{Mutually exclusive with \code{id}}.}
 
 \item{cc}{Character vector. Carbon copy recipients. Visible to all recipients.}
 

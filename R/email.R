@@ -32,11 +32,11 @@
 #' @param tag Character scalar. Category tag for statistics and filtering.
 #'   One tag per message, maximum 1000 characters. Examples: "welcome-email",
 #'   "password-reset", "invoice".
-#' @param html_body Character scalar. **Required.** HTML content of the email. Use for
-#'   rich formatting, images, and styling. Mutually exclusive with
-#'   `text_body`. Maximum 5 MB.
-#' @param text_body Character scalar. **Required.** Plain text content of the email.
-#'   Use for simple text-only emails. Mutually exclusive with `html_body`.
+#' @param html_body Character scalar. HTML content of the email. Use for
+#'   rich formatting, images, and styling. **Mutually exclusive with `text_body`.**
+#'   Maximum 5 MB.
+#' @param text_body Character scalar. Plain text content of the email.
+#'   Use for simple text-only emails. **Mutually exclusive with `html_body`.**
 #'   Maximum 5 MB.
 #' @param reply_to Character scalar. Reply-To address for responses.
 #' @param metadata List. Key-value pairs for internal tracking. Does not
