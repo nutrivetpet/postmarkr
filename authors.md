@@ -13,14 +13,14 @@
 Source:
 [`DESCRIPTION`](https://github.com/nutrivetpet/postmarkr/blob/main/DESCRIPTION)
 
-Ranzato A (2025). *postmarkr: Email Delivery Made Simple: Unofficial
-Postmark API Integration for R*. R package version 0.0.1.9000,
+Ranzato A (2025). *postmarkr: Email Delivery Made Simple - Unofficial
+Postmark API Integration for R*. R package version 0.0.3.9000,
 <https://nutrivetpet.github.io/postmarkr>.
 
     @Manual{,
-      title = {postmarkr: Email Delivery Made Simple: Unofficial Postmark API Integration for R},
+      title = {postmarkr: Email Delivery Made Simple - Unofficial Postmark API Integration for R},
       author = {Andrea Ranzato},
       year = {2025},
-      note = {R package version 0.0.1.9000},
+      note = {R package version 0.0.3.9000},
       url = {https://nutrivetpet.github.io/postmarkr},
     }

@@ -15,82 +15,167 @@ You can install the development version of postmarkr like so:
 pak::pak("nutrivetpet/postmarkr")
 ```
 
-## Example
+## Usage Patterns
 
-This is a basic example which shows you how to solve a common problem:
+postmarkr provides a clean, object-oriented API for sending emails
+through Postmark. The package supports two message types (email and
+template) and two delivery modes (individual and batch):
+
+|                | [`Email()`](https://nutrivetpet.github.io/postmarkr/reference/email.md) | [`Template()`](https://nutrivetpet.github.io/postmarkr/reference/template.md) |
+|----------------|-------------------------------------------------------------------------|-------------------------------------------------------------------------------|
+| **Individual** | One email with HTML/text body                                           | One email using template ID                                                   |
+| **Batch**      | Multiple custom emails (500+)                                           | Multiple template emails (500+)                                               |
+
+### Individual Email (Custom Content)
+
+Send a single email with custom HTML or text content:
 
 ``` r
 library(postmarkr)
-dat <- template_send_email_batch(
-  from = "xyz@mail.com",
-  to = c(
-    "abcd@mail.com",
-    "efgh@mail.com"
-  ),
-  id = 36620093L,
-  template_model = list(
-    template_var_01 = "nutrivetpet",
-    template_var_02 = "www.nutrivetpet.com"
-  ),
-  msg_stream = "broadcast",
-  tag = "test",
+
+# Create client
+client <- client(
+  token = Sys.getenv("POSTMARK_SERVER_TOKEN"),
+  message_stream = "outbound"
+)
+
+# Create and send email
+email <- Email(
+  from = "sender@example.com",
+  to = "recipient@example.com",
+  subject = "Welcome to postmarkr",
+  html_body = "<h1>Hello!</h1><p>Welcome to our service.</p>",
   track_opens = TRUE
 )
+
+result <- send(client, email)
+```
+
+### Individual Template Email
+
+Send a single email using a predefined Postmark template:
+
+``` r
+template <- Template(
+  from = "notifications@example.com",
+  to = "user@example.com",
+  id = 36620093L,
+  template_model = list(
+    user_name = "Alice",
+    company_name = "ACME Corp"
+  ),
+  track_opens = TRUE
+)
+
+result <- send(client, template)
+```
+
+### Batch Emails
+
+Send multiple custom emails efficiently (automatically chunks into
+groups of 500):
+
+``` r
+# Create multiple personalized emails
+emails <- lapply(recipients, function(recipient) {
+  Email(
+    from = "sender@example.com",
+    to = recipient,
+    html_body = "<p>Hi %s, welcome aboard!</p>"
+  )
+})
+
+# Wrap in batch and send
+batch <- Batch(messages = emails)
+result <- send(client, batch)
+```
+
+### Batch Templates
+
+Send multiple template emails (e.g., newsletters, notifications):
+
+``` r
+# Create template emails for each recipient
+templates <- lapply(recipients, function(recipient) {
+  Template(
+    from = "newsletter@example.com",
+    to = recipient,
+    id = 36620093L,
+    template_model = list(
+      user_name = "Alice",
+      company_name = "ACME Corp"
+    )
+  )
+})
+
+# Wrap in batch and send
+batch <- Batch(messages = templates)
+result <- send(client, batch)
 ```
 
 ## Features
 
-- **Single Email Delivery**: Send individual emails with
-  [`email_send_single()`](https://nutrivetpet.github.io/postmarkr/reference/email.md)
-- **Template-Based Emails**: Send templated emails with
-  [`template_send_email()`](https://nutrivetpet.github.io/postmarkr/reference/template_send_email.md)
-  and
-  [`template_send_email_batch()`](https://nutrivetpet.github.io/postmarkr/reference/template_send_email_batch.md)
-- **Email Templates**: List available email templates with
-  [`template_list()`](https://nutrivetpet.github.io/postmarkr/reference/template_list.md)
-- **Message Logs**: Retrieve outbound messages with
-  [`outbound_messages_collect()`](https://nutrivetpet.github.io/postmarkr/reference/outbound_messages_collect.md)
-  and
-  [`outbound_messages_fetch()`](https://nutrivetpet.github.io/postmarkr/reference/messages.md)
-- **Delivery Statistics**: Track email performance with
-  [`stats_outbound_overview()`](https://nutrivetpet.github.io/postmarkr/reference/stats.md)
+- **Custom Emails**: Compose emails with HTML or text using
+  [`Email()`](https://nutrivetpet.github.io/postmarkr/reference/email.md)
+- **Template Emails**: Use Postmark templates with variable substitution
+  via
+  [`Template()`](https://nutrivetpet.github.io/postmarkr/reference/template.md)
+- **Batch Sending**: Efficiently send 500+ emails with
+  [`Batch()`](https://nutrivetpet.github.io/postmarkr/reference/batch.md)
+  (automatic chunking)
+- **Tracking**: Built-in support for open and click tracking
 
-**Note:** API coverage is still pretty limited compared to all available
-endpoints.
+**Note:** Postmark API coverage is limited. See the
+[documentation](https://nutrivetpet.github.io/postmarkr/) for all
+available features.
 
 # Package index
 
-## Email
+## Constructors
 
-Send emails
+Create new instances of Postmarkr objects
 
-- [`email_send_single()`](https://nutrivetpet.github.io/postmarkr/reference/email.md)
-  : Send a single email
-
-## Templates
-
-Manage templates
-
-- [`template_list()`](https://nutrivetpet.github.io/postmarkr/reference/template_list.md)
-  : List Templates
-- [`template_send_email()`](https://nutrivetpet.github.io/postmarkr/reference/template_send_email.md)
-  : Send an Email Using a Template
-- [`template_send_email_batch()`](https://nutrivetpet.github.io/postmarkr/reference/template_send_email_batch.md)
-  : Send Batch Email Using a Template
+- [`client()`](https://nutrivetpet.github.io/postmarkr/reference/client.md)
+  [`Client()`](https://nutrivetpet.github.io/postmarkr/reference/client.md)
+  : Client Object
+- [`email()`](https://nutrivetpet.github.io/postmarkr/reference/email.md)
+  [`Email()`](https://nutrivetpet.github.io/postmarkr/reference/email.md)
+  : Email Object
+- [`template()`](https://nutrivetpet.github.io/postmarkr/reference/template.md)
+  [`Template()`](https://nutrivetpet.github.io/postmarkr/reference/template.md)
+  : Template Object
+- [`batch()`](https://nutrivetpet.github.io/postmarkr/reference/batch.md)
+  [`Batch()`](https://nutrivetpet.github.io/postmarkr/reference/batch.md)
+  : Batch Object - Collection of Email or Template Objects
+- [`stats()`](https://nutrivetpet.github.io/postmarkr/reference/Stats.md)
+  [`Stats()`](https://nutrivetpet.github.io/postmarkr/reference/Stats.md)
+  : Stats Object
 
 ## Stats
 
-Statistics for outbound emails
+Get Stats
 
-- [`stats_outbound_overview()`](https://nutrivetpet.github.io/postmarkr/reference/stats.md)
-  : Get Overview of Outbound Messages
+- [`stats_get()`](https://nutrivetpet.github.io/postmarkr/reference/stats_get.md)
+  : Get Statistics from Postmark
 
-## Messages
+## Send
 
-Outbound messages
+Send messages
 
-- [`outbound_messages_fetch()`](https://nutrivetpet.github.io/postmarkr/reference/messages.md)
-  : Retrieve Outbound Messages
-- [`outbound_messages_collect()`](https://nutrivetpet.github.io/postmarkr/reference/outbound_messages_collect.md)
-  : Collect all outbound email messages
+- [`send()`](https://nutrivetpet.github.io/postmarkr/reference/send.md)
+  : Send Email, Template and Batch Objects
+
+## Token
+
+Get token
+
+- [`get_token()`](https://nutrivetpet.github.io/postmarkr/reference/get_token.md)
+  : Get Postmark API Token
+
+## Print
+
+Print client objects
+
+- [`print`](https://nutrivetpet.github.io/postmarkr/reference/print.md)
+  : Print a Client Object
 

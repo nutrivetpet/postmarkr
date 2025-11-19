@@ -1,35 +1,49 @@
 # Package index
 
-## Email
+## Constructors
 
-Send emails
+Create new instances of Postmarkr objects
 
-- [`email_send_single()`](https://nutrivetpet.github.io/postmarkr/reference/email.md)
-  : Send a single email
-
-## Templates
-
-Manage templates
-
-- [`template_list()`](https://nutrivetpet.github.io/postmarkr/reference/template_list.md)
-  : List Templates
-- [`template_send_email()`](https://nutrivetpet.github.io/postmarkr/reference/template_send_email.md)
-  : Send an Email Using a Template
-- [`template_send_email_batch()`](https://nutrivetpet.github.io/postmarkr/reference/template_send_email_batch.md)
-  : Send Batch Email Using a Template
+- [`client()`](https://nutrivetpet.github.io/postmarkr/reference/client.md)
+  [`Client()`](https://nutrivetpet.github.io/postmarkr/reference/client.md)
+  : Client Object
+- [`email()`](https://nutrivetpet.github.io/postmarkr/reference/email.md)
+  [`Email()`](https://nutrivetpet.github.io/postmarkr/reference/email.md)
+  : Email Object
+- [`template()`](https://nutrivetpet.github.io/postmarkr/reference/template.md)
+  [`Template()`](https://nutrivetpet.github.io/postmarkr/reference/template.md)
+  : Template Object
+- [`batch()`](https://nutrivetpet.github.io/postmarkr/reference/batch.md)
+  [`Batch()`](https://nutrivetpet.github.io/postmarkr/reference/batch.md)
+  : Batch Object - Collection of Email or Template Objects
+- [`stats()`](https://nutrivetpet.github.io/postmarkr/reference/Stats.md)
+  [`Stats()`](https://nutrivetpet.github.io/postmarkr/reference/Stats.md)
+  : Stats Object
 
 ## Stats
 
-Statistics for outbound emails
+Get Stats
 
-- [`stats_outbound_overview()`](https://nutrivetpet.github.io/postmarkr/reference/stats.md)
-  : Get Overview of Outbound Messages
+- [`stats_get()`](https://nutrivetpet.github.io/postmarkr/reference/stats_get.md)
+  : Get Statistics from Postmark
 
-## Messages
+## Send
 
-Outbound messages
+Send messages
 
-- [`outbound_messages_fetch()`](https://nutrivetpet.github.io/postmarkr/reference/messages.md)
-  : Retrieve Outbound Messages
-- [`outbound_messages_collect()`](https://nutrivetpet.github.io/postmarkr/reference/outbound_messages_collect.md)
-  : Collect all outbound email messages
+- [`send()`](https://nutrivetpet.github.io/postmarkr/reference/send.md)
+  : Send Email, Template and Batch Objects
+
+## Token
+
+Get token
+
+- [`get_token()`](https://nutrivetpet.github.io/postmarkr/reference/get_token.md)
+  : Get Postmark API Token
+
+## Print
+
+Print client objects
+
+- [`print`](https://nutrivetpet.github.io/postmarkr/reference/print.md)
+  : Print a Client Object

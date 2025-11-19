@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">postmarkr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.3.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -30,25 +30,9 @@
     </div>
 
     <div class="section level2">
-      <h2 id="email">Email<a class="anchor" aria-label="anchor" href="#email"></a></h2>
+      <h2 id="constructors">Constructors<a class="anchor" aria-label="anchor" href="#constructors"></a></h2>
 
-      <div class="section-desc"><p>Send emails</p></div>
-
-      <dl></dl></div><div class="section level2">
-
-
-
-
-      <dl><dt>
-
-          <code><a href="email.html">email_send_single()</a></code>
-
-        </dt>
-        <dd>Send a single email</dd>
-      </dl></div><div class="section level2">
-      <h2 id="templates">Templates<a class="anchor" aria-label="anchor" href="#templates"></a></h2>
-
-      <div class="section-desc"><p>Manage templates</p></div>
+      <div class="section-desc"><p>Create new instances of Postmarkr objects</p></div>
 
       <dl></dl></div><div class="section level2">
 
@@ -57,28 +41,42 @@
 
       <dl><dt>
 
-          <code><a href="template_list.html">template_list()</a></code>
+          <code><a href="client.html">client()</a></code> <code><a href="client.html">Client()</a></code>
 
         </dt>
-        <dd>List Templates</dd>
+        <dd>Client Object</dd>
 
         <dt>
 
-          <code><a href="template_send_email.html">template_send_email()</a></code>
+          <code><a href="email.html">email()</a></code> <code><a href="email.html">Email()</a></code>
 
         </dt>
-        <dd>Send an Email Using a Template</dd>
+        <dd>Email Object</dd>
 
         <dt>
 
-          <code><a href="template_send_email_batch.html">template_send_email_batch()</a></code>
+          <code><a href="template.html">template()</a></code> <code><a href="template.html">Template()</a></code>
 
         </dt>
-        <dd>Send Batch Email Using a Template</dd>
+        <dd>Template Object</dd>
+
+        <dt>
+
+          <code><a href="batch.html">batch()</a></code> <code><a href="batch.html">Batch()</a></code>
+
+        </dt>
+        <dd>Batch Object - Collection of Email or Template Objects</dd>
+
+        <dt>
+
+          <code><a href="Stats.html">stats()</a></code> <code><a href="Stats.html">Stats()</a></code>
+
+        </dt>
+        <dd>Stats Object</dd>
       </dl></div><div class="section level2">
       <h2 id="stats">Stats<a class="anchor" aria-label="anchor" href="#stats"></a></h2>
 
-      <div class="section-desc"><p>Statistics for outbound emails</p></div>
+      <div class="section-desc"><p>Get Stats</p></div>
 
       <dl></dl></div><div class="section level2">
 
@@ -87,14 +85,14 @@
 
       <dl><dt>
 
-          <code><a href="stats.html">stats_outbound_overview()</a></code>
+          <code><a href="stats_get.html">stats_get()</a></code>
 
         </dt>
-        <dd>Get Overview of Outbound Messages</dd>
+        <dd>Get Statistics from Postmark</dd>
       </dl></div><div class="section level2">
-      <h2 id="messages">Messages<a class="anchor" aria-label="anchor" href="#messages"></a></h2>
+      <h2 id="send">Send<a class="anchor" aria-label="anchor" href="#send"></a></h2>
 
-      <div class="section-desc"><p>Outbound messages</p></div>
+      <div class="section-desc"><p>Send messages</p></div>
 
       <dl></dl></div><div class="section level2">
 
@@ -103,17 +101,42 @@
 
       <dl><dt>
 
-          <code><a href="messages.html">outbound_messages_fetch()</a></code>
+          <code><a href="send.html">send()</a></code>
 
         </dt>
-        <dd>Retrieve Outbound Messages</dd>
+        <dd>Send Email, Template and Batch Objects</dd>
+      </dl></div><div class="section level2">
+      <h2 id="token">Token<a class="anchor" aria-label="anchor" href="#token"></a></h2>
 
-        <dt>
+      <div class="section-desc"><p>Get token</p></div>
 
-          <code><a href="outbound_messages_collect.html">outbound_messages_collect()</a></code>
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="get_token.html">get_token()</a></code>
 
         </dt>
-        <dd>Collect all outbound email messages</dd>
+        <dd>Get Postmark API Token</dd>
+      </dl></div><div class="section level2">
+      <h2 id="print">Print<a class="anchor" aria-label="anchor" href="#print"></a></h2>
+
+      <div class="section-desc"><p>Print client objects</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="print.html">print</a></code>
+
+        </dt>
+        <dd>Print a Client Object</dd>
       </dl></div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
