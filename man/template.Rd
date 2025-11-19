@@ -6,19 +6,19 @@
 \title{Template Object}
 \usage{
 template(
-  from,
-  to,
-  template_model,
-  id = NULL,
-  alias = NULL,
-  cc = character(),
-  bcc = character(),
-  inline_css = NULL,
-  tag = character(),
-  reply_to = character(),
+  from = character(0),
+  to = character(0),
+  template_model = list(),
+  id = numeric(0),
+  alias = character(0),
+  cc = character(0),
+  bcc = character(0),
+  inline_css = logical(0),
+  tag = character(0),
+  reply_to = character(0),
   headers = list(),
-  track_opens = NULL,
-  track_links = character(),
+  track_opens = logical(0),
+  track_links = character(0),
   attachments = list(),
   metadata = list()
 )
