@@ -10,6 +10,6 @@
       * X-Postmark-Server-Token: <REDACTED>
       Body: empty
       Options:
-      * timeout_ms    : 1000
+      * timeout_ms    : 60000
       * connecttimeout: 0
 
