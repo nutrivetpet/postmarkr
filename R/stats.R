@@ -259,7 +259,7 @@ validate_stats_response <- function(data, endpoint) {
 #' This provides a flexible way to query different types of statistics using
 #' the same interface.
 #'
-#' @param client A Postmarkr client object created with [Postmarkr()].
+#' @param client A Client client object created with [Client()].
 #' @param params Optional Stats parameters object created with [Stats()].
 #'   If not provided, no query parameters will be sent.
 #' @param endpoint A character argument specifying the Stats endpoint path
@@ -273,7 +273,7 @@ validate_stats_response <- function(data, endpoint) {
 #' @examples
 #' \dontrun{
 #' # Create a client
-#' client <- Postmarkr(
+#' client <- Client(
 #'   token = "your-server-token",
 #'   message_stream = "outbound"
 #' )
@@ -310,7 +310,7 @@ stats_get <- new_generic(
   }
 )
 
-method(stats_get, list(Postmarkr, Stats)) <- function(
+method(stats_get, list(Client, Stats)) <- function(
   client,
   params,
   ...,

@@ -2,9 +2,9 @@
 % Please edit documentation in R/print.R
 \name{print}
 \alias{print}
-\title{Print a Postmarkr Client Object}
+\title{Print a Client Client Object}
 \arguments{
-\item{x}{A \code{Postmarkr} object to print}
+\item{x}{A \code{Client} object to print}
 
 \item{...}{Additional arguments (currently unused, included for S3 generic
 compatibility)}
@@ -14,14 +14,14 @@ Invisibly returns the input object \code{x}, allowing for piping and
 chaining operations
 }
 \description{
-Pretty-prints a \code{Postmarkr} client object, displaying all properties with
+Pretty-prints a \code{Client} client object, displaying all properties with
 their types and values. Sensitive information (API tokens) is automatically
 redacted for security.
 }
 \examples{
 \dontrun{
-# Create and print a Postmarkr client
-client <- Postmarkr(
+# Create and print a Client client
+client <- client(
   token = "your-server-token",
   message_stream = "outbound"
 )

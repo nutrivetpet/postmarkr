@@ -7,7 +7,7 @@
 stats_get(client, params, ..., endpoint = NULL)
 }
 \arguments{
-\item{client}{A Postmarkr client object created with \code{\link[=Postmarkr]{Postmarkr()}}.}
+\item{client}{A Client client object created with \code{\link[=Client]{Client()}}.}
 
 \item{params}{Optional Stats parameters object created with \code{\link[=Stats]{Stats()}}.
 If not provided, no query parameters will be sent.}
@@ -30,7 +30,7 @@ the same interface.
 \examples{
 \dontrun{
 # Create a client
-client <- Postmarkr(
+client <- Client(
   token = "your-server-token",
   message_stream = "outbound"
 )

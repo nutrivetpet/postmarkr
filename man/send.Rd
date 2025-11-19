@@ -7,7 +7,7 @@
 send(client, message, ...)
 }
 \arguments{
-\item{client}{A \link{Postmarkr} client object.}
+\item{client}{A \link{Client} client object.}
 
 \item{message}{An \link{Email}, \link{Template} or \link{Batch} object to send.}
 
@@ -32,7 +32,7 @@ dispatches to the appropriate method based on the message type (\link{Email},
 \examples{
 \dontrun{
 # Create client
-client <- Postmarkr(
+client <- Client(
   token = "your-server-token",
   message_stream = "outbound"
 )
@@ -81,7 +81,7 @@ response <- send(client, template)
 }
 \seealso{
 \itemize{
-\item \link{Postmarkr} for creating an API client
+\item \link{Client} for creating an API client
 \item \link{Email} for creating email objects
 \item \link{Template} for creating template objects
 \item \url{https://postmarkapp.com/developer/api/email-api#send-a-single-email}

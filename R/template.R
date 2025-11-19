@@ -1,4 +1,4 @@
-#' @include postmarkr.R as_api_body.R
+#' @include client.R as_api_body.R
 NULL
 
 #' Template Object

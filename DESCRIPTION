@@ -28,7 +28,7 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 Collate: 
     'constants.R'
-    'postmarkr.R'
+    'client.R'
     'template.R'
     'email.R'
     'as_api_body.R'

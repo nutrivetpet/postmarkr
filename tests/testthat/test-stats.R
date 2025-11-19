@@ -251,9 +251,12 @@ test_that("Stats allows todate without fromdate", {
 
 test_that("stats_get rejects non-scalar endpoint", {
   skip_if_offline()
-  skip_if_not(nzchar(Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")), "Postmark API Key is missing")
+  skip_if_not(
+    nzchar(Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")),
+    "Postmark API Key is missing"
+  )
 
-  client <- Postmarkr(
+  client <- Client(
     token = Sys.getenv("POSTMARK_TEST_SERVER_TOKEN"),
     message_stream = "outbound",
     timeout = 30
@@ -269,9 +272,12 @@ test_that("stats_get rejects non-scalar endpoint", {
 
 test_that("stats_get rejects empty string endpoint", {
   skip_if_offline()
-  skip_if_not(nzchar(Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")),  "Postmark API Key is missing")
+  skip_if_not(
+    nzchar(Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")),
+    "Postmark API Key is missing"
+  )
 
-  client <- Postmarkr(
+  client <- Client(
     token = Sys.getenv("POSTMARK_TEST_SERVER_TOKEN"),
     message_stream = "outbound",
     timeout = 30
@@ -287,9 +293,12 @@ test_that("stats_get rejects empty string endpoint", {
 
 test_that("stats_get rejects non-Stats params", {
   skip_if_offline()
-  skip_if_not(nzchar(Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")),  "Postmark API Key is missing")
+  skip_if_not(
+    nzchar(Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")),
+    "Postmark API Key is missing"
+  )
 
-  client <- Postmarkr(
+  client <- Client(
     token = Sys.getenv("POSTMARK_TEST_SERVER_TOKEN"),
     message_stream = "outbound",
     timeout = 30
@@ -302,9 +311,12 @@ test_that("stats_get rejects non-Stats params", {
 
 test_that("stats_get works with no endpoint and no params", {
   skip_if_offline()
-  skip_if_not(nzchar(Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")),  "Postmark API Key is missing")
+  skip_if_not(
+    nzchar(Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")),
+    "Postmark API Key is missing"
+  )
 
-  client <- Postmarkr(
+  client <- Client(
     token = Sys.getenv("POSTMARK_TEST_SERVER_TOKEN"),
     message_stream = "outbound",
     timeout = 30
@@ -322,9 +334,12 @@ test_that("stats_get works with no endpoint and no params", {
 
 test_that("stats_get works with specific endpoint", {
   skip_if_offline()
-  skip_if_not(nzchar(Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")),  "Postmark API Key is missing")
+  skip_if_not(
+    nzchar(Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")),
+    "Postmark API Key is missing"
+  )
 
-  client <- Postmarkr(
+  client <- Client(
     token = Sys.getenv("POSTMARK_TEST_SERVER_TOKEN"),
     message_stream = "outbound",
     timeout = 30
@@ -342,9 +357,12 @@ test_that("stats_get works with specific endpoint", {
 
 test_that("stats_get works with tag parameter", {
   skip_if_offline()
-  skip_if_not(nzchar(Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")),  "Postmark API Key is missing")
+  skip_if_not(
+    nzchar(Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")),
+    "Postmark API Key is missing"
+  )
 
-  client <- Postmarkr(
+  client <- Client(
     token = Sys.getenv("POSTMARK_TEST_SERVER_TOKEN"),
     message_stream = "outbound",
     timeout = 30
@@ -361,9 +379,12 @@ test_that("stats_get works with tag parameter", {
 
 test_that("stats_get works with date range parameters", {
   skip_if_offline()
-  skip_if_not(nzchar(Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")),  "Postmark API Key is missing")
+  skip_if_not(
+    nzchar(Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")),
+    "Postmark API Key is missing"
+  )
 
-  client <- Postmarkr(
+  client <- Client(
     token = Sys.getenv("POSTMARK_TEST_SERVER_TOKEN"),
     message_stream = "outbound",
     timeout = 30
@@ -383,9 +404,12 @@ test_that("stats_get works with date range parameters", {
 
 test_that("stats_get works with all parameters", {
   skip_if_offline()
-  skip_if_not(nzchar(Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")),  "Postmark API Key is missing")
+  skip_if_not(
+    nzchar(Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")),
+    "Postmark API Key is missing"
+  )
 
-  client <- Postmarkr(
+  client <- Client(
     token = Sys.getenv("POSTMARK_TEST_SERVER_TOKEN"),
     message_stream = "outbound",
     timeout = 30
@@ -406,9 +430,12 @@ test_that("stats_get works with all parameters", {
 
 test_that("stats_get rejects with broadcast message stream", {
   skip_if_offline()
-  skip_if_not(nzchar(Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")),  "Postmark API Key is missing")
+  skip_if_not(
+    nzchar(Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")),
+    "Postmark API Key is missing"
+  )
 
-  client <- Postmarkr(
+  client <- Client(
     token = Sys.getenv("POSTMARK_TEST_SERVER_TOKEN"),
     message_stream = "broadcast",
     timeout = 30
@@ -543,9 +570,12 @@ test_that("validate_stats_response errors on malformed overview response", {
 
 test_that("stats_get returns validated data in response", {
   skip_if_offline()
-  skip_if_not(nzchar(Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")),  "Postmark API Key is missing")
+  skip_if_not(
+    nzchar(Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")),
+    "Postmark API Key is missing"
+  )
 
-  client <- Postmarkr(
+  client <- Client(
     token = Sys.getenv("POSTMARK_TEST_SERVER_TOKEN"),
     message_stream = "outbound",
     timeout = 30
@@ -562,9 +592,12 @@ test_that("stats_get returns validated data in response", {
 
 test_that("stats_get with endpoint returns validated time series data", {
   skip_if_offline()
-  skip_if_not(nzchar(Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")),  "Postmark API Key is missing")
+  skip_if_not(
+    nzchar(Sys.getenv("POSTMARK_TEST_SERVER_TOKEN")),
+    "Postmark API Key is missing"
+  )
 
-  client <- Postmarkr(
+  client <- Client(
     token = Sys.getenv("POSTMARK_TEST_SERVER_TOKEN"),
     message_stream = "outbound",
     timeout = 30

@@ -8,7 +8,7 @@ reference:
   desc: >
     Create new instances of Postmarkr objects
   contents:
-  - postmarkr
+  - client
   - email
   - template
   - batch
@@ -30,7 +30,7 @@ reference:
   desc: >
     S7 object classes
   contents:
-  - Postmarkr
+  - Client
   - Email
   - Template
   - Batch

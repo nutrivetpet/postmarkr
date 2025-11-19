@@ -1,11 +1,11 @@
-#' Print a Postmarkr Client Object
+#' Print a Client Client Object
 #'
 #' @description
-#' Pretty-prints a `Postmarkr` client object, displaying all properties with
+#' Pretty-prints a `Client` client object, displaying all properties with
 #' their types and values. Sensitive information (API tokens) is automatically
 #' redacted for security.
 #'
-#' @param x A `Postmarkr` object to print
+#' @param x A `Client` object to print
 #' @param ... Additional arguments (currently unused, included for S3 generic
 #'   compatibility)
 #'
@@ -14,7 +14,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' # Create and print a Postmarkr client
+#' # Create and print a Client client
 #' client <- client(
 #'   token = "your-server-token",
 #'   message_stream = "outbound"
@@ -24,7 +24,7 @@
 #'
 #' @name print
 #' @export
-method(print, Postmarkr) <- function(x, ...) {
+method(print, Client) <- function(x, ...) {
   cat("<postmarkr::Client>\n")
 
   props <- prop_names(x)

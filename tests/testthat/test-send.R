@@ -10,7 +10,7 @@ test_that("send() works with Email using text body", {
     "Postmark API Key is missing"
   )
 
-  client <- Postmarkr(
+  client <- Client(
     token = Sys.getenv("POSTMARK_TEST_SERVER_TOKEN"),
     message_stream = "outbound"
   )
@@ -43,7 +43,7 @@ test_that("send() works with Email using HTML body", {
     "Postmark API Key is missing"
   )
 
-  client <- Postmarkr(
+  client <- Client(
     token = Sys.getenv("POSTMARK_TEST_SERVER_TOKEN"),
     message_stream = "outbound"
   )
@@ -76,7 +76,7 @@ test_that("send() works with Email with multiple recipients", {
     "Postmark API Key is missing"
   )
 
-  client <- Postmarkr(
+  client <- Client(
     token = Sys.getenv("POSTMARK_TEST_SERVER_TOKEN"),
     message_stream = "outbound"
   )
@@ -112,7 +112,7 @@ test_that("send() works with Email with cc and bcc", {
     "Postmark API Key is missing"
   )
 
-  client <- Postmarkr(
+  client <- Client(
     token = Sys.getenv("POSTMARK_TEST_SERVER_TOKEN"),
     message_stream = "outbound"
   )
@@ -148,7 +148,7 @@ test_that("send() works with Email with all optional fields", {
     "Postmark API Key is missing"
   )
 
-  client <- Postmarkr(
+  client <- Client(
     token = Sys.getenv("POSTMARK_TEST_SERVER_TOKEN"),
     message_stream = "outbound"
   )
@@ -201,7 +201,7 @@ test_that("send() works with Email with tracking enabled", {
     "Postmark API Key is missing"
   )
 
-  client <- Postmarkr(
+  client <- Client(
     token = Sys.getenv("POSTMARK_TEST_SERVER_TOKEN"),
     message_stream = "outbound"
   )
@@ -234,7 +234,7 @@ test_that("send() includes message_stream from client in Email request", {
     "Postmark API Key is missing"
   )
 
-  client_outbound <- Postmarkr(
+  client_outbound <- Client(
     token = Sys.getenv("POSTMARK_TEST_SERVER_TOKEN"),
     message_stream = "outbound"
   )
@@ -249,7 +249,7 @@ test_that("send() includes message_stream from client in Email request", {
   response_outbound <- send(client_outbound, email)
   expect_true(response_outbound@success)
 
-  client_broadcast <- Postmarkr(
+  client_broadcast <- Client(
     token = Sys.getenv("POSTMARK_TEST_SERVER_TOKEN"),
     message_stream = "broadcast"
   )
@@ -270,7 +270,7 @@ test_that("send() works with Email with custom headers", {
     "Postmark API Key is missing"
   )
 
-  client <- Postmarkr(
+  client <- Client(
     token = Sys.getenv("POSTMARK_TEST_SERVER_TOKEN"),
     message_stream = "outbound"
   )
@@ -304,7 +304,7 @@ test_that("send() works with Email with metadata", {
     "Postmark API Key is missing"
   )
 
-  client <- Postmarkr(
+  client <- Client(
     token = Sys.getenv("POSTMARK_TEST_SERVER_TOKEN"),
     message_stream = "outbound"
   )
@@ -339,7 +339,7 @@ test_that("send() works with Email with reply_to", {
     "Postmark API Key is missing"
   )
 
-  client <- Postmarkr(
+  client <- Client(
     token = Sys.getenv("POSTMARK_TEST_SERVER_TOKEN"),
     message_stream = "outbound"
   )
@@ -370,7 +370,7 @@ test_that("send() works with Email with tag", {
     "Postmark API Key is missing"
   )
 
-  client <- Postmarkr(
+  client <- Client(
     token = Sys.getenv("POSTMARK_TEST_SERVER_TOKEN"),
     message_stream = "outbound"
   )
@@ -405,7 +405,7 @@ test_that("send() works with Template using template ID", {
     "Postmark API Key is missing"
   )
 
-  client <- Postmarkr(
+  client <- Client(
     token = Sys.getenv("POSTMARK_TEST_SERVER_TOKEN"),
     message_stream = "broadcast"
   )
@@ -424,7 +424,6 @@ test_that("send() works with Template using template ID", {
   expect_equal(response@status, 200L)
   expect_type(response@data, "list")
   expect_true(length(response@data) > 0)
-
 })
 
 test_that("send() works with Template with multiple recipients", {
@@ -443,7 +442,7 @@ test_that("send() works with Template with multiple recipients", {
     "Postmark API Key is missing"
   )
 
-  client <- Postmarkr(
+  client <- Client(
     token = Sys.getenv("POSTMARK_TEST_SERVER_TOKEN"),
     message_stream = "broadcast"
   )
@@ -483,7 +482,7 @@ test_that("send() works with Template with all optional fields", {
     "Postmark API Key is missing"
   )
 
-  client <- Postmarkr(
+  client <- Client(
     token = Sys.getenv("POSTMARK_TEST_SERVER_TOKEN"),
     message_stream = "broadcast"
   )
@@ -537,7 +536,7 @@ test_that("send() works with Template with nested template_model", {
     "Postmark API Key is missing"
   )
 
-  client <- Postmarkr(
+  client <- Client(
     token = Sys.getenv("POSTMARK_TEST_SERVER_TOKEN"),
     message_stream = "broadcast"
   )
@@ -586,7 +585,7 @@ test_that("send() includes message_stream from client in Template request", {
     "Postmark API Key is missing"
   )
 
-  client_outbound <- Postmarkr(
+  client_outbound <- Client(
     token = Sys.getenv("POSTMARK_TEST_SERVER_TOKEN"),
     message_stream = "outbound"
   )
@@ -601,7 +600,7 @@ test_that("send() includes message_stream from client in Template request", {
   response_outbound <- send(client_outbound, template)
   expect_true(response_outbound@success)
 
-  client_broadcast <- Postmarkr(
+  client_broadcast <- Client(
     token = Sys.getenv("POSTMARK_TEST_SERVER_TOKEN"),
     message_stream = "broadcast"
   )
@@ -626,7 +625,7 @@ test_that("send() with Template respects tracking settings", {
     "Postmark API Key is missing"
   )
 
-  client <- Postmarkr(
+  client <- Client(
     token = Sys.getenv("POSTMARK_TEST_SERVER_TOKEN"),
     message_stream = "broadcast"
   )

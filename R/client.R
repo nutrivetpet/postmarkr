@@ -4,7 +4,7 @@ NULL
 #' Client Object
 #'
 #' @description
-#' Creates a Postmarkr client for interacting with the Postmark API. This
+#' Creates a Client client for interacting with the Postmark API. This
 #' provides a structured way to configure and use the Postmark API. Before
 #' creating an instance, ensure you have:
 #' \itemize{
@@ -25,7 +25,7 @@ NULL
 #'
 #' @examples
 #' \dontrun{
-#' # Create a Postmarkr client for transactional emails
+#' # Create a Client client for transactional emails
 #' client <- client(
 #'   token = "your-server-token-here",
 #'   message_stream = "outbound",

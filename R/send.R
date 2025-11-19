@@ -8,7 +8,7 @@ NULL
 #' dispatches to the appropriate method based on the message type ([Email],
 #' [Template], [Batch]).
 #'
-#' @param client A [Postmarkr] client object.
+#' @param client A [Client] client object.
 #' @param message An [Email], [Template] or [Batch] object to send.
 #' @param ... Additional arguments passed to methods.
 #'
@@ -25,7 +25,7 @@ NULL
 #' @examples
 #' \dontrun{
 #' # Create client
-#' client <- Postmarkr(
+#' client <- Client(
 #'   token = "your-server-token",
 #'   message_stream = "outbound"
 #' )
@@ -72,7 +72,7 @@ NULL
 #' }
 #'
 #' @seealso
-#' * [Postmarkr] for creating an API client
+#' * [Client] for creating an API client
 #' * [Email] for creating email objects
 #' * [Template] for creating template objects
 #' * \url{https://postmarkapp.com/developer/api/email-api#send-a-single-email}
@@ -89,11 +89,11 @@ send <- new_generic(
   }
 )
 
-method(send, list(Postmarkr, Email)) <- function(client, message, ...) {
+method(send, list(Client, Email)) <- function(client, message, ...) {
   send_message_individual(client, message, "/email")
 }
 
-method(send, list(Postmarkr, Template)) <- function(
+method(send, list(Client, Template)) <- function(
   client,
   message,
   ...
@@ -124,7 +124,7 @@ send_message_individual <- function(client, message, endpoint) {
   )
 }
 
-method(send, list(Postmarkr, Batch)) <- function(
+method(send, list(Client, Batch)) <- function(
   client,
   message,
   ...
