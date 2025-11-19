@@ -26,6 +26,12 @@ reference:
   contents:
   - send
 
+- title: Token
+  desc: >
+    Get token
+  contents:
+  - get_token
+
 - title: Print
   desc: >
     Print client objects
