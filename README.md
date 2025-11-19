@@ -35,7 +35,7 @@ postmarkr provides a clean, object-oriented API for sending emails
 through Postmark. The package supports two message types (email and
 template) and two delivery modes (individual and batch):
 
-|  | `Email()` | `Template()` |
+|  | `email()` | `template()` |
 |----|----|----|
 | **Individual** | One email with HTML/text body | One email using template ID |
 | **Batch** | Multiple custom emails (500+) | Multiple template emails (500+) |
@@ -54,7 +54,7 @@ client <- client(
 )
 
 # Create and send email
-email <- Email(
+email <- email(
   from = "sender@example.com",
   to = "recipient@example.com",
   subject = "Welcome to postmarkr",
@@ -70,7 +70,7 @@ result <- send(client, email)
 Send a single email using a predefined Postmark template:
 
 ``` r
-template <- Template(
+template <- template(
   from = "notifications@example.com",
   to = "user@example.com",
   id = 36620093L,
@@ -92,7 +92,7 @@ groups of 500):
 ``` r
 # Create multiple personalized emails
 emails <- lapply(recipients, function(recipient) {
-  Email(
+  email(
     from = "sender@example.com",
     to = recipient,
     html_body = "<p>Hi %s, welcome aboard!</p>"
@@ -100,7 +100,7 @@ emails <- lapply(recipients, function(recipient) {
 })
 
 # Wrap in batch and send
-batch <- Batch(messages = emails)
+batch <- batch(messages = emails)
 result <- send(client, batch)
 ```
 
@@ -111,7 +111,7 @@ Send multiple template emails (e.g., newsletters, notifications):
 ``` r
 # Create template emails for each recipient
 templates <- lapply(recipients, function(recipient) {
-  Template(
+  template(
     from = "newsletter@example.com",
     to = recipient,
     id = 36620093L,
@@ -123,16 +123,16 @@ templates <- lapply(recipients, function(recipient) {
 })
 
 # Wrap in batch and send
-batch <- Batch(messages = templates)
+batch <- batch(messages = templates)
 result <- send(client, batch)
 ```
 
 ## Features
 
-- **Custom Emails**: Compose emails with HTML or text using `Email()`
+- **Custom Emails**: Compose emails with HTML or text using `email()`
 - **Template Emails**: Use Postmark templates with variable substitution
-  via `Template()`
-- **Batch Sending**: Efficiently send 500+ emails with `Batch()`
+  via `template()`
+- **Batch Sending**: Efficiently send 500+ emails with `batch()`
   (automatic chunking)
 - **Tracking**: Built-in support for open and click tracking
 
