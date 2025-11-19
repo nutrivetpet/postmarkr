@@ -1,7 +1,7 @@
 Package: postmarkr
 Title: Email Delivery Made Simple - Unofficial Postmark API Integration
     for R
-Version: 0.0.2
+Version: 0.0.3.9000
 Authors@R: c(
     person("Andrea", "Ranzato", , "andrea@nutrivetpet.com", role = c("aut", "cre")),
     person("nutrivetpet Srls", role = c("fnd", "cph"))
