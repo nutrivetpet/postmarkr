@@ -26,14 +26,14 @@ NULL
 #' @examples
 #' \dontrun{
 #' # Create a Postmarkr client for transactional emails
-#' client <- postmarkr(
+#' client <- client(
 #'   token = "your-server-token-here",
 #'   message_stream = "outbound",
 #'   timeout = 30
 #' )
 #'
 #' # Create a postmark client for broadcast emails
-#' broadcast_client <- postmarkr(
+#' broadcast_client <- client(
 #'   token = "your-server-token-here",
 #'   message_stream = "broadcast"
 #' )
@@ -43,15 +43,15 @@ NULL
 #' \url{https://postmarkapp.com/developer/api/overview} for Postmark API
 #' documentation
 #'
-#' @rdname postmarkr
+#' @rdname client
 #' @export
-postmarkr <- function(
+client <- function(
   token,
   message_stream,
   timeout = 1,
   verbose = FALSE
 ) {
-  Postmarkr(
+  Client(
     token = token,
     message_stream = message_stream,
     base_url = POSTMARK_BASE_URL,
@@ -60,10 +60,10 @@ postmarkr <- function(
   )
 }
 
-#' @rdname postmarkr
+#' @rdname client
 #' @export
-Postmarkr <- new_class(
-  name = "Postmarkr",
+Client <- new_class(
+  name = "Client",
   properties = list(
     token = new_property(
       class = class_character,

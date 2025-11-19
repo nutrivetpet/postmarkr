@@ -15,7 +15,7 @@
 #' @examples
 #' \dontrun{
 #' # Create and print a Postmarkr client
-#' client <- Postmarkr(
+#' client <- client(
 #'   token = "your-server-token",
 #'   message_stream = "outbound"
 #' )
@@ -25,7 +25,7 @@
 #' @name print
 #' @export
 method(print, Postmarkr) <- function(x, ...) {
-  cat("<postmarkr::Postmarkr>\n")
+  cat("<postmarkr::Client>\n")
 
   props <- prop_names(x)
 

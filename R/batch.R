@@ -1,4 +1,4 @@
-#' @include postmarkr.R
+#' @include client.R
 NULL
 
 #' Batch Object - Collection of Email or Template Objects
