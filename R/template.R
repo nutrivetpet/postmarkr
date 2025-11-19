@@ -28,7 +28,8 @@ NULL
 #'   **Mutually exclusive with `id`**.
 #' @param template_model List. **Required.** Named list of variables to populate
 #'   in the template. Keys must match template variable names. Can include nested
-#'   lists for complex data structures. Example:
+#'   lists for complex data structures. If the template has no placeholders, pass
+#'   an empty list: `list()`. Example with variables:
 #'   `list(user_name = "John", company = list(name = "ACME"))`.
 #' @param inline_css Logical scalar. Whether to process CSS in `<style>` tags
 #'   into inline style attributes. Improves compatibility with email clients.
@@ -50,6 +51,14 @@ NULL
 #'   to = "recipient@example.com",
 #'   alias = "welcome-email",
 #'   template_model = list(name = "John", message = "Welcome!")
+#' )
+#'
+#' # Template with no placeholders (empty model required)
+#' no_placeholders <- template(
+#'   from = "sender@example.com",
+#'   to = "recipient@example.com",
+#'   id = 11111111L,
+#'   template_model = list()
 #' )
 #'
 #' # Template with tracking, attachments, and metadata
@@ -91,9 +100,9 @@ NULL
 #' @rdname template
 #' @export
 template <- function(
+  template_model,
   from = character(0),
   to = character(0),
-  template_model = list(),
   id = numeric(0),
   alias = character(0),
   cc = character(0),
@@ -107,6 +116,12 @@ template <- function(
   attachments = list(),
   metadata = list()
 ) {
+  if (is_missing(template_model)) {
+    pstmrk_abort(
+      "`template_model` is required. Pass an empty list() if the template has no placeholders.",
+      class = "postmarkr_error_missing_template_model"
+    )
+  }
   Template(
     from = from,
     to = to,
@@ -174,13 +189,7 @@ Template <- new_class(
     template_model = new_property(
       class = class_list,
       validator = function(value) {
-        if (!length(value)) {
-          pstmrk_abort(
-            "`template_model` is required",
-            class = "postmarkr_error_template_missing_model"
-          )
-        }
-        if (!is_named(value)) {
+        if (length(value) && !is_named(value)) {
           pstmrk_abort(
             "`template_model` must be a named list",
             class = "postmarkr_error_invalid_template_model"

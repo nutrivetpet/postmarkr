@@ -102,14 +102,25 @@ test_that("Template rejects empty alias", {
   )
 })
 
-test_that("Template requires template_model", {
+test_that("template() helper requires template_model argument", {
   expect_error(
-    Template(
+    template(
       from = "sender@example.com",
       to = "recipient@example.com",
       id = 12345L
     ),
-    class = "postmarkr_error_template_missing_model"
+    class = "postmarkr_error_missing_template_model"
+  )
+})
+
+test_that("Template accepts empty template_model list", {
+  expect_no_error(
+    Template(
+      from = "sender@example.com",
+      to = "recipient@example.com",
+      id = 12345L,
+      template_model = list()
+    )
   )
 })
 

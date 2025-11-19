@@ -6,9 +6,9 @@
 \title{Template Object}
 \usage{
 template(
+  template_model,
   from = character(0),
   to = character(0),
-  template_model = list(),
   id = numeric(0),
   alias = character(0),
   cc = character(0),
@@ -42,16 +42,17 @@ Template(
 )
 }
 \arguments{
+\item{template_model}{List. \strong{Required.} Named list of variables to populate
+in the template. Keys must match template variable names. Can include nested
+lists for complex data structures. If the template has no placeholders, pass
+an empty list: \code{list()}. Example with variables:
+\code{list(user_name = "John", company = list(name = "ACME"))}.}
+
 \item{from}{Character scalar. \strong{Required.} Sender email address (must be verified in
 Postmark). Supports name formatting: \code{"John Doe <email@example.com>"}}
 
 \item{to}{Character vector. \strong{Required.} Recipient email addresses. Multiple recipients
 allowed (max 50 total across To, Cc, Bcc)}
-
-\item{template_model}{List. \strong{Required.} Named list of variables to populate
-in the template. Keys must match template variable names. Can include nested
-lists for complex data structures. Example:
-\code{list(user_name = "John", company = list(name = "ACME"))}.}
 
 \item{id}{Integer scalar. The template ID in Postmark. Must be a positive
 integer corresponding to an existing template in your account. Typically
@@ -136,6 +137,14 @@ alias_template <- template(
   to = "recipient@example.com",
   alias = "welcome-email",
   template_model = list(name = "John", message = "Welcome!")
+)
+
+# Template with no placeholders (empty model required)
+no_placeholders <- template(
+  from = "sender@example.com",
+  to = "recipient@example.com",
+  id = 11111111L,
+  template_model = list()
 )
 
 # Template with tracking, attachments, and metadata
