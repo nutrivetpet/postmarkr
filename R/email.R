@@ -18,12 +18,10 @@
 #'   \item Email categorization via tags
 #' }
 #'
-#' **Important Limitations:**
+#' @section Limitations:
 #' \itemize{
 #'   \item Maximum 50 total recipients (To, Cc, Bcc combined)
 #'   \item Maximum 10 MB total message size (including attachments)
-#'   \item Cannot provide both `html_body` and `text_body` simultaneously
-#'   \item Must provide either `html_body` or `text_body`
 #'   \item One tag per message, maximum 1000 characters
 #' }
 #'

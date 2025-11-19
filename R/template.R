@@ -21,14 +21,7 @@ NULL
 #'   \item Metadata for internal tracking
 #' }
 #'
-#' **Important Limitations:**
-#' \itemize{
-#'   \item Maximum 50 total recipients (To, Cc, Bcc combined)
-#'   \item Template must exist in your Postmark account
-#'   \item Template ID must be a positive integer (typically 8 digits)
-#'   \item One tag per message, maximum 1000 characters
-#'   \item Maximum 10 MB total message size (including attachments)
-#' }
+#' @inheritSection Email Limitations
 #'
 #' @inheritParams Email
 #' @param id Integer scalar. The template ID in Postmark. Must be a positive
