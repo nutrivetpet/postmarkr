@@ -37,7 +37,7 @@ pak::pak("nutrivetpet/postmarkr")
 
 postmarkr provides a clean, object-oriented API for sending emails through Postmark. The package supports two message types (email and template) and two delivery modes (individual and batch):
 
-|   | `email()` | `Template()` |
+|   | `email()` | `template()` |
 |------------------|------------------------|------------------------------|
 | **Individual** | One email with HTML/text body | One email using template ID |
 | **Batch** | Multiple custom emails (500+) | Multiple template emails (500+) |
@@ -72,7 +72,7 @@ result <- send(client, email)
 Send a single email using a predefined Postmark template:
 
 ```{r individual-template, eval=FALSE}
-template <- Template(
+template <- template(
   from = "notifications@example.com",
   to = "user@example.com",
   id = 36620093L,
@@ -101,7 +101,7 @@ emails <- lapply(recipients, function(recipient) {
 })
 
 # Wrap in batch and send
-batch <- Batch(messages = emails)
+batch <- batch(messages = emails)
 result <- send(client, batch)
 ```
 
@@ -112,7 +112,7 @@ Send multiple template emails (e.g., newsletters, notifications):
 ```{r batch-template, eval=FALSE}
 # Create template emails for each recipient
 templates <- lapply(recipients, function(recipient) {
-  Template(
+  template(
     from = "newsletter@example.com",
     to = recipient,
     id = 36620093L,
@@ -124,15 +124,15 @@ templates <- lapply(recipients, function(recipient) {
 })
 
 # Wrap in batch and send
-batch <- Batch(messages = templates)
+batch <- batch(messages = templates)
 result <- send(client, batch)
 ```
 
 ## Features
 
 -   **Custom Emails**: Compose emails with HTML or text using `email()`
--   **Template Emails**: Use Postmark templates with variable substitution via `Template()`
--   **Batch Sending**: Efficiently send 500+ emails with `Batch()` (automatic chunking)
+-   **Template Emails**: Use Postmark templates with variable substitution via `template()`
+-   **Batch Sending**: Efficiently send 500+ emails with `batch()` (automatic chunking)
 -   **Tracking**: Built-in support for open and click tracking
 
 **Note:** Postmark API coverage is limited. See the [documentation](https://nutrivetpet.github.io/postmarkr/) for all available features.

@@ -260,7 +260,7 @@ validate_stats_response <- function(data, endpoint) {
 #' the same interface.
 #'
 #' @param client A Client object created with [client()].
-#' @param params Optional Stats parameters object created with [Stats()].
+#' @param params Optional Stats parameters object created with [stats()].
 #'   If not provided, no query parameters will be sent.
 #' @param endpoint A character argument specifying the Stats endpoint path
 #'   (e.g., "overview", "sends", "bounces", "opens/emailclients", "clicks",
@@ -273,20 +273,20 @@ validate_stats_response <- function(data, endpoint) {
 #' @examples
 #' \dontrun{
 #' # Create a client
-#' client <- Client(
+#' client <- client(
 #'   token = "your-server-token",
 #'   message_stream = "outbound"
 #' )
 #'
 #' # Get sent counts with date range
-#' params <- Stats(
+#' params <- stats(
 #'   fromdate = "2024-01-01",
 #'   todate = "2024-01-31"
 #' )
 #' stats_get(client, params)
 #'
 #' # Get open counts filtered by tag
-#' params <- Stats(
+#' params <- stats(
 #'   tag = "welcome-email",
 #'   fromdate = "2024-01-01",
 #'   todate = "2024-01-31"

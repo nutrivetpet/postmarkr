@@ -2,7 +2,7 @@
 #'
 #' Creates an httr2 request object using a postmarkr S7 client.
 #'
-#' @param client A client object as returned by [Client()].
+#' @param client A client object as returned by [client()].
 #' @param endpoint The API endpoint path (e.g., "/stats/outbound").
 #' @param method HTTP method (e.g., "GET", "POST").
 #' @param ... Additional query parameters.

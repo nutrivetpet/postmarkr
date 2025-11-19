@@ -25,7 +25,7 @@ NULL
 #' @examples
 #' \dontrun{
 #' # Create client
-#' client <- Client(
+#' client <- client(
 #'   token = "your-server-token",
 #'   message_stream = "outbound"
 #' )
@@ -61,7 +61,7 @@ NULL
 #' response <- send(client, html_email)
 #'
 #' # Send a template email
-#' template <- Template(
+#' template <- template(
 #'   from = "sender@example.com",
 #'   to = "recipient@example.com",
 #'   id = 12345678L,

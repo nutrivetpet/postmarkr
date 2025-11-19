@@ -202,11 +202,11 @@ batch_size <- function(batch) {
 #' @examples
 #' \dontrun{
 #' # 1000 messages with default chunk_size of 500
-#' batch <- Batch(messages = emails)
+#' batch <- batch(messages = emails)
 #' batch_chunk_count(batch)  # Returns: 2
 #'
 #' # Same 1000 messages with custom chunk_size of 100
-#' batch <- Batch(messages = emails, chunk_size = 100)
+#' batch <- batch(messages = emails, chunk_size = 100)
 #' batch_chunk_count(batch)  # Returns: 10
 #' }
 #'
@@ -233,10 +233,10 @@ batch_chunk_count <- function(batch) {
 #'
 #' @examples
 #' \dontrun{
-#' email_batch <- Batch(messages = list(email(...), email(...)))
+#' email_batch <- batch(messages = list(email(...), email(...)))
 #' batch_message_type(email_batch)  # Returns: "Email"
 #'
-#' template_batch <- Batch(messages = list(Template(...), Template(...)))
+#' template_batch <- batch(messages = list(template(...), template(...)))
 #' batch_message_type(template_batch)  # Returns: "Template"
 #' }
 #'
@@ -274,7 +274,7 @@ batch_message_type <- function(batch) {
 #' recipients <- paste0("user", 1:1000, "@nutrivetpet.com")
 #'
 #' messages <- lapply(recipients, function(email) {
-#'   Template(
+#'   template(
 #'     from = "sender@example.com",
 #'     to = email,
 #'     id = 12345L,
@@ -283,7 +283,7 @@ batch_message_type <- function(batch) {
 #' })
 #'
 #' # Create batch with 1000 messages
-#' batch <- Batch(messages = messages, chunk_size = 500)
+#' batch <- batch(messages = messages, chunk_size = 500)
 #'
 #' # Get chunks
 #' chunks <- batch_get_chunks(batch)
@@ -292,7 +292,7 @@ batch_message_type <- function(batch) {
 #' length(chunks[[2]])  # Returns: 500
 #'
 #' # With non-divisible size
-#' batch <- Batch(messages = messages[1:750], chunk_size = 500)
+#' batch <- batch(messages = messages[1:750], chunk_size = 500)
 #' chunks <- batch_get_chunks(batch)
 #' length(chunks)  # Returns: 2
 #' length(chunks[[1]])  # Returns: 500
