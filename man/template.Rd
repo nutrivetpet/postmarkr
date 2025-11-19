@@ -23,11 +23,11 @@ template(
 )
 }
 \arguments{
-\item{from}{Character scalar. \strong{Required.} Sender email address (must be
-verified in Postmark). Supports name formatting: \code{"John Doe <email@example.com>"}}
+\item{from}{Character scalar. \strong{Required.} Sender email address (must be verified in
+Postmark). Supports name formatting: \code{"John Doe <email@example.com>"}}
 
-\item{to}{Character vector. \strong{Required.} Recipient email addresses. Multiple
-recipients allowed (max 50 total across To, Cc, Bcc)}
+\item{to}{Character vector. \strong{Required.} Recipient email addresses. Multiple recipients
+allowed (max 50 total across To, Cc, Bcc)}
 
 \item{template_model}{List. \strong{Required.} Named list of variables to populate
 in the template. Keys must match template variable names. Can include nested
@@ -59,17 +59,21 @@ One tag per message, maximum 1000 characters. Examples: "welcome-email",
 \item{reply_to}{Character scalar. Reply-To address for responses.}
 
 \item{headers}{List of lists. Custom email headers. Each element should
-have \code{Name} and \code{Value} keys. Example: \code{list(list(Name = "X-Priority", Value = "High"))}.}
+have \code{Name} and \code{Value} keys. Example: \code{list(list(Name = "X-Priority", Value = "High"))}. Use for custom routing, priority settings, or
+Message-ID override.}
 
 \item{track_opens}{Logical scalar. Enable open tracking using invisible
-pixel. Provides insights on when and where emails are opened.}
+pixel. Only works with HTML emails. Provides insights on when and where
+emails are opened.}
 
 \item{track_links}{Character scalar. Link tracking mode. Options:
 \code{"None"} (no tracking), \code{"HtmlAndText"} (track all links),
-\code{"HtmlOnly"} (HTML links only), \code{"TextOnly"} (text links only).}
+\code{"HtmlOnly"} (HTML links only), \code{"TextOnly"} (text links only).
+Replaces URLs with tracking URLs that redirect to original destination.}
 
-\item{attachments}{List of lists. File attachments. Each attachment should
-have \code{Name}, \code{Content} (base64-encoded), and \code{ContentType} keys.
+\item{attachments}{List of lists. File attachments and inline images.
+Each attachment should have \code{Name}, \code{Content} (base64-encoded),
+\code{ContentType}, and optionally \code{ContentID} (for inline images) keys.
 Total message size including attachments limited to 10 MB.}
 
 \item{metadata}{List. Key-value pairs for internal tracking. Does not

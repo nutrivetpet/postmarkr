@@ -30,10 +30,7 @@ NULL
 #'   \item Maximum 10 MB total message size (including attachments)
 #' }
 #'
-#' @param from Character scalar. **Required.** Sender email address (must be
-#'   verified in Postmark). Supports name formatting: `"John Doe <email@@example.com>"`
-#' @param to Character vector. **Required.** Recipient email addresses. Multiple
-#'   recipients allowed (max 50 total across To, Cc, Bcc)
+#' @inheritParams Email
 #' @param id Integer scalar. The template ID in Postmark. Must be a positive
 #'   integer corresponding to an existing template in your account. Typically
 #'   an 8-digit number (e.g., 12345678). **Either `id` or `alias` must be
@@ -45,30 +42,9 @@ NULL
 #'   in the template. Keys must match template variable names. Can include nested
 #'   lists for complex data structures. Example:
 #'   `list(user_name = "John", company = list(name = "ACME"))`.
-#' @param cc Character vector. Carbon copy recipients. Visible to all recipients.
-#' @param bcc Character vector. Blind carbon copy recipients. Hidden from
-#'   other recipients.
 #' @param inline_css Logical scalar. Whether to process CSS in `<style>` tags
 #'   into inline style attributes. Improves compatibility with email clients.
 #'   Default is TRUE for better rendering.
-#' @param tag Character scalar. Category tag for statistics and filtering.
-#'   One tag per message, maximum 1000 characters. Examples: "welcome-email",
-#'   "password-reset", "invoice".
-#' @param reply_to Character scalar. Reply-To address for responses.
-#' @param headers List of lists. Custom email headers. Each element should
-#'   have `Name` and `Value` keys. Example: `list(list(Name = "X-Priority",
-#'   Value = "High"))`.
-#' @param track_opens Logical scalar. Enable open tracking using invisible
-#'   pixel. Provides insights on when and where emails are opened.
-#' @param track_links Character scalar. Link tracking mode. Options:
-#'   `"None"` (no tracking), `"HtmlAndText"` (track all links),
-#'   `"HtmlOnly"` (HTML links only), `"TextOnly"` (text links only).
-#' @param attachments List of lists. File attachments. Each attachment should
-#'   have `Name`, `Content` (base64-encoded), and `ContentType` keys.
-#'   Total message size including attachments limited to 10 MB.
-#' @param metadata List. Key-value pairs for internal tracking. Does not
-#'   affect email delivery. Example: `list(customer_id = "12345",
-#'   campaign = "onboarding")`.
 #'
 #' @examples
 #' \dontrun{
