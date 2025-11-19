@@ -5,13 +5,13 @@
 \alias{Client}
 \title{Client Object}
 \usage{
-client(token, message_stream, timeout = 1, verbose = FALSE)
+client(token, message_stream, timeout = 60, verbose = FALSE)
 
 Client(
   token = character(0),
   message_stream = character(0),
   base_url = "https://api.postmarkapp.com",
-  timeout = 1,
+  timeout = 60,
   verbose = FALSE
 )
 }
@@ -23,7 +23,7 @@ your requests to the Postmark API.}
 Must be either \code{"broadcast"} (for newsletters and marketing emails) or
 \code{"outbound"} (for transactional one-to-one triggered emails).}
 
-\item{timeout}{numeric. Request timeout in seconds for API calls.}
+\item{timeout}{numeric. Request timeout in seconds for API calls. 60 seconds by default.}
 
 \item{verbose}{logical. Whether to pass \code{\link[httr2:req_verbose]{httr2::req_verbose()}} to the request.}
 

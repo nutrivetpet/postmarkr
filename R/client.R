@@ -20,7 +20,7 @@ NULL
 #' @param base_url character. The base URL for the Postmark API. Defaults to
 #'   the standard Postmark API endpoint (`https://api.postmarkapp.com`).
 #'   **You should not need to change this.**
-#' @param timeout numeric. Request timeout in seconds for API calls.
+#' @param timeout numeric. Request timeout in seconds for API calls. 60 seconds by default.
 #' @param verbose logical. Whether to pass [httr2::req_verbose()] to the request.
 #'
 #' @examples
@@ -48,7 +48,7 @@ NULL
 client <- function(
   token,
   message_stream,
-  timeout = 1,
+  timeout = 60,
   verbose = FALSE
 ) {
   Client(
@@ -102,7 +102,7 @@ Client <- new_class(
     ),
     timeout = new_property(
       class = class_numeric,
-      default = 1, # TODO: is this a good default?
+      default = 60,
       validator = function(value) {
         if (!is_scalar_integerish(value)) {
           pstmrk_abort(
