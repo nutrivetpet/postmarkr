@@ -124,17 +124,25 @@ Email <- new_class(
     from = new_property(
       class = class_character,
       validator = function(value) {
-        if (length(value)) {
-          validate_email(value, arg_name = "from")
+        if (!length(value)) {
+          pstmrk_abort(
+            "`from` is required",
+            class = "postmarkr_error_email_missing_from"
+          )
         }
+        validate_email(value, arg_name = "from")
       }
     ),
     to = new_property(
       class = class_character,
       validator = function(value) {
-        if (length(value)) {
-          validate_email(value, arg_name = "to")
+        if (!length(value)) {
+          pstmrk_abort(
+            "`to` is required",
+            class = "postmarkr_error_template_missing_to"
+          )
         }
+        validate_email(value, arg_name = "to")
       }
     ),
     cc = new_property(
@@ -223,11 +231,11 @@ email <- function(
   reply_to = character(),
   metadata = list(),
   headers = list(),
-  track_opens = NULL,
+  track_opens = logical(),
   track_links = character(),
   attachments = list()
 ) {
-  args <- list(
+  Email(
     from = from,
     to = to,
     subject = subject,
@@ -239,16 +247,8 @@ email <- function(
     reply_to = reply_to,
     metadata = metadata,
     headers = headers,
+    track_opens = track_opens,
+    track_links = track_links,
     attachments = attachments
   )
-
-  if (!is.null(track_opens)) {
-    args$track_opens <- track_opens
-  }
-
-  if (length(track_links)) {
-    args$track_links <- track_links
-  }
-
-  exec(Email, !!!args)
 }

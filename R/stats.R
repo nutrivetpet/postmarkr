@@ -92,6 +92,29 @@ Stats <- new_class(
   }
 )
 
+#' Stats Constructor
+#'
+#' @description
+#' Creates a Stats object for querying statistics from the Postmark API. This is a
+#' user-friendly wrapper around the `Stats` S7 class with sensible defaults.
+#'
+#' @inheritParams Stats
+#'
+#' @seealso [Stats()] for the S7 class documentation
+#'
+#' @export
+stats <- function(
+  tag = character(),
+  fromdate = character(),
+  todate = character()
+) {
+  Stats(
+    tag = tag,
+    fromdate = fromdate,
+    todate = todate
+  )
+}
+
 #' Validate Stats Overview Response
 #'
 #' @description

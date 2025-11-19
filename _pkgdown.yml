@@ -4,15 +4,15 @@ template:
 
 reference:
 
-- title: Objects
+- title: Constructors
   desc: >
-    Create Objects
+    Create new instances of Postmarkr objects
   contents:
-  - Postmarkr
-  - Email
-  - Template
-  - Batch
-  - Stats
+  - postmarkr
+  - email
+  - template
+  - batch
+  - stats
 
 - title: Stats
   desc: >
@@ -25,6 +25,16 @@ reference:
     Send messages
   contents:
   - send
+
+- title: Objects
+  desc: >
+    S7 object classes
+  contents:
+  - Postmarkr
+  - Email
+  - Template
+  - Batch
+  - Stats
 
 - title: Print
   desc: >
