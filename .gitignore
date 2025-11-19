@@ -2,5 +2,4 @@
 .Rhistory
 **.DS_Store
 docs
-inst/test.R
 scratch

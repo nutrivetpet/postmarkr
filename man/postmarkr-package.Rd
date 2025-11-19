@@ -4,7 +4,7 @@
 \name{postmarkr-package}
 \alias{postmarkr}
 \alias{postmarkr-package}
-\title{postmarkr: Email Delivery Made Simple: Unofficial Postmark API Integration for R}
+\title{postmarkr: Email Delivery Made Simple - Unofficial Postmark API Integration for R}
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 

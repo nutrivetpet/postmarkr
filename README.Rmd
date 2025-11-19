@@ -13,12 +13,12 @@ knitr::opts_chunk$set(
 )
 ```
 
-# postmarkr <img src="man/figures/logo.png" align="right" height="138" />
+# postmarkr <img src="man/figures/logo.png" align="right" height="138"/>
 
 <!-- badges: start -->
-[![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
-[![R-CMD-check](https://github.com/nutrivetpet/postmarkr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/nutrivetpet/postmarkr/actions/workflows/R-CMD-check.yaml)
-[![Codecov test coverage](https://codecov.io/gh/nutrivetpet/postmarkr/graph/badge.svg)](https://app.codecov.io/gh/nutrivetpet/postmarkr)
+
+[![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip) [![R-CMD-check](https://github.com/nutrivetpet/postmarkr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/nutrivetpet/postmarkr/actions/workflows/R-CMD-check.yaml) [![Codecov test coverage](https://codecov.io/gh/nutrivetpet/postmarkr/graph/badge.svg)](https://app.codecov.io/gh/nutrivetpet/postmarkr)
+
 <!-- badges: end -->
 
 The goal of postmarkr is to interact with the [Postmark API](https://postmarkapp.com/developer), from R.
@@ -33,35 +33,106 @@ You can install the development version of postmarkr like so:
 pak::pak("nutrivetpet/postmarkr")
 ```
 
-## Example
+## Usage Patterns
 
-This is a basic example which shows you how to solve a common problem:
+postmarkr provides a clean, object-oriented API for sending emails through Postmark. The package supports two message types (email and template) and two delivery modes (individual and batch):
 
-```{r example, eval=FALSE}
+|   | `Email()` | `Template()` |
+|------------------|------------------------|------------------------------|
+| **Individual** | One email with HTML/text body | One email using template ID |
+| **Batch** | Multiple custom emails (500+) | Multiple template emails (500+) |
+
+### Individual Email (Custom Content)
+
+Send a single email with custom HTML or text content:
+
+```{r individual-email, eval=FALSE}
 library(postmarkr)
-dat <- template_send_email_batch(
-  from = "xyz@mail.com",
-  to = c(
-    "abcd@mail.com",
-    "efgh@mail.com"
-  ),
-  id = 36620093L,
-  template_model = list(
-    template_var_01 = "nutrivetpet",
-    template_var_02 = "www.nutrivetpet.com"
-  ),
-  msg_stream = "broadcast",
-  tag = "test",
+
+# Create client
+client <- client(
+  token = Sys.getenv("POSTMARK_SERVER_TOKEN"),
+  message_stream = "outbound"
+)
+
+# Create and send email
+email <- Email(
+  from = "sender@example.com",
+  to = "recipient@example.com",
+  subject = "Welcome to postmarkr",
+  html_body = "<h1>Hello!</h1><p>Welcome to our service.</p>",
   track_opens = TRUE
 )
+
+result <- send(client, email)
+```
+
+### Individual Template Email
+
+Send a single email using a predefined Postmark template:
+
+```{r individual-template, eval=FALSE}
+template <- Template(
+  from = "notifications@example.com",
+  to = "user@example.com",
+  id = 36620093L,
+  template_model = list(
+    user_name = "Alice",
+    company_name = "ACME Corp"
+  ),
+  track_opens = TRUE
+)
+
+result <- send(client, template)
+```
+
+### Batch Emails
+
+Send multiple custom emails efficiently (automatically chunks into groups of 500):
+
+```{r batch-email, eval=FALSE}
+# Create multiple personalized emails
+emails <- lapply(recipients, function(recipient) {
+  Email(
+    from = "sender@example.com",
+    to = recipient,
+    html_body = "<p>Hi %s, welcome aboard!</p>"
+  )
+})
+
+# Wrap in batch and send
+batch <- Batch(messages = emails)
+result <- send(client, batch)
+```
+
+### Batch Templates
+
+Send multiple template emails (e.g., newsletters, notifications):
+
+```{r batch-template, eval=FALSE}
+# Create template emails for each recipient
+templates <- lapply(recipients, function(recipient) {
+  Template(
+    from = "newsletter@example.com",
+    to = recipient,
+    id = 36620093L,
+    template_model = list(
+      user_name = "Alice",
+      company_name = "ACME Corp"
+    )
+  )
+})
+
+# Wrap in batch and send
+batch <- Batch(messages = templates)
+result <- send(client, batch)
 ```
 
 ## Features
 
-- **Single Email Delivery**: Send individual emails with `email_send_single()`
-- **Template-Based Emails**: Send templated emails with `template_send_email()` and `template_send_email_batch()`
-- **Email Templates**: List available email templates with `template_list()`
-- **Message Logs**: Retrieve outbound messages with `outbound_messages_collect()` and `outbound_messages_fetch()`
-- **Delivery Statistics**: Track email performance with `stats_outbound_overview()`
+-   **Custom Emails**: Compose emails with HTML or text using `Email()`
+-   **Template Emails**: Use Postmark templates with variable substitution via `Template()`
+-   **Batch Sending**: Efficiently send 500+ emails with `Batch()` (automatic chunking)
+-   **Tracking**: Built-in support for open and click tracking
 
-**Note:** API coverage is still pretty limited compared to all available endpoints.
+**Note:** Postmark API coverage is limited. See the [documentation](https://nutrivetpet.github.io/postmarkr/) for all available features.

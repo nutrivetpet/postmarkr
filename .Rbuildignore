@@ -9,3 +9,5 @@
 ^scratch$
 ^[\.]?air\.toml$
 ^codecov\.yml$
+^[.]?air[.]toml$
+^\.vscode$

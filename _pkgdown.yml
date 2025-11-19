@@ -3,32 +3,34 @@ template:
   bootstrap: 5
 
 reference:
-- title: Email
-  desc: >
-    Send emails
-  contents:
-  - email_send_single
 
-- title: Templates
+- title: Constructors
   desc: >
-    Manage templates
+    Create new instances of Postmarkr objects
   contents:
-  - template_list
-  - template_send_email
-  - template_send_email_batch
+  - client
+  - email
+  - template
+  - batch
+  - stats
 
 - title: Stats
   desc: >
-    Statistics for outbound emails
+    Get Stats
   contents:
-  - stats_outbound_overview
+  - stats_get
 
-- title: Messages
+- title: Send
   desc: >
-    Outbound messages
+    Send messages
   contents:
-  - outbound_messages_fetch
-  - outbound_messages_collect
+  - send
+
+- title: Print
+  desc: >
+    Print client objects
+  contents:
+  - print
 
 authors:
   Andrea Ranzato:
