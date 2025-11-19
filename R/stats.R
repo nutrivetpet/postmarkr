@@ -1,4 +1,4 @@
-#' Stats Query Parameters
+#' Stats Object
 #'
 #' @description
 #' Creates a Stats object for querying statistics from the Postmark API. This

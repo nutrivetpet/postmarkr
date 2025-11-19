@@ -3,7 +3,7 @@
 \name{stats}
 \alias{stats}
 \alias{Stats}
-\title{Stats Query Parameters}
+\title{Stats Object}
 \usage{
 stats(tag = character(), fromdate = character(), todate = character())
 
