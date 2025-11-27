@@ -32,13 +32,13 @@ dispatches to the appropriate method based on the message type (\link{Email},
 \examples{
 \dontrun{
 # Create client
-client <- Client(
+client <- client(
   token = "your-server-token",
   message_stream = "outbound"
 )
 
 # Send a regular email
-email <- Email(
+email <- email(
   from = "sender@example.com",
   to = "recipient@example.com",
   subject = "Hello from postmarkr",
@@ -55,7 +55,7 @@ if (response@success) {
 }
 
 # Send HTML email with tracking
-html_email <- Email(
+html_email <- email(
   from = "notifications@example.com",
   to = "user@example.com",
   subject = "Welcome to our service",
@@ -68,7 +68,7 @@ html_email <- Email(
 response <- send(client, html_email)
 
 # Send a template email
-template <- Template(
+template <- template(
   from = "sender@example.com",
   to = "recipient@example.com",
   id = 12345678L,
