@@ -10,6 +10,7 @@
       * X-Postmark-Server-Token: <REDACTED>
       Body: empty
       Options:
+      * useragent     : "postmarkr (https://nutrivetpet.github.io/postmarkr/)"
       * timeout_ms    : 60000
       * connecttimeout: 0
 

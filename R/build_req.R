@@ -21,7 +21,8 @@ build_req_S7 <- function(client, endpoint, method, ...) {
       "Accept" = "application/json",
       "X-Postmark-Server-Token" = client@token,
       .redact = "X-Postmark-Server-Token"
-    )
+    ) |>
+    req_user_agent("postmarkr (https://nutrivetpet.github.io/postmarkr/)")
 
   if (!is.null(client@timeout)) {
     req <- req_timeout(req, client@timeout)
