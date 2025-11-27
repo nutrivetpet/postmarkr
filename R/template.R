@@ -122,7 +122,7 @@ template <- function(
       class = "postmarkr_error_missing_template_model"
     )
   }
-  template(
+  Template(
     from = from,
     to = to,
     id = id,
