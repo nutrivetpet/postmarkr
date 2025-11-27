@@ -16,8 +16,8 @@ Create new instances of Postmarkr objects
 - [`batch()`](https://nutrivetpet.github.io/postmarkr/reference/batch.md)
   [`Batch()`](https://nutrivetpet.github.io/postmarkr/reference/batch.md)
   : Batch Object - Collection of Email or Template Objects
-- [`stats()`](https://nutrivetpet.github.io/postmarkr/reference/Stats.md)
-  [`Stats()`](https://nutrivetpet.github.io/postmarkr/reference/Stats.md)
+- [`stats()`](https://nutrivetpet.github.io/postmarkr/reference/stats.md)
+  [`Stats()`](https://nutrivetpet.github.io/postmarkr/reference/stats.md)
   : Stats Object
 
 ## Stats
@@ -40,6 +40,13 @@ Get token
 
 - [`get_token()`](https://nutrivetpet.github.io/postmarkr/reference/get_token.md)
   : Get Postmark API Token
+
+## Status
+
+Get Postmark API Status
+
+- [`status_get()`](https://nutrivetpet.github.io/postmarkr/reference/status_get.md)
+  : Check Postmark Service Status
 
 ## Print
 

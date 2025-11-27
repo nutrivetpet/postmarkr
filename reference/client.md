@@ -11,7 +11,13 @@ creating an instance, ensure you have:
 ## Usage
 
 ``` r
-client(token, message_stream, timeout = 60, verbose = FALSE)
+client(
+  token,
+  message_stream,
+  timeout = 60,
+  verbose = FALSE,
+  check_status = FALSE
+)
 
 Client(
   token = character(0),
@@ -46,6 +52,12 @@ Client(
   [`httr2::req_verbose()`](https://httr2.r-lib.org/reference/req_verbose.html)
   to the request.
 
+- check_status:
+
+  logical. If `TRUE`, checks if Postmark is operational before creating
+  the client and issues a warning if the service is degraded or down.
+  Defaults to `FALSE` for faster client creation.
+
 - base_url:
 
   character. The base URL for the Postmark API. Defaults to the standard
@@ -76,6 +88,13 @@ client <- client(
 broadcast_client <- client(
   token = "your-server-token-here",
   message_stream = "broadcast"
+)
+
+# Create a client and check if Postmark is operational
+client <- client(
+  token = "your-server-token-here",
+  message_stream = "outbound",
+  check_status = TRUE
 )
 } # }
 ```

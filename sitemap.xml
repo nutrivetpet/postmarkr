@@ -4,7 +4,6 @@
 <url><loc>https://nutrivetpet.github.io/postmarkr/LICENSE.html</loc></url>
 <url><loc>https://nutrivetpet.github.io/postmarkr/authors.html</loc></url>
 <url><loc>https://nutrivetpet.github.io/postmarkr/index.html</loc></url>
-<url><loc>https://nutrivetpet.github.io/postmarkr/reference/Stats.html</loc></url>
 <url><loc>https://nutrivetpet.github.io/postmarkr/reference/batch.html</loc></url>
 <url><loc>https://nutrivetpet.github.io/postmarkr/reference/client.html</loc></url>
 <url><loc>https://nutrivetpet.github.io/postmarkr/reference/email.html</loc></url>
@@ -13,7 +12,9 @@
 <url><loc>https://nutrivetpet.github.io/postmarkr/reference/postmarkr-package.html</loc></url>
 <url><loc>https://nutrivetpet.github.io/postmarkr/reference/print.html</loc></url>
 <url><loc>https://nutrivetpet.github.io/postmarkr/reference/send.html</loc></url>
+<url><loc>https://nutrivetpet.github.io/postmarkr/reference/stats.html</loc></url>
 <url><loc>https://nutrivetpet.github.io/postmarkr/reference/stats_get.html</loc></url>
+<url><loc>https://nutrivetpet.github.io/postmarkr/reference/status_get.html</loc></url>
 <url><loc>https://nutrivetpet.github.io/postmarkr/reference/template.html</loc></url>
 </urlset>
 

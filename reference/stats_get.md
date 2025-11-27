@@ -20,7 +20,7 @@ stats_get(client, params, ..., endpoint = NULL)
 - params:
 
   Optional Stats parameters object created with
-  [`Stats()`](https://nutrivetpet.github.io/postmarkr/reference/Stats.md).
+  [`stats()`](https://nutrivetpet.github.io/postmarkr/reference/stats.md).
   If not provided, no query parameters will be sent.
 
 - ...:
@@ -48,20 +48,20 @@ documentation
 ``` r
 if (FALSE) { # \dontrun{
 # Create a client
-client <- Client(
+client <- client(
   token = "your-server-token",
   message_stream = "outbound"
 )
 
 # Get sent counts with date range
-params <- Stats(
+params <- stats(
   fromdate = "2024-01-01",
   todate = "2024-01-31"
 )
 stats_get(client, params)
 
 # Get open counts filtered by tag
-params <- Stats(
+params <- stats(
   tag = "welcome-email",
   fromdate = "2024-01-01",
   todate = "2024-01-31"
