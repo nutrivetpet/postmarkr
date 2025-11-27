@@ -12,6 +12,20 @@ pstmrk_abort <- function(
   )
 }
 
+pstmrk_warn <- function(
+  message,
+  ...,
+  class = character(),
+  call = caller_env()
+) {
+  warn(
+    message = message,
+    ...,
+    class = c(class, "postmarkr_warning"),
+    call = call
+  )
+}
+
 pstmrk_abort_api_change <- function(
   context,
   additional_info = NULL,

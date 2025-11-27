@@ -22,6 +22,9 @@ NULL
 #'   **You should not need to change this.**
 #' @param timeout numeric. Request timeout in seconds for API calls. 60 seconds by default.
 #' @param verbose logical. Whether to pass [httr2::req_verbose()] to the request.
+#' @param check_status logical. If `TRUE`, checks if Postmark is operational before
+#'   creating the client and issues a warning if the service is degraded or down.
+#'   Defaults to `FALSE` for faster client creation.
 #'
 #' @return A Client object for making API calls to Postmark
 #'
@@ -39,6 +42,13 @@ NULL
 #'   token = "your-server-token-here",
 #'   message_stream = "broadcast"
 #' )
+#'
+#' # Create a client and check if Postmark is operational
+#' client <- client(
+#'   token = "your-server-token-here",
+#'   message_stream = "outbound",
+#'   check_status = TRUE
+#' )
 #' }
 #'
 #' @seealso
@@ -51,15 +61,46 @@ client <- function(
   token,
   message_stream,
   timeout = 60,
-  verbose = FALSE
+  verbose = FALSE,
+  check_status = FALSE
 ) {
-  Client(
+  cl <- Client(
     token = token,
     message_stream = message_stream,
     base_url = POSTMARK_BASE_URL,
     timeout = timeout,
     verbose = verbose
   )
+
+  if (check_status) {
+    status <- try_fetch(
+      status_get(timeout = 10),
+      error = function(e) {
+        pstmrk_warn(
+          c(
+            "Could not check Postmark status",
+            "i" = "Proceeding with client creation anyway",
+            "x" = conditionMessage(e)
+          ),
+          class = "postmarkr_warning_status_check_failed"
+        )
+        return(NULL)
+      }
+    )
+
+    if (!is.null(status) && status$status != "operational") {
+      pstmrk_warn(
+        c(
+          sprintf("Postmark status is '%s'", status$status),
+          "i" = status$state_text,
+          "i" = sprintf("Last updated: %s", status$updated_at)
+        ),
+        class = "postmarkr_warning_service_degraded"
+      )
+    }
+  }
+
+  cl
 }
 
 #' @rdname client
