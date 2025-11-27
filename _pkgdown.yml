@@ -32,6 +32,12 @@ reference:
   contents:
   - get_token
 
+- title: Status
+  desc: >
+    Get Postmark API Status
+  contents:
+  - status_get
+
 - title: Print
   desc: >
     Print client objects
